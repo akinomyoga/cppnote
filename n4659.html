@@ -10,6 +10,8 @@
   p.translation-note{background-color: #ddd;padding:0.8em;}
   p.translation-note:before{content: "訳註:"; font-weight: bold;}
   </style>
+  <meta name="agh-fly-type" content="color" />
+  <script src="https://akinomyoga.github.io/agh/agh.fly.js" charset="utf-8"></script>
 </head>
 <body>
 <h1>Working Draft, Standard for Programming Language C ++</h1>
@@ -32,7 +34,7 @@ and relaxations of the first requirement appear at various places within this do
 </p>
 <p>この文書は C++ プログラミング言語の処理系に対する要求を指定する。
 第一の要求は処理系が言語を実装することであり、これはこの文書が C++ を定義するということを意味する。
-その他の要求と、第一の要求の例外はこの文書の中で折に触れて述べる。
+その他の要求と、第一の要求の例外は、この文書の中で折に触れて述べる。
 </p>
 <p><span class="stag">1/2</span> C++ is a general purpose programming language based on the C programming language as described in
 ISO/IEC 9899:2011 Programming languages — C (hereinafter referred to as the C standard). In addition to
@@ -93,6 +95,60 @@ the latest edition of the referenced document (including any amendments) applies
 <h2>3.5 argument <span class="secname">[defns.argument.templ]</span></h2>
 <p>〈template instantiation〉 <i>constant-expression</i>, <i>type-id</i>, or <i>id-expression</i> in the comma-separated list bounded by the angle brackets (17.3)</p>
 <p>《テンプレート実体化》 角括弧で囲まれたカンマ区切りのリストに含まれる <i>定数式</i>、<i>type-id</i>、または <i>id-expression</i> (17.3)</p>
+
+<h2>3.* 略</h2>
+
+<h1>4 略</h1>
+<h1>5 略</h1>
+<h1>6 略</h1>
+<h1>7 略</h1>
+<h1>8 略</h1>
+<h1>9 略</h1>
+<h1>10 略</h1>
+<h1>11 略</h1>
+<h1>12 略</h1>
+<h1>13 略</h1>
+<h1>14 略</h1>
+<h1>15 略</h1>
+<h1>16 Overloading <span class="secname">[over]</span></h1>
+<p><span class="stag">16/1</span>
+When two or more different declarations are specified for a single name in the same scope, that name is said
+to be overloaded. By extension, two declarations in the same scope that declare the same name but with
+different types are called overloaded declarations. Only function and function template declarations can be
+overloaded; variable and type declarations cannot be overloaded.
+</p>
+<p>同じスコープで一つの名前について2つ以上の宣言が指定された時、その名前は多重定義 (overload) されているという。
+更に、同じスコープで同じ名前だが異なる型の二つの宣言を多重定義 (overloaded declaration) と呼ぶ。
+関数および関数テンプレートの宣言のみが多重定義されうる。
+つまり、変数と型の宣言は多重定義できない。
+</p>
+<p><span class="stag">16/2</span>
+When an overloaded function name is used in a call, which overloaded function declaration is being referenced
+is determined by comparing the types of the arguments at the point of use with the types of the parameters
+in the overloaded declarations that are visible at the point of use. This function selection process is called
+overload resolution and is defined in 16.3. [Example:
+</p>
+<pre class="agh-prog-cpp">
+double abs(double);
+int abs(int);
+
+abs(1); // calls abs(int);
+abs(1.0); // calls abs(double);
+</pre>
+<p>-- end example]</p>
+<p>多重定義された関数名が呼び出しで使われた時、
+関数の多重定義の内どれが用いられるかは、
+実引数の型とその時点で見えている (visible) 多重定義の仮引数の型を比較することによって決定される。
+関数を選択する手続きは多重定義解決と呼び 16.3 で定義される。[ 例ここから: 
+</p>
+<pre class="agh-prog-cpp">
+double abs(double);
+int abs(int);
+
+abs(1); // abs(int); が呼び出される
+abs(1.0); // abs(double); が呼び出される
+</pre>
+<p>-- 例ここまで ]</p>
 
 </body>
 </html>
