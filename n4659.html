@@ -150,15 +150,313 @@ abs(1.0); // abs(double); が呼び出される
   overload resolution and is defined in 16.3. [Example:
   </p>
   <pre class="agh-prog-cpp">
-  double abs(double);
-  int abs(int);
+double abs(double);
+int abs(int);
 
-  abs(1); // calls abs(int);
-  abs(1.0); // calls abs(double);
-  </pre>
+abs(1); // calls abs(int);
+abs(1.0); // calls abs(double);
+</pre>
   <p>-- end example]</p>
 </div>
 
+<h2>16.1 Overloadable declarations <span class="secname">[over.load]</span></h2>
+<p><span class="stag">16.1 [over.load]/1</span>
+全ての関数宣言が多重定義出来るわけではない。
+多重定義できないものをここで指定する。
+同じスコープに多重定義できない宣言の組を含むプログラムは不適格である。
+[註: この制限は、そのスコープにおける明示的宣言同士、または明示宣言と using 宣言により導入される宣言の間に適用される。
+(using 指令などに基づく) 名前解決や、 (演算子関数などの) 多重定義解決の過程で考慮される関数の集合に対しては適用されない。 - 註終わり ]
+</p>
+<p><span class="stag">16.1 [over.load]/2</span> 一部の関数宣言は多重定義できない:</p>
+<ul>
+<li><span class="stag">16.1 [over.load]/2(2.1)</span>
+  戻り値の型、例外指定子 (18.4) を除いて一致する関数宣言は多重定義できない。</li>
+<li><span class="stag">16.1 [over.load]/2(2.2)</span>
+  同名で同じ仮引数リスト (11.3.5) を持つメンバ関数宣言は、
+  その内の一つが静的メンバ関数宣言 (12.2.3) であるとき、多重定義できない。
+  同様日、同名で同じ仮引数リスト、同じテンプレート仮引数リストを持つメンバ関数テンプレート宣言は、
+  その内の一つが静的メンバ関数テンプレート宣言であるとき、多重定義できない。
+  この規則で仮引数リストを比較する際、多重定義解決のために導入される暗黙オブジェクト仮引数 (16.3.1) の型は考慮されない。
+  一方で、静的メンバ関数宣言が含まれない場合は、暗黙オブジェクト仮引数が異なる関数宣言を多重定義できる。
+  [ 例: この違いを以下のコードに示す:
+  <pre class="agh-prog-cpp">
+class X {
+  static void f();
+  void f();                 // 不適格
+  void f() const;           // 不適格
+  void f() const volatile;  // 不適格
+  void g();
+  void g() const;           // OK: 静的な g がないので
+  void g() const volatile;  // OK: 静的な g がないので
+};
+</pre>
+  - 例終わり ]
+  </li>
+<li><span class="stag">16.1 [over.load]/2(2.3)</span>
+  同名・同じ仮引数リストを持つメンバ関数宣言と、
+  同名・同じ仮引数リスト・同じテンプレート仮引数リストを持つメンバ関数テンプレートは、
+  その内 1 つでも ref 修飾子を持っている場合、
+  全てが ref 修飾子を持っていなければ多重定義できない。
+  [ 例:
+  <pre class="agh-prog-cpp">
+class Y {
+  void h() &;
+  void h() const &; // OK
+  void h() &&;      // OK, 全ての宣言が ref 修飾子を持つ。
+  void i() &;
+  void i() const;   // 不適格。前の i の宣言は ref 修飾子を持つ。
+};
+  </pre>
+  - 例終わり ]
+  </li>
+</ul>
 
+<div class="en">
+  <p><span class="stag">16.1 [over.load]/1</span>
+  Not all function declarations can be overloaded. Those that cannot be overloaded are specified here. A
+  program is ill-formed if it contains two such non-overloadable declarations in the same scope. [Note: This
+  restriction applies to explicit declarations in a scope, and between such declarations and declarations made
+  through a using-declaration (10.3.3). It does not apply to sets of functions fabricated as a result of name
+  lookup (e.g., because of using-directives) or overload resolution (e.g., for operator functions). - end note ]
+  </p>
+  <p><span class="stag">16.1 [over.load]/2</span>
+  Certain function declarations cannot be overloaded:
+  </p>
+  <ul>
+  <li><span class="stag">16.1 [over.load]/2(2.1)</span>
+    Function declarations that differ only in the return type, the exception specification (18.4), or both
+    cannot be overloaded.</li>
+  <li><span class="stag">16.1 [over.load]/2(2.2)</span>
+    Member function declarations with the same name and the same parameter-type-list (11.3.5) cannot be
+    overloaded if any of them is a static member function declaration (12.2.3). Likewise, member function
+    template declarations with the same name, the same parameter-type-list, and the same template
+    parameter lists cannot be overloaded if any of them is a static member function template declaration.
+    The types of the implicit object parameters constructed for the member functions for the purpose of
+    overload resolution (16.3.1) are not considered when comparing parameter-type-lists for enforcement
+    of this rule. In contrast, if there is no static member function declaration among a set of member
+    function declarations with the same name and the same parameter-type-list, then these member function
+    declarations can be overloaded if they differ in the type of their implicit object parameter. [Example:
+    The following illustrates this distinction:
+    <pre class="agh-prog-cpp">
+class X {
+  static void f();
+  void f();                 // ill-formed
+  void f() const;           // ill-formed
+  void f() const volatile;  // ill-formed
+  void g();
+  void g() const;           // OK: no static g
+  void g() const volatile;  // OK: no static g
+};
+</pre>
+    —end example ]
+    </li>
+  <li><span class="stag">16.1 [over.load]/2(2.3)</span> Member function declarations with the same name and the same parameter-type-list (11.3.5) as well as
+    member function template declarations with the same name, the same parameter-type-list, and the same
+    template parameter lists cannot be overloaded if any of them, but not all, have a ref-qualifier (11.3.5).
+    [Example:
+    <pre class="agh-prog-cpp">
+class Y {
+  void h() &;
+  void h() const &; // OK
+  void h() &&;      // OK, all declarations have a ref-qualifier
+  void i() &;
+  void i() const;   // ill-formed, prior declaration of i
+                    // has a ref-qualifier
+};
+</pre>
+    —end example ]
+    </li>
+  </ul>
+</div>
+
+<p><span class="stag">16.1 [over.load]/3</span>
+[註: 11.3.5 で指定したように、関数宣言の組が等価な仮引数宣言を持つ場合、
+これらは同じ関数を宣言することになるので多重定義することはできない。
+</p>
+<ul>
+<li><span class="stag">16.1 [over.load]/3(3.1)</span> 等価な typedef された型を使っている点だけ異なる仮引数宣言は等価である。
+typedef は独立した方ではなく、ただ他の型の別名を与えるに過ぎない (10.1.3)。[例:
+  <pre class="agh-prog-cpp">
+typedef int Int;
+void f(int i);
+void f(Int i);              // OK: f(int) の再宣言
+void f(int i) { /* ... */ }
+void f(Int i) { /* ... */ } // error: f(int) の再定義
+</pre>
+  - 例終わり ]
+  一方で列挙型は独立した型であり、関数の異なる多重定義を与える。
+  [例:
+  <pre class="agh-prog-cpp">
+enum E { a };
+void f(int i) { /* ... */ }
+void f(E i) { /* ... */ }
+</pre>
+  - 例終わり ]
+  </li>
+<li><span class="stag">16.1 [over.load]/3(3.2)</span>
+一方がポインタ * であり他方が配列 [] であるという点のみ異なる仮引数宣言は等価である。
+即ち、配列宣言はポインタ宣言に調整 (11.3.5) されるためである。
+2番目以降の配列の次元のみが仮引数の型において意味を持つ (11.3.4)。[例:
+  <pre class="agh-prog-cpp">
+int f(char*);
+int f(char[]);      // f(char*); と同じ
+int f(char[7]);     // f(char*); と同じ
+int f(char[9]);     // f(char*); と同じ
+int g(char(*)[10]);
+int g(char[5][10]); // g(char(*)[10]); と同じ
+int g(char[7][10]); // g(char(*)[10]); と同じ
+int g(char(*)[20]); // g(char(*)[10]); とは異なる。
+</pre>
+  - 例終わり ]
+  </li>
+<li><span class="stag">16.1 [over.load]/3(3.3)</span>
+一方が関数型であり他方が同じ関数型へのポインタであるという点のみ異なる仮引数宣言は等価である。
+即ち、関数型は関数型へのポインタへと調整 (11.3.5) されるためである。[例:
+  <pre class="agh-prog-cpp">
+void h(int());
+void h(int (*)());      // h(int()) の再宣言
+void h(int x()) { }     // h(int()) の定義
+void h(int (*x)()) { }  // 不適格: h(int()) の再定義
+</pre>
+  - 例終わり ]
+  </li>
+<li><span class="stag">16.1 [over.load]/3(3.4)</span>
+cosnt または volatile が存在するかどうかのみが異なる仮引数宣言は等価である。
+即ち、どの関数型が宣言されるか・定義されるか・呼び出されるかを決定する際に、
+仮引数型の const/volatile 型指定子は無視される。[例:
+  <pre class="agh-prog-cpp">
+typedef const int cInt;
+int f (int);
+int f (const int);          // f(int) の再宣言
+int f (int) { /* ... */ }   // f(int) の定義
+int f (cInt) { /* ... */ }  // error: f(int) の再定義
+</pre>
+  - 例終わり ]
+  仮引数型の一番外側の const/volatile 型指定子のみが、以下のように無視される。
+  仮引数型の内部に埋め込まれた const/volatile 型指定子は、
+  関数の多重定義を区別する上で意味を持つ<sup>123</sup>。
+  特に、任意の型 <code>T</code> について、<code>T</code> へのポインタ、
+  <code>const T</code> へのポインタ、<code>volatile T</code> へのポインタは、
+  異なる仮引数型と解釈される。
+  <code>T</code> への参照、<code>const T</code> への参照、
+  <code>volatile T</code> への参照についても同様である。
+  </li>
+<li><span class="stag">16.1 [over.load]/3(3.5)</span> 既定の実引数のみが相違する仮引数宣言は等価である。[例:
+  以下の例を考慮されたい:
+  <pre class="agh-prog-cpp">
+void f (int i, int j);
+void f (int i, int j = 99); // OK: f(int, int) の再宣言
+void f (int i = 88, int j); // OK: f(int, int) の再宣言
+void f ();                  // OK: f の多重定義の宣言
+void prog () {
+  f (1, 2);                 // OK: f(int, int) の呼び出し
+  f (1);                    // OK: f(int, int) の呼び出し
+  f ();                     // Error: f(int, int) と f() のどちら?
+}
+</pre>
+  - 例終わり ]
+  </li>
+</ul>
+<p>- 註終わり ]</p>
+<p><span class="stag">footnote 123</span>
+仮引数型が関数型を含む場合 (例えば仮引数型が関数ポインタの場合)、
+その内部関数型の仮引数型において最も外側の const/volatile 型指定子は無視される。</p>
+<p class="translation-note">
+この部分は Note に過ぎないので細かいことは気にしていないのかもしれないが、色々と記述に穴がある気がする。
+例えば、differs only として項目を連ねているが、2つ以上の項目で異なる場合については述べていないので語弊がある。
+また、内部関数型の仮引数の const/volatile 無視については述べているが typedef/配列型/関数型 については述べていない。
+実際のコンパイラで試すと、期待通り typedef/配列型/関数型 も考慮に入れられるようなので、これはここの記述が分かりにくいだけだ。
+思うに、〈仮引数の宣言型〉・〈仮引数の調整型〉・〈型の同一性〉のような概念を導入して統一的に定義するべきなのではという気がする。
+</p>
+
+<div class="en">
+  <p><span class="stag">16.1 [over.load]/3</span> [Note: As specified in 11.3.5, function declarations that have equivalent parameter declarations declare the
+  same function and therefore cannot be overloaded:
+  </p>
+  <ul>
+  <li><span class="stag">16.1 [over.load]/3(3.1)</span> Parameter declarations that differ only in the use of equivalent typedef “types” are equivalent. A
+    typedef is not a separate type, but only a synonym for another type (10.1.3). [Example:
+    <pre class="agh-prog-cpp">
+typedef int Int;
+void f(int i);
+void f(Int i);              // OK: redeclaration of f(int)
+void f(int i) { /* ... */ }
+void f(Int i) { /* ... */ } // error: redefinition of f(int)
+</pre>
+    —end example ]
+    Enumerations, on the other hand, are distinct types and can be used to distinguish overloaded function
+    declarations. [Example:
+    <pre class="agh-prog-cpp">
+enum E { a };
+void f(int i) { /* ... */ }
+void f(E i) { /* ... */ }
+</pre>
+    —end example ]
+    </li>
+  <li><span class="stag">16.1 [over.load]/3(3.2)</span> Parameter declarations that differ only in a pointer * versus an array [] are equivalent. That is, the
+    array declaration is adjusted to become a pointer declaration (11.3.5). Only the second and subsequent
+    array dimensions are significant in parameter types (11.3.4). [Example:
+    <pre class="agh-prog-cpp">
+int f(char*);
+int f(char[]);      // same as f(char*);
+int f(char[7]);     // same as f(char*);
+int f(char[9]);     // same as f(char*);
+int g(char(*)[10]);
+int g(char[5][10]); // same as g(char(*)[10]);
+int g(char[7][10]); // same as g(char(*)[10]);
+int g(char(*)[20]); // different from g(char(*)[10]);
+</pre>
+    —end example ]
+    </li>
+  <li><span class="stag">16.1 [over.load]/3(3.3)</span> Parameter declarations that differ only in that one is a function type and the other is a pointer to
+    the same function type are equivalent. That is, the function type is adjusted to become a pointer to
+    function type (11.3.5). [Example:
+    <pre class="agh-prog-cpp">
+void h(int());
+void h(int (*)());      // redeclaration of h(int())
+void h(int x()) { }     // definition of h(int())
+void h(int (*x)()) { }  // ill-formed: redefinition of h(int())
+</pre>
+    —end example ]
+    </li>
+  <li><span class="stag">16.1 [over.load]/3(3.4)</span> Parameter declarations that differ only in the presence or absence of const and/or volatile are
+    equivalent. That is, the const and volatile type-specifiers for each parameter type are ignored when
+    determining which function is being declared, defined, or called. [Example:
+    <pre class="agh-prog-cpp">
+typedef const int cInt;
+int f (int);
+int f (const int);          // redeclaration of f(int)
+int f (int) { /* ... */ }   // definition of f(int)
+int f (cInt) { /* ... */ }  // error: redefinition of f(int)
+</pre>
+    —end example ]
+    Only the const and volatile type-specifiers at the outermost level of the parameter type specification
+    are ignored in this fashion; const and volatile type-specifiers buried within a parameter type
+    specification are significant and can be used to distinguish overloaded function declarations. 123 In
+    particular, for any type T , “pointer to T ”, “pointer to const T ”, and “pointer to volatile T ” are
+    considered distinct parameter types, as are “reference to T ”, “reference to const T ”, and “reference to
+    volatile T”.
+    </li>
+  <li><span class="stag">16.1 [over.load]/3(3.5)</span> Two parameter declarations that differ only in their default arguments are equivalent. [Example:
+    Consider the following:
+    <pre class="agh-prog-cpp">
+void f (int i, int j);
+void f (int i, int j = 99); // OK: redeclaration of f(int, int)
+void f (int i = 88, int j); // OK: redeclaration of f(int, int)
+void f ();                  // OK: overloaded declaration of f
+void prog () {
+  f (1, 2);                 // OK: call f(int, int)
+  f (1);                    // OK: call f(int, int)
+  f ();                     // Error: f(int, int) or f()?
+}
+</pre>
+    —end example ]
+    </li>
+  </ul>
+  <p>—end note ]</p>
+  <p><span class="stag">footnote 123</span> When a parameter type includes a function type, such as in the case of a parameter type that is a pointer to function, the
+  const and volatile type-specifiers at the outermost level of the parameter type specifications for the inner function type are
+  also ignored.</p>
+</div>
 </body>
 </html>
