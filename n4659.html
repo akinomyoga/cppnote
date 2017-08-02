@@ -7,10 +7,10 @@
   body{max-width: 60em; margin-left: auto; margin-right: auto; text-align: justify}
   span.stag{color: blue; vertical-align: super; font-size: 80%; margin-right: 0.1em;}
   /*p.translation-note{border:1px solid gray;padding:0.5em;}*/
-  p.translation-note{background-color: #ddd; padding: 0.8em;}
-  p.translation-note:before{content: "訳註:"; font-weight: bold;}
+  .translation-note{background-color: #ddd; padding: 0.8em; margin-bottom: 0.8em;}
+  .translation-note:before{content: "訳註: "; font-weight: bold;}
   div.en{background-color: #eec; padding: 0.8em;}
-  div.en:before{content: "原文"; font-weight: bold;}
+  div.en:before{content: "原文 "; font-weight: bold;}
   </style>
   <meta name="agh-fly-type" content="color" />
   <script src="https://akinomyoga.github.io/agh/agh.fly.js" charset="utf-8"></script>
@@ -18,6 +18,26 @@
 <body>
 <h1>Working Draft, Standard for Programming Language C ++</h1>
 <p>略</p>
+
+<div class="translation-note">
+  訳語について
+  <ul>
+  <li>access rule → アクセス規則</li>
+  <li>overload → 多重定義する</li>
+  <li>overloded declarations → 多重定義 (本来多重宣言なのではないかという気がするが多重定義とするのが一般的である)</li>
+  <li>type-specifier → 型指定子</li>
+  <li>visible → 可視の</li>
+  <li>invocation, call → 呼び出し (両者は今のところ日本語では区別しない)</li>
+  <li>accessibility of the function → 関数のアクセス可能性</li>
+  <li>pointer-to-function → 関数ポインタ</li>
+  <li>reference-to-function → 関数の参照</li>
+  <li>reference-to-pointer-to-function → 関数ポインタの参照</li>
+  <li>default-initialization → 既定初期化</li>
+  <li>direct-initialization → 直接初期化</li>
+  <li>copy-initialization → コピー初期化</li>
+  <li>viable functions → 呼び出し可能関数 (JIS C++ では二次候補関数としている)</li>
+  </ul>
+</div>
 
 <h1>Contents</h1>
 <p>略</p>
@@ -66,9 +86,10 @@ the latest edition of the referenced document (including any amendments) applies
 <ul>
 <li><span class="stag">2 [intro.refs]/1(1.*)</span> 略</li>
 </ul>
-<p>以下の文書は、その内容の一部または全ての内容がこの文書の要求を構成するものとして、この文書の本文から適宜参照される。
+<p><span class="stag">2 [intro.refs]/1</span>
+以下の文書は、その内容の一部または全ての内容がこの文書の要求を構成するものとして、この文書の本文から適宜参照される。
 以下の文書で版が指定されている場合は、ここで参照した版のみが有効である。
-版が指定されていない場合は、その文書の最新版 (正誤表を含む) が有効である。
+版が指定されていない場合は、その文書の最新版 (訂正 (amendments) を含む) が有効である。
 </p>
 <ul>
 <li>略</li>
@@ -125,7 +146,7 @@ the latest edition of the referenced document (including any amendments) applies
 </p>
 <p><span class="stag">16 [over]/2</span> 多重定義された関数名が呼び出しで使われた時、
 関数の多重定義の内どれが用いられるかは、
-実引数の型とその時点で見えている (visible) 多重定義の仮引数の型を比較することによって決定される。
+実引数の型とその時点で可視の多重定義の仮引数の型を比較することによって決定される。
 関数を選択する手続きは多重定義解決と呼び 16.3 で定義される。[ 例ここから: 
 </p>
 <pre class="agh-prog-cpp">
@@ -174,7 +195,7 @@ abs(1.0); // calls abs(double);
 <li><span class="stag">16.1 [over.load]/2(2.2)</span>
   同名で同じ仮引数リスト (11.3.5) を持つメンバ関数宣言は、
   その内の一つが静的メンバ関数宣言 (12.2.3) であるとき、多重定義できない。
-  同様日、同名で同じ仮引数リスト、同じテンプレート仮引数リストを持つメンバ関数テンプレート宣言は、
+  同様に、同名で同じ仮引数リスト、同じテンプレート仮引数リストを持つメンバ関数テンプレート宣言は、
   その内の一つが静的メンバ関数テンプレート宣言であるとき、多重定義できない。
   この規則で仮引数リストを比較する際、多重定義解決のために導入される暗黙オブジェクト仮引数 (16.3.1) の型は考慮されない。
   一方で、静的メンバ関数宣言が含まれない場合は、暗黙オブジェクト仮引数が異なる関数宣言を多重定義できる。
@@ -275,7 +296,7 @@ class Y {
 </p>
 <ul>
 <li><span class="stag">16.1 [over.load]/3(3.1)</span> 等価な typedef された型を使っている点だけ異なる仮引数宣言は等価である。
-typedef は独立した方ではなく、ただ他の型の別名を与えるに過ぎない (10.1.3)。[例:
+typedef は独立した型ではなく、ただ他の型の別名を与えるに過ぎない (10.1.3)。[例:
   <pre class="agh-prog-cpp">
 typedef int Int;
 void f(int i);
@@ -458,5 +479,246 @@ void prog () {
   const and volatile type-specifiers at the outermost level of the parameter type specifications for the inner function type are
   also ignored.</p>
 </div>
+
+<h2>16.2 Declaration matching <span class="secname">[over.dcl]</span></h2>
+<p><span class="stag">16.2 [over.dcl]/1</span>
+同名の関数宣言は、同じスコープにあり等価な仮引数宣言を持つ時、同一の関数を指す (16.1)。
+派生クラスのメンバ関数は、基底クラスの同名のメンバ関数とは別のスコープにある。[例:
+</p>
+<pre class="agh-prog-cpp">
+struct B {
+  int f(int);
+};
+struct D : B {
+  int f(const char*);
+};
+</pre>
+<p>この時 <code>D::f(const char*)</code> は <code>B::f(int)</code> に多重定義を加えるのではなく、これを隠蔽する。</p>
+<pre class="agh-prog-cpp">
+void h(D* pd) {
+  pd->f(1);     // error:
+                // D::f(const char*) は B::f(int) を隠蔽する
+  pd->B::f(1);  // OK
+  pd->f("Ben"); // OK, D::f が呼び出される
+}
+</pre>
+<p>- 例終わり ]</p>
+<p class="translation-note">異なる型の変換演算子は「名前」が違うという解釈なのだと思われる。</p>
+<p class="translation-note">等価な仮引数宣言を持つが戻り値が異なる関数宣言は、関数型として異なるので多重定義になる (16/1)。
+  しかし等価な仮引数宣言を持ち戻り値が異なる関数宣言は、多重定義できない (16.1/2(2.1)。
+  これにより等価な仮引数宣言を持つだけで、それが同一の関数であることが保証される。</p>
+<p class="translation-note">原文には function member という語が出てくるがこれは member function の表記揺れであろう。</p>
+<p class="translation-note">テンプレート引数について言及がないのは、この段落の関数宣言とは関数テンプレートは含まないからということだろうか。
+  しかし、そうだとすると関数テンプレートの場合に同一の宣言かどうかを判定する記述が与えられず片手落ちである。</p>
+<p><span class="stag">16.2 [over.dcl]/2</span>
+局所的に宣言された関数は、外側のスコープにある関数とは異なるスコープになる。[例:
+</p>
+<pre class="agh-prog-cpp">
+void f(const char*);
+void g() {
+  extern void f(int);
+  f("asdf");                  // error: f(int) は f(const char*) を隠蔽する。
+                              // 従って、このスコープに f(const char*) は存在しない。
+}
+void caller () {
+  extern void callee(int, int);
+  {
+    extern void callee(int);  // callee(int, int) を隠蔽する。
+    callee(88, 99);           // error: このスコープには callee(int) しかない。
+  }
+}
+</pre>
+<p>- 例終わり ]</p>
+<p><span class="stag">16.2 [over.dcl]/3</span>
+多重定義されたメンバ関数のそれぞれに対して異なるアクセス規則を割り当てることができる。[例:</p>
+<pre class="agh-prog-cpp">
+class buffer {
+private:
+  char* p;
+  int size;
+protected:
+  buffer(int s, char* store) { size = s; p = store; }
+public:
+  buffer(int s) { p = new char[size = s]; }
+};
+</pre>
+<p>- 例終わり ]</p>
+
+<div class="en">
+  <p><span class="stag">16.2 [over.dcl]/1</span>
+  Two function declarations of the same name refer to the same function if they are in the same scope and
+  have equivalent parameter declarations (16.1). A function member of a derived class is not in the same scope
+  as a function member of the same name in a base class. [Example:
+  </p>
+  <pre class="agh-prog-cpp">
+struct B {
+  int f(int);
+};
+struct D : B {
+  int f(const char*);
+};
+</pre>
+  <p>Here D::f(const char*) hides B::f(int) rather than overloading it.</p>
+  <pre class="agh-prog-cpp">
+void h(D* pd) {
+  pd->f(1);     // error:
+                // D::f(const char*) hides B::f(int)
+  pd->B::f(1);  // OK
+  pd->f("Ben"); // OK, calls D::f
+}
+</pre>
+  <p>—end example ]</p>
+  <p><span class="stag">16.2 [over.dcl]/2</span>
+  A locally declared function is not in the same scope as a function in a containing scope. [Example:
+  </p>
+  <pre class="agh-prog-cpp">
+void f(const char*);
+void g() {
+  extern void f(int);
+  f("asdf");                  // error: f(int) hides f(const char*)
+                              // so there is no f(const char*) in this scope
+}
+void caller () {
+  extern void callee(int, int);
+  {
+    extern void callee(int);  // hides callee(int, int)
+    callee(88, 99);           // error: only callee(int) in scope
+  }
+}
+</pre>
+  <p>—end example ]</p>
+  <p><span class="stag">16.2 [over.dcl]/3</span>
+  Different versions of an overloaded member function can be given different access rules. [Example:</p>
+  <pre class="agh-prog-cpp">
+class buffer {
+private:
+  char* p;
+  int size;
+protected:
+  buffer(int s, char* store) { size = s; p = store; }
+public:
+  buffer(int s) { p = new char[size = s]; }
+};
+</pre>
+  <p>—end example ]</p>
+</div>
+
+<h2>16.3 Overload resolution <span class="secname">[over.match]</span></h2>
+<p><span class="stag">16.3 [over.match]/1</span>
+多重定義解決は、関数の呼び出しにおいて最適の関数を選択する仕組みである。
+実引数の式のリストと、呼び出しの文脈における <i>候補関数</i> の集合が考慮される。
+選択の判断材料として、実引数の数、
+実引数の仮引数型のリストへの合致度合い、
+オブジェクトの暗黙オブジェクト仮引数への合致度合い、
+その他の色々の候補関数の性質が用いられる。
+[註: 多重定義解決で選択される関数は必ずしもその文脈で適切であるとは限らない。
+関数のアクセス可能性などの他の制限によって、その呼び出しが不適格になることがある。 - 註終わり ]
+</p>
+<p><span class="stag">16.3 [over.match]/2</span>
+  7つの異なる文脈で多重定義解決が実行される:
+</p>
+<ul>
+<li><span class="stag">16.3 [over.match]/2(2.1)</span> 関数呼び出し構文の名前で指定された関数の呼び出し (16.3.1.1.1);</li>
+<li><span class="stag">16.3 [over.match]/2(2.2)</span> 関数呼び出し構文の名前で指定されたクラスオブジェクトに対する、
+  関数呼び出し演算子、関数ポインタへの変換関数、関数ポインタの参照への変換関数、関数の参照への変換関数の呼び出し (16.3.1.1.2);</li>
+<li><span class="stag">16.3 [over.match]/2(2.3)</span> 式中で参照された演算子の呼び出し (16.3.1.2);</li>
+<li><span class="stag">16.3 [over.match]/2(2.4)</span> クラスオブジェクトの既定初期化または直接初期化 (11.6) に際してのコンストラクタの呼び出し (16.3.1.3);</li>
+<li><span class="stag">16.3 [over.match]/2(2.5)</span> クラスオブジェクトのコピー初期化 (11.6) に際してのユーザ定義の変換の呼び出し (16.3.1.4);</li>
+<li><span class="stag">16.3 [over.match]/2(2.6)</span> クラス型の式による非クラス型のオブジェクトの初期化に際しての変換の呼び出し (16.3.1.5);</li>
+<li><span class="stag">16.3 [over.match]/2(2.7)</span> 参照 (11.6.3) の束縛対象の glvalue またはクラス prvalue を得るための変換関数の呼び出し (16.3.1.6).</li>
+</ul>
+<p>それぞれの文脈ごとに候補関数の集合と実引数のリストの決定方法が与えられる。
+ひとたび候補関数と実引数のリストが与えられれば、最適な関数の選択方法は何れの文脈でも共通である:
+</p>
+<ul>
+<li><span class="stag">16.3 [over.match]/2(2.8)</span>
+  初めに、適切な数の仮引数を持つかどうかなどの条件を満たす候補関数の部分集合として、
+  呼び出し可能関数を選別する (16.3.2)。</li>
+<li><span class="stag">16.3 [over.match]/2(2.9)</span>
+  次に、実引数をそれぞれ対応する仮引数に合致させるのに使う暗黙変換列 (16.3.3.1) に基づいて、
+  最適な呼び出し可能関数を選択する。</li>
+</ul>
+<p><span class="stag">16.3 [over.match]/3</span>
+最適な呼び出し可能関数が一意に存在するときに多重定義解決は成功とし、その関数が結果となる。
+それ以外の場合は、多重定義解決は失敗であり、その関数呼び出しは不適格である。
+多重解決が成功したものの最適な呼び出し可能関数がその文脈でアクセス可能 (Clause 14) でないとき、プログラムは不適格である。
+</p>
+
+<p class="translation-note">16.3/2(2.8) the proper number of arguments は the proper number of parameters の誤りではないか。</p>
+<div class="en">
+  <p><span class="stag">16.3 [over.match]/1</span>
+  Overload resolution is a mechanism for selecting the best function to call given a list of expressions that are
+  to be the arguments of the call and a set of candidate functions that can be called based on the context of
+  the call. The selection criteria for the best function are the number of arguments, how well the arguments
+  match the parameter-type-list of the candidate function, how well (for non-static member functions) the
+  object matches the implicit object parameter, and certain other properties of the candidate function. [Note:
+  The function selected by overload resolution is not guaranteed to be appropriate for the context. Other
+  restrictions, such as the accessibility of the function, can make its use in the calling context ill-formed. —end
+  note ]
+  </p>
+  <p><span class="stag">16.3 [over.match]/2</span>
+  Overload resolution selects the function to call in seven distinct contexts within the language:
+  </p>
+  <ul>
+  <li><span class="stag">16.3 [over.match]/2(2.1)</span> invocation of a function named in the function call syntax (16.3.1.1.1);</li>
+  <li><span class="stag">16.3 [over.match]/2(2.2)</span> invocation of a function call operator, a pointer-to-function conversion function,
+    a reference-to-pointer-to-function conversion function, or a reference-to-function conversion function on a class object named
+    in the function call syntax (16.3.1.1.2);</li>
+  <li><span class="stag">16.3 [over.match]/2(2.3)</span> invocation of the operator referenced in an expression (16.3.1.2);</li>
+  <li><span class="stag">16.3 [over.match]/2(2.4)</span> invocation of a constructor for default- or direct-initialization (11.6) of a class object (16.3.1.3);</li>
+  <li><span class="stag">16.3 [over.match]/2(2.5)</span> invocation of a user-defined conversion for copy-initialization (11.6) of a class object (16.3.1.4);</li>
+  <li><span class="stag">16.3 [over.match]/2(2.6)</span> invocation of a conversion function for initialization of an object of a non-class type from an expression
+    of class type (16.3.1.5); and</li>
+  <li><span class="stag">16.3 [over.match]/2(2.7)</span> invocation of a conversion function for conversion to a glvalue or class prvalue to which a reference (11.6.3)
+    will be directly bound (16.3.1.6).</li>
+  </ul>
+  <p>Each of these contexts defines the set of candidate functions and the list of arguments in its own unique way.
+  But, once the candidate functions and argument lists have been identified, the selection of the best function
+  is the same in all cases:
+  </p>
+  <ul>
+  <li><span class="stag">16.3 [over.match]/2(2.8)</span> First, a subset of the candidate functions (those that have the proper number of arguments and meet
+    certain other conditions) is selected to form a set of viable functions (16.3.2).</li>
+  <li><span class="stag">16.3 [over.match]/2(2.9)</span> Then the best viable function is selected based on the implicit conversion sequences (16.3.3.1) needed
+    to match each argument to the corresponding parameter of each viable function.</li>
+  </ul>
+  <p><span class="stag">16.3 [over.match]/3</span>
+  If a best viable function exists and is unique, overload resolution succeeds and produces it as the result.
+  Otherwise overload resolution fails and the invocation is ill-formed. When overload resolution succeeds,
+  and the best viable function is not accessible (Clause 14) in the context in which it is used, the program is
+  ill-formed.
+  </p>
+</div>
+
+<h3>16.3.1 Candidate functions and argument lists <span class="secname">[over.match.funcs]</span></h3>
+<h4>16.3.1.1 Function call syntax <span class="secname">[over.match.call]</span></h4>
+<h5>16.3.1.1.1 Call to named function <span class="secname">[over.call.func]</span></h5>
+<h5>16.3.1.1.2 Call to object of class type <span class="secname">[over.call.object]</span></h5>
+<h4>16.3.1.2 Operators in expressions <span class="secname">[over.match.oper]</span></h4>
+<h4>16.3.1.3 Initialization by constructor <span class="secname">[over.match.ctor]</span></h4>
+<h4>16.3.1.4 Copy-initialization of class by user-defined conversion <span class="secname">[over.match.copy]</span></h4>
+<h4>16.3.1.5 Initialization by conversion function <span class="secname">[over.match.conv]</span></h4>
+<h4>16.3.1.6 Initialization by conversion function for direct reference binding <span class="secname">[over.match.ref]</span></h4>
+<h4>16.3.1.7 Initialization by list-initialization <span class="secname">[over.match.list]</span></h4>
+<h4>16.3.1.8 Class template argument deduction <span class="secname">[over.match.class.deduct]</span></h4>
+<h3>16.3.2 Viable functions <span class="secname">[over.match.viable]</span></h3>
+<h3>16.3.3 Best viable function <span class="secname">[over.match.best]</span></h3>
+<h4>16.3.3.1 Implicit conversion sequences <span class="secname">[over.best.ics]</span></h4>
+<h5>16.3.3.1.1 Standard conversion sequences <span class="secname">[over.ics.scs]</span></h5>
+<h5>16.3.3.1.2 User-defined conversion sequences <span class="secname">[over.ics.user]</span></h5>
+<h5>16.3.3.1.3 Ellipsis conversion sequences <span class="secname">[over.ics.ellipsis]</span></h5>
+<h5>16.3.3.1.4 Reference binding <span class="secname">[over.ics.ref]</span></h5>
+<h5>16.3.3.1.5 List-initialization sequence <span class="secname">[over.ics.list]</span></h5>
+<h4>16.3.3.2 Ranking implicit conversion sequences <span class="secname">[over.ics.rank]</span></h4>
+
+<h2>16.4 略</h2>
+<h2>16.5 略</h2>
+<h2>16.6 略</h2>
+<h1>17 Templates <span class="secname">[temp]</span></h1>
+<p>略</p>
+<h1>18 Exception handling <span class="secname">[except]</span></h1>
+<p>略</p>
+<h1>19 Preprocessing Directives <span class="secname">[cpp]</span></h1>
+<p>略</p>
 </body>
 </html>
