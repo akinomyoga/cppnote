@@ -24,7 +24,7 @@
   <ul>
   <li>access rule → アクセス規則</li>
   <li>overload → 多重定義する</li>
-  <li>overloded declarations → 多重定義 (本来多重宣言なのではないかという気がするが多重定義とするのが一般的である)</li>
+  <li>overloaded declarations → 多重定義 (実は多重宣言の方が適切な気がするが多重定義とするのが一般的である)</li>
   <li>type-specifier → 型指定子</li>
   <li>visible → 可視の</li>
   <li>invocation, call → 呼び出し (両者は今のところ日本語では区別しない)</li>
@@ -641,10 +641,10 @@ public:
 <p><span class="stag">16.3 [over.match]/3</span>
 最適な呼び出し可能関数が一意に存在するときに多重定義解決は成功とし、その関数が結果となる。
 それ以外の場合は、多重定義解決は失敗であり、その関数呼び出しは不適格である。
-多重解決が成功したものの最適な呼び出し可能関数がその文脈でアクセス可能 (Clause 14) でないとき、プログラムは不適格である。
+多重定義解決が成功したものの最適な呼び出し可能関数がその文脈でアクセス可能 (Clause 14) でないとき、プログラムは不適格である。
 </p>
 
-<p class="translation-note">16.3/2(2.8) the proper number of arguments は the proper number of parameters の誤りではないか。</p>
+<p class="translation-note">原文 16.3/2(2.8) the proper number of arguments は the proper number of parameters の誤りではないか。</p>
 <div class="en">
   <p><span class="stag">16.3 [over.match]/1</span>
   Overload resolution is a mechanism for selecting the best function to call given a list of expressions that are
@@ -702,6 +702,68 @@ public:
 <h4>16.3.1.7 Initialization by list-initialization <span class="secname">[over.match.list]</span></h4>
 <h4>16.3.1.8 Class template argument deduction <span class="secname">[over.match.class.deduct]</span></h4>
 <h3>16.3.2 Viable functions <span class="secname">[over.match.viable]</span></h3>
+<p><span class="stag">16.3.2 [over.match.viable]/1</span>
+現在の文脈に対して候補関数の集合を求めた後 (16.3.1)、その中から呼び出し可能関数の集合が選ばれる。
+実引数の変換列 (16.3) を比べることによって、呼び出し可能関数の中からできるだけ実引数が合致する最適な関数が選択される。
+呼び出し可能関数の選択では、(変換列の優先度を除く) 実引数と関数の仮引数の関係が考慮される。
+</p>
+<p><span class="stag">16.3.2 [over.match.viable]/1</span>
+先ず、候補関数が呼び出し可能関数であるためには、
+実引数の数に対して仮引数が十分な数ある必要がある。
+</p>
+<ul>
+<li><span class="stag">16.3.2 [over.match.viable]/2(2.1)</span> <i>m</i> 個の実引数があるとき、丁度 <i>m</i> 個の仮引数を持つ候補関数は呼び出し可能である。</li>
+<li><span class="stag">16.3.2 [over.match.viable]/2(2.2)</span>
+  <i>m</i> 個より少ない仮引数を持つ候補関数は、仮引数リスト (11.3.5) に省略記号を持つ時に限り呼び出し可能である。
+  多重定義解決の過程で、対応する仮引数のない実引数は「省略記号に一致する」と扱う (16.3.3.1.3)。</li>
+<li><span class="stag">16.3.2 [over.match.viable]/2(2.3)</span>
+  <i>m</i> 個より多くの仮引数を持つ候補関数は、<i>m+1</i> 個目の仮引数が既定の実引数 (11.3.6) を持つときに限り呼び出し可能である<sup>130</sup>。
+  多重定義解決の過程では、仮引数リストは丁度 <i>m</i> 個の仮引数を持つように右端を切除して用いる。</li>
+</ul>
+<p><span class="stag">16.3.2 [over.match.viable]/1</span>
+次に、<code>F</code> が呼び出し可能関数であるためには、
+それぞれの実引数を対応する <code>F</code> の仮引数に変換する暗黙変換列 (16.3.3.1) が存在する必要がある。
+仮引数が参照型の場合は、暗黙変換列には参照の束縛も含まれる。
+従って、非 const 左辺値参照が右辺値に束縛できないこと、
+また右辺値参照が左辺値に束縛できないことは、
+関数の呼び出し可能性に影響を与える (16.3.3.1.4)。
+</p>
+<p><span class="stag">foonote 130</span>
+この時、11.3.6 により <i>m+1</i> 個目以降の仮引数も既定の実引数を持っている。
+</p>
+
+<div class="en">
+  <p><span class="stag">16.3.2 [over.match.viable]/1</span>
+  From the set of candidate functions constructed for a given context (16.3.1), a set of viable functions is
+  chosen, from which the best function will be selected by comparing argument conversion sequences for the
+  best fit (16.3.3). The selection of viable functions considers relationships between arguments and function
+  parameters other than the ranking of conversion sequences.
+  </p>
+  <p><span class="stag">16.3.2 [over.match.viable]/1</span>
+  First, to be a viable function, a candidate function shall have enough parameters to agree in number with
+  the arguments in the list.
+  </p>
+  <ul>
+  <li><span class="stag">16.3.2 [over.match.viable]/2(2.1)</span> If there are m arguments in the list, all candidate functions having exactly m parameters are viable.</li>
+  <li><span class="stag">16.3.2 [over.match.viable]/2(2.2)</span> A candidate function having fewer than m parameters is viable only if it has an ellipsis in its parameter
+    list (11.3.5). For the purposes of overload resolution, any argument for which there is no corresponding
+    parameter is considered to “match the ellipsis” (16.3.3.1.3) .</li>
+  <li><span class="stag">16.3.2 [over.match.viable]/2(2.3)</span> A candidate function having more than m parameters is viable only if the (m+1)-st parameter has a
+    default argument (11.3.6). 130 For the purposes of overload resolution, the parameter list is truncated
+    on the right, so that there are exactly m parameters.</li>
+  </ul>
+  <p><span class="stag">16.3.2 [over.match.viable]/1</span>
+  Second, for F to be a viable function, there shall exist for each argument an implicit conversion se-
+  quence (16.3.3.1) that converts that argument to the corresponding parameter of F . If the parameter
+  has reference type, the implicit conversion sequence includes the operation of binding the reference, and the
+  fact that an lvalue reference to non- const cannot be bound to an rvalue and that an rvalue reference cannot
+  be bound to an lvalue can affect the viability of the function (see 16.3.3.1.4).
+  </p>
+  <p><span class="stag">foonote 130</span>
+  According to 11.3.6, parameters following the (m+1)-st parameter must also have default arguments.
+  </p>
+</div>
+
 <h3>16.3.3 Best viable function <span class="secname">[over.match.best]</span></h3>
 <h4>16.3.3.1 Implicit conversion sequences <span class="secname">[over.best.ics]</span></h4>
 <h5>16.3.3.1.1 Standard conversion sequences <span class="secname">[over.ics.scs]</span></h5>
