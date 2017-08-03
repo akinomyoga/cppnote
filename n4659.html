@@ -11,6 +11,12 @@
   .translation-note:before{content: "訳註: "; font-weight: bold;}
   div.en{background-color: #eec; padding: 0.8em;}
   div.en:before{content: "原文 "; font-weight: bold;}
+
+  span.tcomment {color: green;}
+  span.tcomment:before {content: "[訳者: ";}
+  span.tcomment:after {content: "]";}
+
+  span.ICS>i{margin-right: 0.1em;} /* イタリック補正 */
   </style>
   <meta name="agh-fly-type" content="color" />
   <script src="https://akinomyoga.github.io/agh/agh.fly.js" charset="utf-8"></script>
@@ -19,6 +25,11 @@
 <h1>Working Draft, Standard for Programming Language C ++</h1>
 <p>略</p>
 
+<p class="translation-note">
+この訳では、自然な日本語になるように、
+規格としての意味が変わらない範囲で適宜文の構造を変えるなどしている。
+例えば、長い文を2つに分ける、日本語として冗長な表現を排するなどのことをしている。
+</p>
 <div class="translation-note">
   訳語について
   <ul>
@@ -37,6 +48,8 @@
   <li>copy-initialization → コピー初期化</li>
   <li>viable functions → 呼び出し可能関数 (JIS C++ では二次候補関数としている)</li>
   <li>implicit conversion sequence → 暗黙変換列</li>
+  <li>implicit object paramter → 暗黙オブジェクト仮引数</li>
+  <li>implied object argument → 暗黙オブジェクト実引数</li>
   </ul>
 </div>
 
@@ -718,7 +731,7 @@ public:
 <li><span class="stag" id="sec16.3.2p2.1" title="16.3.2 [over.match.viable]/(2.1)">(2.1)</span> <i>m</i> 個の実引数があるとき、丁度 <i>m</i> 個の仮引数を持つ候補関数は呼び出し可能である。</li>
 <li><span class="stag" id="sec16.3.2p2.2" title="16.3.2 [over.match.viable]/(2.2)">(2.2)</span>
   <i>m</i> 個より少ない仮引数を持つ候補関数は、仮引数リスト (11.3.5) に省略記号を持つ時に限り呼び出し可能である。
-  多重定義解決の過程で、対応する仮引数のない実引数は「省略記号に一致する」と扱う (16.3.3.1.3)。</li>
+  多重定義解決の過程で、対応する仮引数のない実引数は「省略記号に一致する」として扱う (16.3.3.1.3)。</li>
 <li><span class="stag" id="sec16.3.2p2.3" title="16.3.2 [over.match.viable]/(2.3)">(2.3)</span>
   <i>m</i> 個より多くの仮引数を持つ候補関数は、<i>m+1</i> 個目の仮引数が既定の実引数 (11.3.6) を持つときに限り呼び出し可能である<sup>130</sup>。
   多重定義解決の過程では、仮引数リストは丁度 <i>m</i> 個の仮引数を持つように右端を切除して用いる。</li>
@@ -727,14 +740,17 @@ public:
 次に、<code class="agh-prog-cpp">F</code> が呼び出し可能関数であるためには、
 それぞれの実引数を対応する <code class="agh-prog-cpp">F</code> の仮引数に変換する暗黙変換列 (16.3.3.1) が存在する必要がある。
 仮引数が参照型の場合は、暗黙変換列には参照の束縛も含まれる。
-従って、非 const 左辺値参照が右辺値に束縛できないこと、
-また右辺値参照が左辺値に束縛できないことは、
+従って、非 const 左辺値参照が rvalue に束縛できないこと、
+また右辺値参照が lvalue に束縛できないことは、
 関数の呼び出し可能性に影響を与える (16.3.3.1.4)。
 </p>
 <p><span class="stag" id="footenote130">foonote 130</span>
 この時、11.3.6 により <i>m+1</i> 個目以降の仮引数も既定の実引数を持っている。
 </p>
-
+<p class="translation-note">
+原文 viable functions はここでは<i>呼び出し可能関数</i>と訳すことにした。
+JIS C++ では<i>二次候補関数</i>と訳していることに注意する。
+</p>
 <div class="en">
   <p><span class="stag" title="16.3.2 [over.match.viable]/1">1</span>
   From the set of candidate functions constructed for a given context (16.3.1), a set of viable functions is
@@ -767,7 +783,341 @@ public:
   </p>
 </div>
 
-<h3>16.3.3 Best viable function <span class="secname">[over.match.best]</span></h3>
+<h3 id="sec16.3.3">16.3.3 Best viable function <span class="secname">[over.match.best]</span></h3>
+<p><span class="stag" id="sec16.3.3p1" title="16.3.3 [over.match.best]/1">1</span>
+<span class="tcomment">呼び出し可能関数 <code class="agh-prog-cpp">F</code> に対して</span>
+<span class="ICS">ICS<i>i</i>(<code class="agh-prog-cpp">F</code>)</span> を次のように定義する:</p>
+<ul>
+<li><span class="stag" id="sec16.3.3p1.1" title="16.3.3 [over.match.best]/(1.1)">(1.1)</span>
+  <code class="agh-prog-cpp">F</code> が静的メンバ関数の場合は、任意の関数 <code class="agh-prog-cpp">G</code> について、
+  <span class="ICS">ICS<i>1</i>(<code class="agh-prog-cpp">F</code>)</span> は
+  <span class="ICS">ICS<i>1</i>(<code class="agh-prog-cpp">G</code>)</span> に比べて良くも悪くもなく、
+  また <span class="ICS">ICS<i>1</i>(<code class="agh-prog-cpp">G</code>)</span> は
+  <span class="ICS">ICS<i>1</i>(<code class="agh-prog-cpp">F</code>)</span> に比べて良くも悪くもない<sup>131</sup>。
+  それ以外の場合は、</li>
+<li><span class="stag" id="sec16.3.3p1.2" title="16.3.3 [over.match.best]/(1.2)">(1.2)</span>
+  <span class="ICS">ICS<i>i</i>(<code class="agh-prog-cpp">F</code>)</span> は、
+  <i>i</i> 番目の実引数から <code class="agh-prog-cpp">F</code> の <i>i</i> 番目の仮引数型への暗黙変換列を表す。
+  16.3.3.1 で暗黙変換列を定義し、16.3.3.2 で或る暗黙変換列が他の暗黙変換列と比べて良いか悪いかを定義する。
+  </li>
+</ul>
+<p>その上で、次が満たされるときに、
+呼び出し可能関数 <code class="agh-prog-cpp">F1</code> が
+<code class="agh-prog-cpp">F2</code> よりも良いと定義する。
+即ち、全ての実引数 <i>i</i> について
+<span class="ICS">ICS<i>i</i>(<code class="agh-prog-cpp">F1</code>)</span> が
+<span class="ICS">ICS<i>i</i>(<code class="agh-prog-cpp">F2</code>)</span> より悪くなく、
+かつ</p>
+<ul>
+<li><span class="stag" id="sec16.3.3p1.3" title="16.3.3 [over.match.best]/(1.3)">(1.3)</span>
+  或る実引数 <i>j</i> について
+  <span class="ICS">ICS<i>j</i>(<code class="agh-prog-cpp">F1</code>)</span> が
+  <span class="ICS">ICS<i>j</i>(<code class="agh-prog-cpp">F2</code>)</span> より良いか、
+  そうでなければ</li>
+<li><span class="stag" id="sec16.3.3p1.4" title="16.3.3 [over.match.best]/(1.4)">(1.4)</span>
+  ユーザ定義変換による初期化の文脈 (11.6, 16.3.1.5, 16.3.1.6) で、
+  <code class="agh-prog-cpp">F1</code> の戻り値の型から目的の型 (初期化されるオブジェクトの型) への標準変換列が、
+  <code class="agh-prog-cpp">F2</code> の戻り値の型から目的の型への標準変換列より良い [例:
+<pre class="agh-prog-cpp">
+struct A {
+  A();
+  operator int();
+  operator double();
+} a;
+int i = a;    // 変換の必要のない a.operator int() の方が、
+              // 後で int に変換する必要のある a.operator double() よりも良い。
+float x = a;  // 曖昧: どちらの選択肢も変換を必要とし、
+              // 何れかが他方より良いということはない。
+</pre>
+  - 例終わり ] か、そうでなければ</li>
+<li><span class="stag" id="sec16.3.3p1.5" title="16.3.3 [over.match.best]/(1.5)">(1.5)</span>
+  関数の参照への変換関数を通して参照を直接の束縛により初期化する文脈 (16.3.1.6) で、
+  <code class="agh-prog-cpp">F1</code> が初期化される参照と同じ種類の参照 (つまり右辺値参照または左辺値参照) であり、
+  <code class="agh-prog-cpp">F2</code> がそうでない [例:
+<pre class="agh-prog-cpp">
+template &lt;class T&gt; struct A {
+  operator T&amp;();  // #1
+  operator T&amp;&amp;(); // #2
+};
+typedef int Fn();
+A&lt;Fn&gt; a;
+Fn&amp; lf = a;       // #1 が呼び出される
+Fn&amp;&amp; rf = a;      // #2 が呼び出される
+</pre>
+  - 例終わり ] か、そうでなければ</li>
+<li><span class="stag" id="sec16.3.3p1.6" title="16.3.3 [over.match.best]/(1.6)">(1.6)</span>
+  <code class="agh-prog-cpp">F1</code> が関数テンプレートの特殊化ではなく、
+  <code class="agh-prog-cpp">F2</code> が関数テンプレートの特殊化であるか、
+  そうでなければ</li>
+<li><span class="stag" id="sec16.3.3p1.7" title="16.3.3 [over.match.best]/(1.7)">(1.7)</span>
+  <code class="agh-prog-cpp">F1</code> と <code class="agh-prog-cpp">F2</code> が関数テンプレートの特殊化であり、
+  17.5.6.2 の半順序規則に基いて
+  <code class="agh-prog-cpp">F1</code> の関数テンプレートが
+  <code class="agh-prog-cpp">F2</code> の関数テンプレートに比べてより特殊であるか、
+  そうでなければ
+  </li>
+<li><span class="stag" id="sec16.3.3p1.8" title="16.3.3 [over.match.best]/(1.8)">(1.8)</span>
+  <code class="agh-prog-cpp">F1</code> が deduction-guide (16.3.1.8) によって生成され、
+  <code class="agh-prog-cpp">F2</code> がそうでないか、
+  そうでなければ</li>
+<li><span class="stag" id="sec16.3.3p1.9" title="16.3.3 [over.match.best]/(1.9)">(1.9)</span>
+  <code class="agh-prog-cpp">F1</code> が copy deduction candidate (16.3.1.8) で
+  <code class="agh-prog-cpp">F2</code> がそうでないか、
+  そうでなければ</li>
+<li><span class="stag" id="sec16.3.3p1.10" title="16.3.3 [over.match.best]/(1.10)">(1.10)</span>
+  <code class="agh-prog-cpp">F1</code> が非テンプレートコンストラクタで
+  <code class="agh-prog-cpp">F2</code> がコンストラクタテンプレートによって生成される。[例:
+  <pre class="agh-prog-cpp">
+template &lt;class T&gt; struct A {
+  using value_type = T;
+  A(value_type);    // #1
+  A(const A&amp;);      // #2
+  A(T, T, int);     // #3
+  template&lt;class U&gt;
+    A(int, T, U);   // #4
+  // #5 を copy deduction candidate A(A) とする。
+};
+
+A x(1, 2, 3);       // 非テンプレートコンストラクタから生成された #3 が使われる
+
+template &lt;class T&gt;
+A(T) -&gt; A&lt;T&gt;;       // #6, #5 に比べて特殊でない
+
+A a(42);            // #6 で A&lt;int&gt; と推論され #1 で初期化される
+A b = a;            // #5 で A&lt;int&gt; と推論され #2 で初期化される
+
+template &lt;class T&gt;
+A(A&lt;T&gt;) -&gt; A&lt;A&lt;T&gt;&gt;; // #7, #5 と同程度に特殊
+
+A b2 = a;           // #7 で A&lt;A&lt;int&gt;&gt; と推論され #1 で初期化される
+</pre>
+  - 例終わり ]
+</li>
+</ul>
+<p class="translation-note">#7 の振る舞いについて確認する必要がある</p>
+<p class="translation-note">上記の二項関係は「より良い」という字面に反していいかげんな関係である。
+つまり <code>better(F, G) := P1(F, G) || ... || Pn(F, G)</code>
+(但し <code>P1, ..., Pn</code> は前順序を与える?) の形式をしているが、
+この時 <code>better(F, G)</code> と <code>worse(F, G) := better(G, F)</code> は排他的にはなっていない。
+つまり、互いに他方よりも良くかつ悪いという場合がある (全順序律を満たさない)。
+もちろん、互いに他方より良くも悪くもないという場合もある (反対称律を満たさない)。
+推移率はどうか? うーん…もう少し後でちゃんと考える必要がある…。
+</p>
+<p><span class="stag" id="sec16.3.3p2" title="16.3.3 [over.match.best]/2">2</span>
+他の全ての呼び出し可能関数よりも良い呼び出し可能関数が一意に存在する場合、
+それが多重定義解決によって選ばれる。それ以外の場合はその呼出は不適格である<sup>132</sup>。 [例:
+</p>
+<pre class="agh-prog-cpp">
+void Fcn(const int*, short);
+void Fcn(int*, int);
+
+int i;
+short s = 0;
+
+void f() {
+  Fcn(&amp;i, s);     // 曖昧。何故なら &amp;i → int* は &amp;i → const int* より良く、
+                  // 同時に s → short が s → int より良い。
+
+  Fcn(&amp;i, 1L);    // Fcn(int*, int) が呼び出される。何故なら &amp;i → int* は &amp;i → const int* より良く、
+                  // 1L → short と 1L → int はどちらが良いわけでもない。
+
+  Fcn(&amp;i, ’c’); // Fcn(int*, int) が呼び出される。何故なら &amp;i → int* は &amp;i → const int* より良く、
+                  // c → int は c → short より良い。
+}
+</pre>
+<p>- 例終わり ]</p>
+<p><span class="stag" id="sec16.3.3p3" title="16.3.3 [over.match.best]/3">3</span>
+最良の呼び出し可能関数が複数の宣言を持つ関数に決まった場合、
+関数を呼び出し可能にした或る既定の実引数を
+2つ以上の宣言 (または using 宣言の場合、それが指し示す宣言) が指定したとき
+プログラムは不適格である。[例:
+</p>
+<pre class="agh-prog-cpp">
+namespace A {
+  extern "C" void f(int = 5);
+}
+namespace B {
+  extern "C" void f(int = 5);
+}
+
+using A::f;
+using B::f;
+
+void use() {
+  f(3); // OK, default argument was not used for viability
+  f();  // Error: found default argument twice
+}
+</pre>
+<p>- 例終わり ]</p>
+<p class="translation-note">
+原文 a default argument that made the function viable は微妙。
+Viable functions の所では <i>m+1</i> 番目の既定の実引数についてしか述べられていない。
+しかし、ここでは <i>m+1</i> 番目以降の全ての実引数について述べているはずである
+(不定冠詞 a が用いられているのはそれを示唆する)。
+</p>
+<p class="translation-note"><code class="agh-prog-cpp">extern "C"</code> がついているので、
+<code class="agh-prog-cpp">A::f</code> と <code class="agh-prog-cpp">B::f</code> は同一の関数?
+と思ったがそのようなことは何処かに書かれていただろうか?
+</p>
+<p><span class="stag" id="footnote131">footnote 131</span>
+関数が静的メンバ関数の場合は、第一引数 (つまり暗黙オブジェクト実引数) は、
+その関数が他の関数より良いか悪いかの判断には寄与しないことを表す。
+</p>
+<p><span class="stag" id="footnote132">footnote 132</span>
+最適な呼び出し可能関数の決定アルゴリズムは呼び出し可能関数の数について線形時間になる。
+単純な勝ち抜き戦によってどの対戦相手と比べても悪くない関数 <code class="agh-prog-cpp">W</code> を決める。
+<code class="agh-prog-cpp">W</code> と直接対戦しなかった関数 <code class="agh-prog-cpp">F</code> が
+<code class="agh-prog-cpp">W</code> より悪くないという可能性もあるが、
+<span class="tcomment"><code class="agh-prog-cpp">F</code> が最終的に残っていないということから</span>
+勝ち抜き戦の途中で <code class="agh-prog-cpp">F</code> が
+<code class="agh-prog-cpp">F</code> より悪くない別の関数 <code class="agh-prog-cpp">G</code> と対戦しているはずなので、
+<code class="agh-prog-cpp">F</code> は最良の呼び出し可能関数にはなりえない。
+従って <code class="agh-prog-cpp">W</code> が最良の呼び出し可能関数であるか、そのようなものは存在しないかである。
+そこで呼び出し可能関数に対して2回目の走査を行い
+<code class="agh-prog-cpp">W</code> が他の全ての呼び出し可能関数より良いかどうかを確かめる。
+</p>
+<p class="translation-note">より良いか悪いかは変な二項関係なので2回目の走査は必要である。</p>
+
+<div class="en">
+  <p><span class="stag" title="16.3.3 [over.match.best]/1">1</span> Define ICSi(F) as follows:</p>
+  <ul>
+  <li><span class="stag" title="16.3.3 [over.match.best]/(1.1)">(1.1)</span>
+    If F is a static member function, ICS1( F ) is defined such that ICS1( F ) is neither better nor worse than
+    ICS1( G ) for any function G , and, symmetrically, ICS1( G ) is neither better nor worse than ICS1( F ); 131
+    otherwise,</li>
+  <li><span class="stag" title="16.3.3 [over.match.best]/(1.2)">(1.2)</span>
+    let ICSi( F ) denote the implicit conversion sequence that converts the i-th argument in the list to the
+    type of the i-th parameter of viable function F . 16.3.3.1 defines the implicit conversion sequences and
+    16.3.3.2 defines what it means for one implicit conversion sequence to be a better conversion sequence
+    or worse conversion sequence than another.</li>
+  </ul>
+  <p>Given these definitions, a viable function F1 is defined to be a better function than another viable function
+  F2 if for all arguments i, ICSi(F1) is not a worse conversion sequence than ICSi(F2), and then</p>
+  <ul>
+  <li><span class="stag" title="16.3.3 [over.match.best]/(1.3)">(1.3)</span> for some argument j, ICSj(F1) is a better conversion sequence than ICSj(F2), or, if not that,</li>
+  <li><span class="stag" title="16.3.3 [over.match.best]/(1.4)">(1.4)</span>
+    the context is an initialization by user-defined conversion (see 11.6, 16.3.1.5, and 16.3.1.6) and the
+    standard conversion sequence from the return type of F1 to the destination type (i.e., the type of the
+    entity being initialized) is a better conversion sequence than the standard conversion sequence from the
+    return type of F2 to the destination type [Example:
+  <pre class="agh-prog-cpp">
+struct A {
+  A();
+  operator int();
+  operator double();
+} a;
+int i = a;    // a.operator int() followed by no conversion is better than
+              // a.operator double() followed by a conversion to int
+float x = a;  // ambiguous: both possibilities require conversions,
+              // and neither is better than the other
+</pre>
+    —end example ] or, if not that,</li>
+  <li><span class="stag" title="16.3.3 [over.match.best]/(1.5)">(1.5)</span>
+    the context is an initialization by conversion function for direct reference binding (16.3.1.6) of a reference
+    to function type, the return type of F1 is the same kind of reference (i.e. lvalue or rvalue) as the
+    reference being initialized, and the return type of F2 is not [Example:
+  <pre class="agh-prog-cpp">
+template &lt;class T&gt; struct A {
+  operator T&amp;();  // #1
+  operator T&amp;&amp;(); // #2
+};
+typedef int Fn();
+A&lt;Fn&gt; a;
+Fn&amp; lf = a;       // calls #1
+Fn&amp;&amp; rf = a;      // calls #2
+</pre>
+    —end example ] or, if not that,</li>
+  <li><span class="stag" title="16.3.3 [over.match.best]/(1.6)">(1.6)</span> F1 is not a function template specialization and F2 is a function template specialization, or, if not that,</li>
+  <li><span class="stag" title="16.3.3 [over.match.best]/(1.7)">(1.7)</span> F1 and F2 are function template specializations, and the function template for F1 is more specialized
+    than the template for F2 according to the partial ordering rules described in 17.5.6.2, or, if not that,</li>
+  <li><span class="stag" title="16.3.3 [over.match.best]/(1.8)">(1.8)</span> F1 is generated from a deduction-guide (16.3.1.8) and F2 is not, or, if not that,</li>
+  <li><span class="stag" title="16.3.3 [over.match.best]/(1.9)">(1.9)</span> F1 is the copy deduction candidate (16.3.1.8) and F2 is not, or, if not that,</li>
+  <li><span class="stag" title="16.3.3 [over.match.best]/(1.10)">(1.10)</span> F1 is generated from a non-template constructor and F2 is generated from a constructor template. [Example:
+    <pre class="agh-prog-cpp">
+template &lt;class T&gt; struct A {
+  using value_type = T;
+  A(value_type);    // #1
+  A(const A&amp;);      // #2
+  A(T, T, int);     // #3
+  template&lt;class U&gt;
+    A(int, T, U);   // #4
+  // #5 is the copy deduction candidate, A(A)
+};
+
+A x(1, 2, 3);       // uses #3, generated from a non-template constructor
+
+template &lt;class T&gt;
+A(T) -&gt; A&lt;T&gt;;       // #6, less specialized than #5
+
+A a(42);            // uses #6 to deduce A&lt;int&gt; and #1 to initialize
+A b = a;            // uses #5 to deduce A&lt;int&gt; and #2 to initialize
+
+template &lt;class T&gt;
+A(A&lt;T&gt;) -&gt; A&lt;A&lt;T&gt;&gt;; // #7, as specialized as #5
+
+A b2 = a;           // uses #7 to deduce A&lt;A&lt;int&gt;&gt; and #1 to initialize
+</pre>
+    —end example ]
+  </li>
+  </ul>
+  <p><span class="stag" title="16.3.3 [over.match.best]/2">2</span>
+  If there is exactly one viable function that is a better function than all other viable functions, then it is the
+  one selected by overload resolution; otherwise the call is ill-formed. <sup>132</sup> [Example:
+  </p>
+  <pre class="agh-prog-cpp">
+void Fcn(const int*, short);
+void Fcn(int*, int);
+
+int i;
+short s = 0;
+
+void f() {
+  Fcn(&amp;i, s);     // is ambiguous because &amp;i → int* is better than &amp;i → const int*
+                  // but s → short is also better than s → int
+
+  Fcn(&amp;i, 1L);    // calls Fcn(int*, int), because &amp;i → int* is better than &amp;i → const int*
+                  // and 1L → short and 1L → int are indistinguishable
+
+  Fcn(&amp;i, ’c’); // calls Fcn(int*, int), because &amp;i → int* is better than &amp;i → const int*
+                  // and c → int is better than c → short
+}
+</pre>
+  <p>—end example ]</p>
+  <p><span class="stag" title="16.3.3 [over.match.best]/3">3</span>
+  If the best viable function resolves to a function for which multiple declarations were found, and if at least
+  two of these declarations — or the declarations they refer to in the case of using-declarations — specify a
+  default argument that made the function viable, the program is ill-formed. [Example:
+  </p>
+  <pre class="agh-prog-cpp">
+namespace A {
+  extern "C" void f(int = 5);
+}
+namespace B {
+  extern "C" void f(int = 5);
+}
+
+using A::f;
+using B::f;
+
+void use() {
+  f(3); // OK, default argument was not used for viability
+  f();  // Error: found default argument twice
+}
+</pre>
+  <p>—end example ]</p>
+  <p><span class="stag">footnote 131</span>
+  If a function is a static member function, this definition means that the first argument, the implied object argument, has no
+  effect in the determination of whether the function is better or worse than any other function.
+  </p>
+  <p><span class="stag">footnote 132</span>
+  The algorithm for selecting the best viable function is linear in the number of viable functions. Run a simple tournament
+  to find a function W that is not worse than any opponent it faced. Although another function F that W did not face might be at
+  least as good as W , F cannot be the best function because at some point in the tournament F encountered another function G
+  such that F was not better than G . Hence, W is either the best function or there is no best function. So, make a second pass over
+  the viable functions to verify that W is better than all other functions.
+  </p>
+</div>
+
 <h4>16.3.3.1 Implicit conversion sequences <span class="secname">[over.best.ics]</span></h4>
 <h5>16.3.3.1.1 Standard conversion sequences <span class="secname">[over.ics.scs]</span></h5>
 <h5>16.3.3.1.2 User-defined conversion sequences <span class="secname">[over.ics.user]</span></h5>
