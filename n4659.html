@@ -5,7 +5,7 @@
   <meta charset="utf-8" />
   <style>
   body{max-width: 60em; margin-left: auto; margin-right: auto; text-align: justify}
-  span.stag{color: green; font-weight: bold; vertical-align: super; font-size: 80%; margin-right: 0.1em;}
+  span.ptag{color: green; font-weight: bold; vertical-align: super; font-size: 80%; margin-right: 0.1em;}
   /*p.translation-note{border:1px solid gray;padding:0.5em;}*/
   .translation-note{background-color: #ddd; padding: 0.8em; margin-bottom: 0.8em;}
   .translation-note:before{content: "訳註: "; font-weight: bold;}
@@ -64,23 +64,23 @@
 <p>略</p>
 
 <h1 id="sec1">1 Scope <span class="secname">[intro.scope]</span></h1>
-<p><span class="stag" id="sec1p1" title="1 [intro.scope]/1">1</span>
+<p><span class="ptag" id="sec1p1" title="1 [intro.scope]/1">1</span>
 この文書は C++ プログラミング言語の処理系に対する要求を指定する。
 第一の要求は処理系が言語を実装することであり、これはこの文書が C++ を定義するということを意味する。
 その他の要求と、第一の要求の例外は、この文書の中で折に触れて述べる。
 </p>
-<p><span class="stag" id="sec1p2" title="1 [intro.scope]/2">2</span>
+<p><span class="ptag" id="sec1p2" title="1 [intro.scope]/2">2</span>
 C++ は 「ISO/IEC 9899:2011 Programming languates -- C」(以降 C 規格と呼ぶ) によって定義される C 言語を元にした汎用の言語である。
 C によって提供される機能の他に、C++ は追加のデータ型、クラス、テンプレート、例外、名前空間、
 演算子と関数の多重定義、参照、メモリ管理の演算子、追加のライブラリ機能を提供する。
 </p>
 <div class="en">
-  <p><span class="stag" title="1 [intro.scope]/1">1</span>
+  <p><span class="ptag" title="1 [intro.scope]/1">1</span>
   This document specifies requirements for implementations of the C++ programming language. The first such
   requirement is that they implement the language, so this document also defines C++ . Other requirements
   and relaxations of the first requirement appear at various places within this document.
   </p>
-  <p><span class="stag" title="1 [intro.scope]/2">2</span>
+  <p><span class="ptag" title="1 [intro.scope]/2">2</span>
   C++ is a general purpose programming language based on the C programming language as described in
   ISO/IEC 9899:2011 Programming languages — C (hereinafter referred to as the C standard). In addition to
   the facilities provided by C, C ++ provides additional data types, classes, templates, exceptions, namespaces,
@@ -93,34 +93,34 @@ C++11 以降で追加されたメジャーな機能――例えばラムダ式�
 </p>
 
 <h1 id="sec2">2 Normative references <span class="secname">[intro.refs]</span></h1>
-<p><span class="stag" id="sec2p1" title="2 [intro.refs]/2">2</span>
+<p><span class="ptag" id="sec2p1" title="2 [intro.refs]/2">2</span>
 以下の文書は、その内容の一部または全ての内容がこの文書の要求を構成するものとして、この文書の本文から適宜参照される。
 以下の文書で版が指定されている場合は、ここで参照した版のみが有効である。
 版が指定されていない場合は、その文書の最新版 (訂正 (amendments) を含む) が有効である。
 </p>
 <ul>
-<li><span class="stag" id="sec2p1.1" title="2 [intro.refs]/(1.*)">(1.*)</span> 略</li>
+<li><span class="ptag" id="sec2p1.1" title="2 [intro.refs]/(1.*)">(1.*)</span> 略</li>
 </ul>
 <div class="en">
-  <p><span class="stag" title="2 [intro.refs]/1">1</span>
+  <p><span class="ptag" title="2 [intro.refs]/1">1</span>
   The following documents are referred to in the text in such a way that some or all of their content constitutes
   requirements of this document. For dated references, only the edition cited applies. For undated references,
   the latest edition of the referenced document (including any amendments) applies.
   </p>
   <ul>
-  <li><span class="stag" title="2 [intro.refs]/(1.*)">(1.*)</span> 略</li>
+  <li><span class="ptag" title="2 [intro.refs]/(1.*)">(1.*)</span> 略</li>
   </ul>
 </div>
-<p><span class="stag" title="2 [intro.refs]/2">2</span> 略</p>
-<p><span class="stag" title="2 [intro.refs]/3">3</span> 略</p>
-<p><span class="stag" title="2 [intro.refs]/4">4</span> 略</p>
-<p><span class="stag" title="2 [intro.refs]/5">5</span> 略</p>
+<p><span class="ptag" title="2 [intro.refs]/2">2</span> 略</p>
+<p><span class="ptag" title="2 [intro.refs]/3">3</span> 略</p>
+<p><span class="ptag" title="2 [intro.refs]/4">4</span> 略</p>
+<p><span class="ptag" title="2 [intro.refs]/5">5</span> 略</p>
 
 <h1 id="sec3">3 Terms and definitions <span class="secname">[intro.defs]</span></h1>
-<p><span class="stag" title="3 [intro.defs]/1">1</span> 略</p>
-<p><span class="stag" title="3 [intro.defs]/2">2</span> 略</p>
-<p><span class="stag" title="3 [intro.defs]/3">3</span> 略</p>
-<p><span class="stag" title="3 [intro.defs]/4">4</span> 略</p>
+<p><span class="ptag" title="3 [intro.defs]/1">1</span> 略</p>
+<p><span class="ptag" title="3 [intro.defs]/2">2</span> 略</p>
+<p><span class="ptag" title="3 [intro.defs]/3">3</span> 略</p>
+<p><span class="ptag" title="3 [intro.defs]/4">4</span> 略</p>
 
 <h2 id="sec3.1">3.1 access <span class="secname">[defns.access]</span></h2>
 <p>〈execution-time action〉 to read or modify the value of an object</p>
@@ -157,12 +157,12 @@ C++11 以降で追加されたメジャーな機能――例えばラムダ式�
 <h1>14 略</h1>
 <h1>15 略</h1>
 <h1 id="sec16">16 Overloading <span class="secname">[over]</span></h1>
-<p><span class="stag" id="sec16p1" title="16 [over]/1">1</span> 同じスコープで一つの名前について2つ以上の宣言が指定された時、その名前は多重定義 (overload) されているという。
+<p><span class="ptag" id="sec16p1" title="16 [over]/1">1</span> 同じスコープで一つの名前について2つ以上の宣言が指定された時、その名前は多重定義 (overload) されているという。
 更に、同じスコープで同じ名前だが異なる型の二つの宣言を多重定義 (overloaded declaration) と呼ぶ。
 関数および関数テンプレートの宣言のみが多重定義されうる。
 つまり、変数と型の宣言は多重定義できない。
 </p>
-<p><span class="stag" id="sec16p2" title="16 [over]/2">2</span> 多重定義された関数名が呼び出しで使われた時、
+<p><span class="ptag" id="sec16p2" title="16 [over]/2">2</span> 多重定義された関数名が呼び出しで使われた時、
 関数の多重定義の内どれが用いられるかは、
 実引数の型とその時点で可視の多重定義の仮引数の型を比較することによって決定される。
 関数を選択する手続きは多重定義解決と呼び 16.3 で定義される。[例:
@@ -176,13 +176,13 @@ abs(1.0); // abs(double); が呼び出される
 </pre>
 <p>- 例終わり ]</p>
 <div class="en">
-  <p><span class="stag" title="16 [over]/1">1</span>
+  <p><span class="ptag" title="16 [over]/1">1</span>
   When two or more different declarations are specified for a single name in the same scope, that name is said
   to be overloaded. By extension, two declarations in the same scope that declare the same name but with
   different types are called overloaded declarations. Only function and function template declarations can be
   overloaded; variable and type declarations cannot be overloaded.
   </p>
-  <p><span class="stag" title="16 [over]/2">2</span>
+  <p><span class="ptag" title="16 [over]/2">2</span>
   When an overloaded function name is used in a call, which overloaded function declaration is being referenced
   is determined by comparing the types of the arguments at the point of use with the types of the parameters
   in the overloaded declarations that are visible at the point of use. This function selection process is called
@@ -199,18 +199,18 @@ abs(1.0); // calls abs(double);
 </div>
 
 <h2 id="sec16.1">16.1 Overloadable declarations <span class="secname">[over.load]</span></h2>
-<p><span class="stag" id="sec16.1p1" title="16.1 [over.load]/1">1</span>
+<p><span class="ptag" id="sec16.1p1" title="16.1 [over.load]/1">1</span>
 全ての関数宣言が多重定義出来るわけではない。
 多重定義できないものをここで指定する。
 同じスコープに多重定義できない宣言の組を含むプログラムは不適格である。
 [註: この制限は、そのスコープにおける明示的宣言同士、または明示宣言と using 宣言により導入される宣言の間に適用される。
 (using 指令などに基づく) 名前解決や、 (演算子関数などの) 多重定義解決の過程で考慮される関数の集合に対しては適用されない。 - 註終わり ]
 </p>
-<p><span class="stag" id="sec16.1p2" title="16.1 [over.load]/2">2</span> 一部の関数宣言は多重定義できない:</p>
+<p><span class="ptag" id="sec16.1p2" title="16.1 [over.load]/2">2</span> 一部の関数宣言は多重定義できない:</p>
 <ul>
-<li><span class="stag" id="sec16.1p2.1" title="16.1 [over.load]/(2.1)">(2.1)</span>
+<li><span class="ptag" id="sec16.1p2.1" title="16.1 [over.load]/(2.1)">(2.1)</span>
   戻り値の型、例外指定子 (18.4) を除いて一致する関数宣言は多重定義できない。</li>
-<li><span class="stag" id="sec16.1p2.2" title="16.1 [over.load]/(2.2)">(2.2)</span>
+<li><span class="ptag" id="sec16.1p2.2" title="16.1 [over.load]/(2.2)">(2.2)</span>
   同名で同じ仮引数リスト (11.3.5) を持つメンバ関数宣言は、
   その内の一つが静的メンバ関数宣言 (12.2.3) であるとき、多重定義できない。
   同様に、同名で同じ仮引数リスト、同じテンプレート仮引数リストを持つメンバ関数テンプレート宣言は、
@@ -231,7 +231,7 @@ class X {
 </pre>
   - 例終わり ]
   </li>
-<li><span class="stag" id="sec16.1p2.3" title="16.1 [over.load]/(2.3)">(2.3)</span>
+<li><span class="ptag" id="sec16.1p2.3" title="16.1 [over.load]/(2.3)">(2.3)</span>
   同名・同じ仮引数リストを持つメンバ関数宣言と、
   同名・同じ仮引数リスト・同じテンプレート仮引数リストを持つメンバ関数テンプレートは、
   その内 1 つでも ref 修飾子を持っている場合、
@@ -251,21 +251,21 @@ class Y {
 </ul>
 
 <div class="en">
-  <p><span class="stag" title="16.1 [over.load]/1">1</span>
+  <p><span class="ptag" title="16.1 [over.load]/1">1</span>
   Not all function declarations can be overloaded. Those that cannot be overloaded are specified here. A
   program is ill-formed if it contains two such non-overloadable declarations in the same scope. [Note: This
   restriction applies to explicit declarations in a scope, and between such declarations and declarations made
   through a using-declaration (10.3.3). It does not apply to sets of functions fabricated as a result of name
   lookup (e.g., because of using-directives) or overload resolution (e.g., for operator functions). - end note ]
   </p>
-  <p><span class="stag" title="16.1 [over.load]/2">2</span>
+  <p><span class="ptag" title="16.1 [over.load]/2">2</span>
   Certain function declarations cannot be overloaded:
   </p>
   <ul>
-  <li><span class="stag" title="16.1 [over.load]/(2.1)">(2.1)</span>
+  <li><span class="ptag" title="16.1 [over.load]/(2.1)">(2.1)</span>
     Function declarations that differ only in the return type, the exception specification (18.4), or both
     cannot be overloaded.</li>
-  <li><span class="stag" title="16.1 [over.load]/(2.2)">(2.2)</span>
+  <li><span class="ptag" title="16.1 [over.load]/(2.2)">(2.2)</span>
     Member function declarations with the same name and the same parameter-type-list (11.3.5) cannot be
     overloaded if any of them is a static member function declaration (12.2.3). Likewise, member function
     template declarations with the same name, the same parameter-type-list, and the same template
@@ -289,7 +289,7 @@ class X {
 </pre>
     —end example ]
     </li>
-  <li><span class="stag" title="16.1 [over.load]/(2.3)">(2.3)</span> Member function declarations with the same name and the same parameter-type-list (11.3.5) as well as
+  <li><span class="ptag" title="16.1 [over.load]/(2.3)">(2.3)</span> Member function declarations with the same name and the same parameter-type-list (11.3.5) as well as
     member function template declarations with the same name, the same parameter-type-list, and the same
     template parameter lists cannot be overloaded if any of them, but not all, have a ref-qualifier (11.3.5).
     [Example:
@@ -308,12 +308,12 @@ class Y {
   </ul>
 </div>
 
-<p><span class="stag" id="sec16.1p3" title="16.1 [over.load]/3">3</span>
+<p><span class="ptag" id="sec16.1p3" title="16.1 [over.load]/3">3</span>
 [註: 11.3.5 で指定したように、関数宣言の組が等価な仮引数宣言を持つ場合、
 これらは同じ関数を宣言することになるので多重定義することはできない。
 </p>
 <ul>
-<li><span class="stag" id="sec16.1p3.1" title="16.1 [over.load]/(3.1)">(3.1)</span> 等価な typedef された型を使っている点だけ異なる仮引数宣言は等価である。
+<li><span class="ptag" id="sec16.1p3.1" title="16.1 [over.load]/(3.1)">(3.1)</span> 等価な typedef された型を使っている点だけ異なる仮引数宣言は等価である。
 typedef は独立した型ではなく、ただ他の型の別名を与えるに過ぎない (10.1.3)。[例:
   <pre class="agh-prog-cpp">
 typedef int Int;
@@ -332,7 +332,7 @@ void f(E i) { /* ... */ }
 </pre>
   - 例終わり ]
   </li>
-<li><span class="stag" id="sec16.1p3.2" title="16.1 [over.load]/(3.2)">(3.2)</span>
+<li><span class="ptag" id="sec16.1p3.2" title="16.1 [over.load]/(3.2)">(3.2)</span>
 一方がポインタ * であり他方が配列 [] であるという点のみ異なる仮引数宣言は等価である。
 即ち、配列宣言はポインタ宣言に調整 (11.3.5) されるためである。
 2番目以降の配列の次元のみが仮引数の型において意味を持つ (11.3.4)。[例:
@@ -348,7 +348,7 @@ int g(char(*)[20]); // g(char(*)[10]); とは異なる。
 </pre>
   - 例終わり ]
   </li>
-<li><span class="stag" id="sec16.1p3.3" title="16.1 [over.load]/(3.3)">(3.3)</span>
+<li><span class="ptag" id="sec16.1p3.3" title="16.1 [over.load]/(3.3)">(3.3)</span>
 一方が関数型であり他方が同じ関数型へのポインタであるという点のみ異なる仮引数宣言は等価である。
 即ち、関数型は関数型へのポインタへと調整 (11.3.5) されるためである。[例:
   <pre class="agh-prog-cpp">
@@ -359,7 +359,7 @@ void h(int (*x)()) { }  // 不適格: h(int()) の再定義
 </pre>
   - 例終わり ]
   </li>
-<li><span class="stag" id="sec16.1p3.4" title="16.1 [over.load]/(3.4)">(3.4)</span>
+<li><span class="ptag" id="sec16.1p3.4" title="16.1 [over.load]/(3.4)">(3.4)</span>
 cosnt または volatile が存在するかどうかのみが異なる仮引数宣言は等価である。
 即ち、どの関数型が宣言されるか・定義されるか・呼び出されるかを決定する際に、
 仮引数型の const/volatile 型指定子は無視される。[例:
@@ -380,7 +380,7 @@ int f (cInt) { /* ... */ }  // error: f(int) の再定義
   <code class="agh-prog-cpp">T</code> への参照、<code class="agh-prog-cpp">const T</code> への参照、
   <code class="agh-prog-cpp">volatile T</code> への参照についても同様である。
   </li>
-<li><span class="stag" id="sec16.1p3.5" title="16.1 [over.load]/(3.5)">(3.5)</span> 既定の実引数のみが相違する仮引数宣言は等価である。[例:
+<li><span class="ptag" id="sec16.1p3.5" title="16.1 [over.load]/(3.5)">(3.5)</span> 既定の実引数のみが相違する仮引数宣言は等価である。[例:
   以下の例を考慮されたい:
   <pre class="agh-prog-cpp">
 void f (int i, int j);
@@ -397,7 +397,7 @@ void prog () {
   </li>
 </ul>
 <p>- 註終わり ]</p>
-<p><span class="stag" id="footnote123">footnote 123</span>
+<p><span class="ptag" id="footnote123">footnote 123</span>
 仮引数型が関数型を含む場合 (例えば仮引数型が関数ポインタの場合)、
 その内部関数型の仮引数型において最も外側の const/volatile 型指定子は無視される。</p>
 <p class="translation-note">
@@ -409,11 +409,11 @@ void prog () {
 </p>
 
 <div class="en">
-  <p><span class="stag" title="16.1 [over.load]/3">3</span> [Note: As specified in 11.3.5, function declarations that have equivalent parameter declarations declare the
+  <p><span class="ptag" title="16.1 [over.load]/3">3</span> [Note: As specified in 11.3.5, function declarations that have equivalent parameter declarations declare the
   same function and therefore cannot be overloaded:
   </p>
   <ul>
-  <li><span class="stag" title="16.1 [over.load]/(3.1)">(3.1)</span> Parameter declarations that differ only in the use of equivalent typedef “types” are equivalent. A
+  <li><span class="ptag" title="16.1 [over.load]/(3.1)">(3.1)</span> Parameter declarations that differ only in the use of equivalent typedef “types” are equivalent. A
     typedef is not a separate type, but only a synonym for another type (10.1.3). [Example:
     <pre class="agh-prog-cpp">
 typedef int Int;
@@ -432,7 +432,7 @@ void f(E i) { /* ... */ }
 </pre>
     —end example ]
     </li>
-  <li><span class="stag" title="16.1 [over.load]/(3.2)">(3.2)</span> Parameter declarations that differ only in a pointer * versus an array [] are equivalent. That is, the
+  <li><span class="ptag" title="16.1 [over.load]/(3.2)">(3.2)</span> Parameter declarations that differ only in a pointer * versus an array [] are equivalent. That is, the
     array declaration is adjusted to become a pointer declaration (11.3.5). Only the second and subsequent
     array dimensions are significant in parameter types (11.3.4). [Example:
     <pre class="agh-prog-cpp">
@@ -447,7 +447,7 @@ int g(char(*)[20]); // different from g(char(*)[10]);
 </pre>
     —end example ]
     </li>
-  <li><span class="stag" title="16.1 [over.load]/(3.3)">(3.3)</span> Parameter declarations that differ only in that one is a function type and the other is a pointer to
+  <li><span class="ptag" title="16.1 [over.load]/(3.3)">(3.3)</span> Parameter declarations that differ only in that one is a function type and the other is a pointer to
     the same function type are equivalent. That is, the function type is adjusted to become a pointer to
     function type (11.3.5). [Example:
     <pre class="agh-prog-cpp">
@@ -458,7 +458,7 @@ void h(int (*x)()) { }  // ill-formed: redefinition of h(int())
 </pre>
     —end example ]
     </li>
-  <li><span class="stag" title="16.1 [over.load]/(3.4)">(3.4)</span> Parameter declarations that differ only in the presence or absence of const and/or volatile are
+  <li><span class="ptag" title="16.1 [over.load]/(3.4)">(3.4)</span> Parameter declarations that differ only in the presence or absence of const and/or volatile are
     equivalent. That is, the const and volatile type-specifiers for each parameter type are ignored when
     determining which function is being declared, defined, or called. [Example:
     <pre class="agh-prog-cpp">
@@ -476,7 +476,7 @@ int f (cInt) { /* ... */ }  // error: redefinition of f(int)
     considered distinct parameter types, as are “reference to T ”, “reference to const T ”, and “reference to
     volatile T”.
     </li>
-  <li><span class="stag" title="16.1 [over.load]/(3.5)">(3.5)</span> Two parameter declarations that differ only in their default arguments are equivalent. [Example:
+  <li><span class="ptag" title="16.1 [over.load]/(3.5)">(3.5)</span> Two parameter declarations that differ only in their default arguments are equivalent. [Example:
     Consider the following:
     <pre class="agh-prog-cpp">
 void f (int i, int j);
@@ -493,13 +493,13 @@ void prog () {
     </li>
   </ul>
   <p>—end note ]</p>
-  <p><span class="stag">footnote 123</span> When a parameter type includes a function type, such as in the case of a parameter type that is a pointer to function, the
+  <p><span class="ptag">footnote 123</span> When a parameter type includes a function type, such as in the case of a parameter type that is a pointer to function, the
   const and volatile type-specifiers at the outermost level of the parameter type specifications for the inner function type are
   also ignored.</p>
 </div>
 
 <h2 id="sec16.2">16.2 Declaration matching <span class="secname">[over.dcl]</span></h2>
-<p><span class="stag" id="sec16.2p1" title="16.2 [over.dcl]/1">1</span>
+<p><span class="ptag" id="sec16.2p1" title="16.2 [over.dcl]/1">1</span>
 同名の関数宣言は、同じスコープにあり等価な仮引数宣言を持つ時、同一の関数を指す (16.1)。
 派生クラスのメンバ関数は、基底クラスの同名のメンバ関数とは別のスコープにある。[例:
 </p>
@@ -528,7 +528,7 @@ void h(D* pd) {
 <p class="translation-note">原文には function member という語が出てくるがこれは member function の表記揺れであろう。</p>
 <p class="translation-note">テンプレート引数について言及がないのは、この段落の関数宣言とは関数テンプレートは含まないからということだろうか。
   しかし、そうだとすると関数テンプレートの場合に同一の宣言かどうかを判定する記述が与えられず片手落ちである。</p>
-<p><span class="stag" id="sec16.2p2" title="16.2 [over.dcl]/2">2</span>
+<p><span class="ptag" id="sec16.2p2" title="16.2 [over.dcl]/2">2</span>
 局所的に宣言された関数は、外側のスコープにある関数とは異なるスコープになる。[例:
 </p>
 <pre class="agh-prog-cpp">
@@ -547,7 +547,7 @@ void caller () {
 }
 </pre>
 <p>- 例終わり ]</p>
-<p><span class="stag" id="sec16.2p3" title="16.2 [over.dcl]/3">3</span>
+<p><span class="ptag" id="sec16.2p3" title="16.2 [over.dcl]/3">3</span>
 多重定義されたメンバ関数のそれぞれに対して異なるアクセス規則を割り当てることができる。[例:</p>
 <pre class="agh-prog-cpp">
 class buffer {
@@ -563,7 +563,7 @@ public:
 <p>- 例終わり ]</p>
 
 <div class="en">
-  <p><span class="stag" title="16.2 [over.dcl]/1">1</span>
+  <p><span class="ptag" title="16.2 [over.dcl]/1">1</span>
   Two function declarations of the same name refer to the same function if they are in the same scope and
   have equivalent parameter declarations (16.1). A function member of a derived class is not in the same scope
   as a function member of the same name in a base class. [Example:
@@ -586,7 +586,7 @@ void h(D* pd) {
 }
 </pre>
   <p>—end example ]</p>
-  <p><span class="stag" title="16.2 [over.dcl]/2">2</span>
+  <p><span class="ptag" title="16.2 [over.dcl]/2">2</span>
   A locally declared function is not in the same scope as a function in a containing scope. [Example:
   </p>
   <pre class="agh-prog-cpp">
@@ -605,7 +605,7 @@ void caller () {
 }
 </pre>
   <p>—end example ]</p>
-  <p><span class="stag" title="16.2 [over.dcl]/3">3</span>
+  <p><span class="ptag" title="16.2 [over.dcl]/3">3</span>
   Different versions of an overloaded member function can be given different access rules. [Example:</p>
   <pre class="agh-prog-cpp">
 class buffer {
@@ -622,7 +622,7 @@ public:
 </div>
 
 <h2 id="sec16.3">16.3 Overload resolution <span class="secname">[over.match]</span></h2>
-<p><span class="stag" id="sec16.3p1" title="16.3 [over.match]/1">1</span>
+<p><span class="ptag" id="sec16.3p1" title="16.3 [over.match]/1">1</span>
 多重定義解決は、関数の呼び出しにおいて最適の関数を選択する仕組みである。
 実引数の式のリストと、呼び出しの文脈における <i>候補関数</i> の集合が考慮される。
 選択の判断材料として、実引数の数、
@@ -632,31 +632,31 @@ public:
 [註: 多重定義解決で選択される関数は必ずしもその文脈で適切であるとは限らない。
 関数のアクセス可能性などの他の制限によって、その呼び出しが不適格になることがある。 - 註終わり ]
 </p>
-<p><span class="stag" id="sec16.3p2" title="16.3 [over.match]/2">2</span>
+<p><span class="ptag" id="sec16.3p2" title="16.3 [over.match]/2">2</span>
   7つの異なる文脈で多重定義解決が実行される:
 </p>
 <ul>
-<li><span class="stag" id="sec16.3p2.1" title="16.3 [over.match]/(2.1)">(2.1)</span> 関数呼び出し構文の名前で指定された関数の呼び出し (16.3.1.1.1);</li>
-<li><span class="stag" id="sec16.3p2.2" title="16.3 [over.match]/(2.2)">(2.2)</span> 関数呼び出し構文の名前で指定されたクラスオブジェクトに対する、
+<li><span class="ptag" id="sec16.3p2.1" title="16.3 [over.match]/(2.1)">(2.1)</span> 関数呼び出し構文の名前で指定された関数の呼び出し (16.3.1.1.1);</li>
+<li><span class="ptag" id="sec16.3p2.2" title="16.3 [over.match]/(2.2)">(2.2)</span> 関数呼び出し構文の名前で指定されたクラスオブジェクトに対する、
   関数呼び出し演算子、関数ポインタへの変換関数、関数ポインタの参照への変換関数、関数の参照への変換関数の呼び出し (16.3.1.1.2);</li>
-<li><span class="stag" id="sec16.3p2.3" title="16.3 [over.match]/(2.3)">(2.3)</span> 式中で参照された演算子の呼び出し (16.3.1.2);</li>
-<li><span class="stag" id="sec16.3p2.4" title="16.3 [over.match]/(2.4)">(2.4)</span> クラスオブジェクトの既定初期化または直接初期化 (11.6) に際してのコンストラクタの呼び出し (16.3.1.3);</li>
-<li><span class="stag" id="sec16.3p2.5" title="16.3 [over.match]/(2.5)">(2.5)</span> クラスオブジェクトのコピー初期化 (11.6) に際してのユーザ定義の変換の呼び出し (16.3.1.4);</li>
-<li><span class="stag" id="sec16.3p2.6" title="16.3 [over.match]/(2.6)">(2.6)</span> クラス型の式による非クラス型のオブジェクトの初期化に際しての変換の呼び出し (16.3.1.5);</li>
-<li><span class="stag" id="sec16.3p2.7" title="16.3 [over.match]/(2.7)">(2.7)</span> 参照 (11.6.3) の束縛対象の glvalue またはクラス prvalue を得るための変換関数の呼び出し (16.3.1.6).</li>
+<li><span class="ptag" id="sec16.3p2.3" title="16.3 [over.match]/(2.3)">(2.3)</span> 式中で参照された演算子の呼び出し (16.3.1.2);</li>
+<li><span class="ptag" id="sec16.3p2.4" title="16.3 [over.match]/(2.4)">(2.4)</span> クラスオブジェクトの既定初期化または直接初期化 (11.6) に際してのコンストラクタの呼び出し (16.3.1.3);</li>
+<li><span class="ptag" id="sec16.3p2.5" title="16.3 [over.match]/(2.5)">(2.5)</span> クラスオブジェクトのコピー初期化 (11.6) に際してのユーザ定義の変換の呼び出し (16.3.1.4);</li>
+<li><span class="ptag" id="sec16.3p2.6" title="16.3 [over.match]/(2.6)">(2.6)</span> クラス型の式による非クラス型のオブジェクトの初期化に際しての変換の呼び出し (16.3.1.5);</li>
+<li><span class="ptag" id="sec16.3p2.7" title="16.3 [over.match]/(2.7)">(2.7)</span> 参照 (11.6.3) の束縛対象の glvalue またはクラス prvalue を得るための変換関数の呼び出し (16.3.1.6).</li>
 </ul>
 <p>それぞれの文脈ごとに候補関数の集合と実引数のリストの決定方法が与えられる。
 ひとたび候補関数と実引数のリストが与えられれば、最適な関数の選択方法は何れの文脈でも共通である:
 </p>
 <ul>
-<li><span class="stag" id="sec16.3p2.8" title="16.3 [over.match]/(2.8)">(2.8)</span>
+<li><span class="ptag" id="sec16.3p2.8" title="16.3 [over.match]/(2.8)">(2.8)</span>
   初めに、適切な数の仮引数を持つかどうかなどの条件を満たす候補関数の部分集合として、
   呼び出し可能関数を選別する (16.3.2)。</li>
-<li><span class="stag" id="sec16.3p2.9" title="16.3 [over.match]/(2.9)">(2.9)</span>
+<li><span class="ptag" id="sec16.3p2.9" title="16.3 [over.match]/(2.9)">(2.9)</span>
   次に、実引数をそれぞれ対応する仮引数に合致させるのに使う暗黙変換列 (16.3.3.1) に基づいて、
   最適な呼び出し可能関数を選択する。</li>
 </ul>
-<p><span class="stag" id="sec16.3p3" title="16.3 [over.match]/3">3</span>
+<p><span class="ptag" id="sec16.3p3" title="16.3 [over.match]/3">3</span>
 最適な呼び出し可能関数が一意に存在するときに多重定義解決は成功とし、その関数が結果となる。
 それ以外の場合は、多重定義解決は失敗であり、その関数呼び出しは不適格である。
 多重定義解決が成功したものの最適な呼び出し可能関数がその文脈でアクセス可能 (Clause 14) でないとき、プログラムは不適格である。
@@ -664,7 +664,7 @@ public:
 
 <p class="translation-note">原文 16.3/(2.8) the proper number of arguments は the proper number of parameters の誤りではないか。</p>
 <div class="en">
-  <p><span class="stag" title="16.3 [over.match]/1">1</span>
+  <p><span class="ptag" title="16.3 [over.match]/1">1</span>
   Overload resolution is a mechanism for selecting the best function to call given a list of expressions that are
   to be the arguments of the call and a set of candidate functions that can be called based on the context of
   the call. The selection criteria for the best function are the number of arguments, how well the arguments
@@ -674,20 +674,20 @@ public:
   restrictions, such as the accessibility of the function, can make its use in the calling context ill-formed. —end
   note ]
   </p>
-  <p><span class="stag" title="16.3 [over.match]/2">2</span>
+  <p><span class="ptag" title="16.3 [over.match]/2">2</span>
   Overload resolution selects the function to call in seven distinct contexts within the language:
   </p>
   <ul>
-  <li><span class="stag" title="16.3 [over.match]/(2.1)">(2.1)</span> invocation of a function named in the function call syntax (16.3.1.1.1);</li>
-  <li><span class="stag" title="16.3 [over.match]/(2.2)">(2.2)</span> invocation of a function call operator, a pointer-to-function conversion function,
+  <li><span class="ptag" title="16.3 [over.match]/(2.1)">(2.1)</span> invocation of a function named in the function call syntax (16.3.1.1.1);</li>
+  <li><span class="ptag" title="16.3 [over.match]/(2.2)">(2.2)</span> invocation of a function call operator, a pointer-to-function conversion function,
     a reference-to-pointer-to-function conversion function, or a reference-to-function conversion function on a class object named
     in the function call syntax (16.3.1.1.2);</li>
-  <li><span class="stag" title="16.3 [over.match]/(2.3)">(2.3)</span> invocation of the operator referenced in an expression (16.3.1.2);</li>
-  <li><span class="stag" title="16.3 [over.match]/(2.4)">(2.4)</span> invocation of a constructor for default- or direct-initialization (11.6) of a class object (16.3.1.3);</li>
-  <li><span class="stag" title="16.3 [over.match]/(2.5)">(2.5)</span> invocation of a user-defined conversion for copy-initialization (11.6) of a class object (16.3.1.4);</li>
-  <li><span class="stag" title="16.3 [over.match]/(2.6)">(2.6)</span> invocation of a conversion function for initialization of an object of a non-class type from an expression
+  <li><span class="ptag" title="16.3 [over.match]/(2.3)">(2.3)</span> invocation of the operator referenced in an expression (16.3.1.2);</li>
+  <li><span class="ptag" title="16.3 [over.match]/(2.4)">(2.4)</span> invocation of a constructor for default- or direct-initialization (11.6) of a class object (16.3.1.3);</li>
+  <li><span class="ptag" title="16.3 [over.match]/(2.5)">(2.5)</span> invocation of a user-defined conversion for copy-initialization (11.6) of a class object (16.3.1.4);</li>
+  <li><span class="ptag" title="16.3 [over.match]/(2.6)">(2.6)</span> invocation of a conversion function for initialization of an object of a non-class type from an expression
     of class type (16.3.1.5); and</li>
-  <li><span class="stag" title="16.3 [over.match]/(2.7)">(2.7)</span> invocation of a conversion function for conversion to a glvalue or class prvalue to which a reference (11.6.3)
+  <li><span class="ptag" title="16.3 [over.match]/(2.7)">(2.7)</span> invocation of a conversion function for conversion to a glvalue or class prvalue to which a reference (11.6.3)
     will be directly bound (16.3.1.6).</li>
   </ul>
   <p>Each of these contexts defines the set of candidate functions and the list of arguments in its own unique way.
@@ -695,12 +695,12 @@ public:
   is the same in all cases:
   </p>
   <ul>
-  <li><span class="stag" title="16.3 [over.match]/(2.8)">(2.8)</span> First, a subset of the candidate functions (those that have the proper number of arguments and meet
+  <li><span class="ptag" title="16.3 [over.match]/(2.8)">(2.8)</span> First, a subset of the candidate functions (those that have the proper number of arguments and meet
     certain other conditions) is selected to form a set of viable functions (16.3.2).</li>
-  <li><span class="stag" title="16.3 [over.match]/(2.9)">(2.9)</span> Then the best viable function is selected based on the implicit conversion sequences (16.3.3.1) needed
+  <li><span class="ptag" title="16.3 [over.match]/(2.9)">(2.9)</span> Then the best viable function is selected based on the implicit conversion sequences (16.3.3.1) needed
     to match each argument to the corresponding parameter of each viable function.</li>
   </ul>
-  <p><span class="stag" title="16.3 [over.match]/3">3</span>
+  <p><span class="ptag" title="16.3 [over.match]/3">3</span>
   If a best viable function exists and is unique, overload resolution succeeds and produces it as the result.
   Otherwise overload resolution fails and the invocation is ill-formed. When overload resolution succeeds,
   and the best viable function is not accessible (Clause 14) in the context in which it is used, the program is
@@ -720,25 +720,25 @@ public:
 <h4>16.3.1.7 Initialization by list-initialization <span class="secname">[over.match.list]</span></h4>
 <h4>16.3.1.8 Class template argument deduction <span class="secname">[over.match.class.deduct]</span></h4>
 <h3 id="sec16.3.2">16.3.2 Viable functions <span class="secname">[over.match.viable]</span></h3>
-<p><span class="stag" id="sec16.3.2p1" title="16.3.2 [over.match.viable]/1">1</span>
+<p><span class="ptag" id="sec16.3.2p1" title="16.3.2 [over.match.viable]/1">1</span>
 現在の文脈に対して候補関数の集合を求めた後 (16.3.1)、その中から呼び出し可能関数の集合が選ばれる。
 実引数の変換列 (16.3) を比べることによって、呼び出し可能関数の中からできるだけ実引数が合致する最適な関数が選択される。
 呼び出し可能関数の選択では、(変換列の優先度を除く) 実引数と関数の仮引数の関係が考慮される。
 </p>
-<p><span class="stag" id="sec16.3.2p2" title="16.3.2 [over.match.viable]/2">2</span>
+<p><span class="ptag" id="sec16.3.2p2" title="16.3.2 [over.match.viable]/2">2</span>
 先ず、候補関数が呼び出し可能関数であるためには、
 実引数の数に対して仮引数が十分な数ある必要がある。
 </p>
 <ul>
-<li><span class="stag" id="sec16.3.2p2.1" title="16.3.2 [over.match.viable]/(2.1)">(2.1)</span> <i>m</i> 個の実引数があるとき、丁度 <i>m</i> 個の仮引数を持つ候補関数は呼び出し可能である。</li>
-<li><span class="stag" id="sec16.3.2p2.2" title="16.3.2 [over.match.viable]/(2.2)">(2.2)</span>
+<li><span class="ptag" id="sec16.3.2p2.1" title="16.3.2 [over.match.viable]/(2.1)">(2.1)</span> <i>m</i> 個の実引数があるとき、丁度 <i>m</i> 個の仮引数を持つ候補関数は呼び出し可能である。</li>
+<li><span class="ptag" id="sec16.3.2p2.2" title="16.3.2 [over.match.viable]/(2.2)">(2.2)</span>
   <i>m</i> 個より少ない仮引数を持つ候補関数は、仮引数リスト (11.3.5) に省略記号を持つ時に限り呼び出し可能である。
   多重定義解決の過程で、対応する仮引数のない実引数は「省略記号に一致する」として扱う (16.3.3.1.3)。</li>
-<li><span class="stag" id="sec16.3.2p2.3" title="16.3.2 [over.match.viable]/(2.3)">(2.3)</span>
+<li><span class="ptag" id="sec16.3.2p2.3" title="16.3.2 [over.match.viable]/(2.3)">(2.3)</span>
   <i>m</i> 個より多くの仮引数を持つ候補関数は、<i>m+1</i> 個目の仮引数が既定の実引数 (11.3.6) を持つときに限り呼び出し可能である<sup>130</sup>。
   多重定義解決の過程では、仮引数リストは丁度 <i>m</i> 個の仮引数を持つように右端を切除して用いる。</li>
 </ul>
-<p><span class="stag" id="sec16.3.2p3" title="16.3.2 [over.match.viable]/3">3</span>
+<p><span class="ptag" id="sec16.3.2p3" title="16.3.2 [over.match.viable]/3">3</span>
 次に、<code class="agh-prog-cpp">F</code> が呼び出し可能関数であるためには、
 それぞれの実引数を対応する <code class="agh-prog-cpp">F</code> の仮引数に変換する暗黙変換列 (16.3.3.1) が存在する必要がある。
 仮引数が参照型の場合は、暗黙変換列には参照の束縛も含まれる。
@@ -746,7 +746,7 @@ public:
 また右辺値参照が lvalue に束縛できないことは、
 関数の呼び出し可能性に影響を与える (16.3.3.1.4)。
 </p>
-<p><span class="stag" id="footenote130">foonote 130</span>
+<p><span class="ptag" id="footenote130">foonote 130</span>
 この時、11.3.6 により <i>m+1</i> 個目以降の仮引数も既定の実引数を持っている。
 </p>
 <p class="translation-note">
@@ -754,50 +754,50 @@ public:
 JIS C++ では<i>二次候補関数</i>と訳していることに注意する。
 </p>
 <div class="en">
-  <p><span class="stag" title="16.3.2 [over.match.viable]/1">1</span>
+  <p><span class="ptag" title="16.3.2 [over.match.viable]/1">1</span>
   From the set of candidate functions constructed for a given context (16.3.1), a set of viable functions is
   chosen, from which the best function will be selected by comparing argument conversion sequences for the
   best fit (16.3.3). The selection of viable functions considers relationships between arguments and function
   parameters other than the ranking of conversion sequences.
   </p>
-  <p><span class="stag" title="16.3.2 [over.match.viable]/2">2</span>
+  <p><span class="ptag" title="16.3.2 [over.match.viable]/2">2</span>
   First, to be a viable function, a candidate function shall have enough parameters to agree in number with
   the arguments in the list.
   </p>
   <ul>
-  <li><span class="stag" title="16.3.2 [over.match.viable]/(2.1)">(2.1)</span> If there are m arguments in the list, all candidate functions having exactly m parameters are viable.</li>
-  <li><span class="stag" title="16.3.2 [over.match.viable]/(2.2)">(2.2)</span> A candidate function having fewer than m parameters is viable only if it has an ellipsis in its parameter
+  <li><span class="ptag" title="16.3.2 [over.match.viable]/(2.1)">(2.1)</span> If there are m arguments in the list, all candidate functions having exactly m parameters are viable.</li>
+  <li><span class="ptag" title="16.3.2 [over.match.viable]/(2.2)">(2.2)</span> A candidate function having fewer than m parameters is viable only if it has an ellipsis in its parameter
     list (11.3.5). For the purposes of overload resolution, any argument for which there is no corresponding
     parameter is considered to “match the ellipsis” (16.3.3.1.3) .</li>
-  <li><span class="stag" title="16.3.2 [over.match.viable]/(2.3)">(2.3)</span> A candidate function having more than m parameters is viable only if the (m+1)-st parameter has a
+  <li><span class="ptag" title="16.3.2 [over.match.viable]/(2.3)">(2.3)</span> A candidate function having more than m parameters is viable only if the (m+1)-st parameter has a
     default argument (11.3.6). 130 For the purposes of overload resolution, the parameter list is truncated
     on the right, so that there are exactly m parameters.</li>
   </ul>
-  <p><span class="stag" title="16.3.2 [over.match.viable]/3">3</span>
+  <p><span class="ptag" title="16.3.2 [over.match.viable]/3">3</span>
   Second, for F to be a viable function, there shall exist for each argument an implicit conversion se-
   quence (16.3.3.1) that converts that argument to the corresponding parameter of F . If the parameter
   has reference type, the implicit conversion sequence includes the operation of binding the reference, and the
   fact that an lvalue reference to non- const cannot be bound to an rvalue and that an rvalue reference cannot
   be bound to an lvalue can affect the viability of the function (see 16.3.3.1.4).
   </p>
-  <p><span class="stag">foonote 130</span>
+  <p><span class="ptag">foonote 130</span>
   According to 11.3.6, parameters following the (m+1)-st parameter must also have default arguments.
   </p>
 </div>
 
 <h3 id="sec16.3.3">16.3.3 Best viable function <span class="secname">[over.match.best]</span></h3>
-<p><span class="stag" id="sec16.3.3p1" title="16.3.3 [over.match.best]/1">1</span>
+<p><span class="ptag" id="sec16.3.3p1" title="16.3.3 [over.match.best]/1">1</span>
 <span class="tcomment">呼び出し可能関数 <code class="agh-prog-cpp">F</code> に対して</span>
 <span class="ICS">ICS<i>i</i>(<code class="agh-prog-cpp">F</code>)</span> を次のように定義する:</p>
 <ul>
-<li><span class="stag" id="sec16.3.3p1.1" title="16.3.3 [over.match.best]/(1.1)">(1.1)</span>
+<li><span class="ptag" id="sec16.3.3p1.1" title="16.3.3 [over.match.best]/(1.1)">(1.1)</span>
   <code class="agh-prog-cpp">F</code> が静的メンバ関数の場合は、任意の関数 <code class="agh-prog-cpp">G</code> について、
   <span class="ICS">ICS<i>1</i>(<code class="agh-prog-cpp">F</code>)</span> は
   <span class="ICS">ICS<i>1</i>(<code class="agh-prog-cpp">G</code>)</span> に比べて良くも悪くもなく、
   また <span class="ICS">ICS<i>1</i>(<code class="agh-prog-cpp">G</code>)</span> は
   <span class="ICS">ICS<i>1</i>(<code class="agh-prog-cpp">F</code>)</span> に比べて良くも悪くもない<sup>131</sup>。
   それ以外の場合は、</li>
-<li><span class="stag" id="sec16.3.3p1.2" title="16.3.3 [over.match.best]/(1.2)">(1.2)</span>
+<li><span class="ptag" id="sec16.3.3p1.2" title="16.3.3 [over.match.best]/(1.2)">(1.2)</span>
   <span class="ICS">ICS<i>i</i>(<code class="agh-prog-cpp">F</code>)</span> は、
   <i>i</i> 番目の実引数から <code class="agh-prog-cpp">F</code> の <i>i</i> 番目の仮引数型への暗黙変換列を表す。
   16.3.3.1 で暗黙変換列を定義し、16.3.3.2 で或る暗黙変換列が他の暗黙変換列と比べて良いか悪いかを定義する。
@@ -811,12 +811,12 @@ JIS C++ では<i>二次候補関数</i>と訳していることに注意する�
 <span class="ICS">ICS<i>i</i>(<code class="agh-prog-cpp">F2</code>)</span> より悪くなく、
 かつ</p>
 <ul>
-<li><span class="stag" id="sec16.3.3p1.3" title="16.3.3 [over.match.best]/(1.3)">(1.3)</span>
+<li><span class="ptag" id="sec16.3.3p1.3" title="16.3.3 [over.match.best]/(1.3)">(1.3)</span>
   或る実引数 <i>j</i> について
   <span class="ICS">ICS<i>j</i>(<code class="agh-prog-cpp">F1</code>)</span> が
   <span class="ICS">ICS<i>j</i>(<code class="agh-prog-cpp">F2</code>)</span> より良いか、
   そうでなければ</li>
-<li><span class="stag" id="sec16.3.3p1.4" title="16.3.3 [over.match.best]/(1.4)">(1.4)</span>
+<li><span class="ptag" id="sec16.3.3p1.4" title="16.3.3 [over.match.best]/(1.4)">(1.4)</span>
   ユーザ定義変換による初期化の文脈 (11.6, 16.3.1.5, 16.3.1.6) で、
   <code class="agh-prog-cpp">F1</code> の戻り値の型から目的の型 (初期化されるオブジェクトの型) への標準変換列が、
   <code class="agh-prog-cpp">F2</code> の戻り値の型から目的の型への標準変換列より良い [例:
@@ -832,7 +832,7 @@ float x = a;  // 曖昧: どちらの選択肢も変換を必要とし、
               // 何れかが他方より良いということはない。
 </pre>
   - 例終わり ] か、そうでなければ</li>
-<li><span class="stag" id="sec16.3.3p1.5" title="16.3.3 [over.match.best]/(1.5)">(1.5)</span>
+<li><span class="ptag" id="sec16.3.3p1.5" title="16.3.3 [over.match.best]/(1.5)">(1.5)</span>
   関数の参照への変換関数を通して参照を直接の束縛により初期化する文脈 (16.3.1.6) で、
   <code class="agh-prog-cpp">F1</code> が初期化される参照と同じ種類の参照 (つまり右辺値参照または左辺値参照) であり、
   <code class="agh-prog-cpp">F2</code> がそうでない [例:
@@ -847,26 +847,26 @@ Fn&amp; lf = a;       // #1 が呼び出される
 Fn&amp;&amp; rf = a;      // #2 が呼び出される
 </pre>
   - 例終わり ] か、そうでなければ</li>
-<li><span class="stag" id="sec16.3.3p1.6" title="16.3.3 [over.match.best]/(1.6)">(1.6)</span>
+<li><span class="ptag" id="sec16.3.3p1.6" title="16.3.3 [over.match.best]/(1.6)">(1.6)</span>
   <code class="agh-prog-cpp">F1</code> が関数テンプレートの特殊化ではなく、
   <code class="agh-prog-cpp">F2</code> が関数テンプレートの特殊化であるか、
   そうでなければ</li>
-<li><span class="stag" id="sec16.3.3p1.7" title="16.3.3 [over.match.best]/(1.7)">(1.7)</span>
+<li><span class="ptag" id="sec16.3.3p1.7" title="16.3.3 [over.match.best]/(1.7)">(1.7)</span>
   <code class="agh-prog-cpp">F1</code> と <code class="agh-prog-cpp">F2</code> が関数テンプレートの特殊化であり、
   17.5.6.2 の半順序規則に基いて
   <code class="agh-prog-cpp">F1</code> の関数テンプレートが
   <code class="agh-prog-cpp">F2</code> の関数テンプレートに比べてより特殊であるか、
   そうでなければ
   </li>
-<li><span class="stag" id="sec16.3.3p1.8" title="16.3.3 [over.match.best]/(1.8)">(1.8)</span>
+<li><span class="ptag" id="sec16.3.3p1.8" title="16.3.3 [over.match.best]/(1.8)">(1.8)</span>
   <code class="agh-prog-cpp">F1</code> が deduction-guide (16.3.1.8) によって生成され、
   <code class="agh-prog-cpp">F2</code> がそうでないか、
   そうでなければ</li>
-<li><span class="stag" id="sec16.3.3p1.9" title="16.3.3 [over.match.best]/(1.9)">(1.9)</span>
+<li><span class="ptag" id="sec16.3.3p1.9" title="16.3.3 [over.match.best]/(1.9)">(1.9)</span>
   <code class="agh-prog-cpp">F1</code> が copy deduction candidate (16.3.1.8) で
   <code class="agh-prog-cpp">F2</code> がそうでないか、
   そうでなければ</li>
-<li><span class="stag" id="sec16.3.3p1.10" title="16.3.3 [over.match.best]/(1.10)">(1.10)</span>
+<li><span class="ptag" id="sec16.3.3p1.10" title="16.3.3 [over.match.best]/(1.10)">(1.10)</span>
   <code class="agh-prog-cpp">F1</code> が非テンプレートコンストラクタで
   <code class="agh-prog-cpp">F2</code> がコンストラクタテンプレートによって生成される。[例:
   <pre class="agh-prog-cpp">
@@ -905,7 +905,7 @@ A b2 = a;           // #7 で A&lt;A&lt;int&gt;&gt; と推論され #1 で初期
 もちろん、互いに他方より良くも悪くもないという場合もある (反対称律を満たさない)。
 推移律はどうか? うーん…もう少し後でちゃんと考える必要がある…。
 </p>
-<p><span class="stag" id="sec16.3.3p2" title="16.3.3 [over.match.best]/2">2</span>
+<p><span class="ptag" id="sec16.3.3p2" title="16.3.3 [over.match.best]/2">2</span>
 他の全ての呼び出し可能関数よりも良い呼び出し可能関数が一意に存在する場合、
 それが多重定義解決によって選ばれる。それ以外の場合はその呼出は不適格である<sup>132</sup>。 [例:
 </p>
@@ -928,7 +928,7 @@ void f() {
 }
 </pre>
 <p>- 例終わり ]</p>
-<p><span class="stag" id="sec16.3.3p3" title="16.3.3 [over.match.best]/3">3</span>
+<p><span class="ptag" id="sec16.3.3p3" title="16.3.3 [over.match.best]/3">3</span>
 最良の呼び出し可能関数が複数の宣言を持つ関数に決まった場合、
 関数を呼び出し可能にした或る既定の実引数を
 2つ以上の宣言 (または using 宣言の場合、それが指し示す宣言) が指定したとき
@@ -961,11 +961,11 @@ Viable functions の所では <i>m+1</i> 番目の既定の実引数について
 <code class="agh-prog-cpp">A::f</code> と <code class="agh-prog-cpp">B::f</code> は同一の関数?
 と思ったがそのようなことは何処かに書かれていただろうか?
 </p>
-<p><span class="stag" id="footnote131">footnote 131</span>
+<p><span class="ptag" id="footnote131">footnote 131</span>
 関数が静的メンバ関数の場合は、第一引数 (つまり暗黙オブジェクト実引数) は、
 その関数が他の関数より良いか悪いかの判断には寄与しないことを表す。
 </p>
-<p><span class="stag" id="footnote132">footnote 132</span>
+<p><span class="ptag" id="footnote132">footnote 132</span>
 最適な呼び出し可能関数の決定アルゴリズムは呼び出し可能関数の数について線形時間になる。
 単純な勝ち抜き戦によってどの対戦相手と比べても悪くない関数 <code class="agh-prog-cpp">W</code> を決める。
 <code class="agh-prog-cpp">W</code> と直接対戦しなかった関数 <code class="agh-prog-cpp">F</code> が
@@ -981,13 +981,13 @@ Viable functions の所では <i>m+1</i> 番目の既定の実引数について
 <p class="translation-note">より良いか悪いかは変な二項関係なので2回目の走査は必要である。</p>
 
 <div class="en">
-  <p><span class="stag" title="16.3.3 [over.match.best]/1">1</span> Define ICSi(F) as follows:</p>
+  <p><span class="ptag" title="16.3.3 [over.match.best]/1">1</span> Define ICSi(F) as follows:</p>
   <ul>
-  <li><span class="stag" title="16.3.3 [over.match.best]/(1.1)">(1.1)</span>
+  <li><span class="ptag" title="16.3.3 [over.match.best]/(1.1)">(1.1)</span>
     If F is a static member function, ICS1( F ) is defined such that ICS1( F ) is neither better nor worse than
     ICS1( G ) for any function G , and, symmetrically, ICS1( G ) is neither better nor worse than ICS1( F ); 131
     otherwise,</li>
-  <li><span class="stag" title="16.3.3 [over.match.best]/(1.2)">(1.2)</span>
+  <li><span class="ptag" title="16.3.3 [over.match.best]/(1.2)">(1.2)</span>
     let ICSi( F ) denote the implicit conversion sequence that converts the i-th argument in the list to the
     type of the i-th parameter of viable function F . 16.3.3.1 defines the implicit conversion sequences and
     16.3.3.2 defines what it means for one implicit conversion sequence to be a better conversion sequence
@@ -996,8 +996,8 @@ Viable functions の所では <i>m+1</i> 番目の既定の実引数について
   <p>Given these definitions, a viable function F1 is defined to be a better function than another viable function
   F2 if for all arguments i, ICSi(F1) is not a worse conversion sequence than ICSi(F2), and then</p>
   <ul>
-  <li><span class="stag" title="16.3.3 [over.match.best]/(1.3)">(1.3)</span> for some argument j, ICSj(F1) is a better conversion sequence than ICSj(F2), or, if not that,</li>
-  <li><span class="stag" title="16.3.3 [over.match.best]/(1.4)">(1.4)</span>
+  <li><span class="ptag" title="16.3.3 [over.match.best]/(1.3)">(1.3)</span> for some argument j, ICSj(F1) is a better conversion sequence than ICSj(F2), or, if not that,</li>
+  <li><span class="ptag" title="16.3.3 [over.match.best]/(1.4)">(1.4)</span>
     the context is an initialization by user-defined conversion (see 11.6, 16.3.1.5, and 16.3.1.6) and the
     standard conversion sequence from the return type of F1 to the destination type (i.e., the type of the
     entity being initialized) is a better conversion sequence than the standard conversion sequence from the
@@ -1014,7 +1014,7 @@ float x = a;  // ambiguous: both possibilities require conversions,
               // and neither is better than the other
 </pre>
     —end example ] or, if not that,</li>
-  <li><span class="stag" title="16.3.3 [over.match.best]/(1.5)">(1.5)</span>
+  <li><span class="ptag" title="16.3.3 [over.match.best]/(1.5)">(1.5)</span>
     the context is an initialization by conversion function for direct reference binding (16.3.1.6) of a reference
     to function type, the return type of F1 is the same kind of reference (i.e. lvalue or rvalue) as the
     reference being initialized, and the return type of F2 is not [Example:
@@ -1029,12 +1029,12 @@ Fn&amp; lf = a;       // calls #1
 Fn&amp;&amp; rf = a;      // calls #2
 </pre>
     —end example ] or, if not that,</li>
-  <li><span class="stag" title="16.3.3 [over.match.best]/(1.6)">(1.6)</span> F1 is not a function template specialization and F2 is a function template specialization, or, if not that,</li>
-  <li><span class="stag" title="16.3.3 [over.match.best]/(1.7)">(1.7)</span> F1 and F2 are function template specializations, and the function template for F1 is more specialized
+  <li><span class="ptag" title="16.3.3 [over.match.best]/(1.6)">(1.6)</span> F1 is not a function template specialization and F2 is a function template specialization, or, if not that,</li>
+  <li><span class="ptag" title="16.3.3 [over.match.best]/(1.7)">(1.7)</span> F1 and F2 are function template specializations, and the function template for F1 is more specialized
     than the template for F2 according to the partial ordering rules described in 17.5.6.2, or, if not that,</li>
-  <li><span class="stag" title="16.3.3 [over.match.best]/(1.8)">(1.8)</span> F1 is generated from a deduction-guide (16.3.1.8) and F2 is not, or, if not that,</li>
-  <li><span class="stag" title="16.3.3 [over.match.best]/(1.9)">(1.9)</span> F1 is the copy deduction candidate (16.3.1.8) and F2 is not, or, if not that,</li>
-  <li><span class="stag" title="16.3.3 [over.match.best]/(1.10)">(1.10)</span> F1 is generated from a non-template constructor and F2 is generated from a constructor template. [Example:
+  <li><span class="ptag" title="16.3.3 [over.match.best]/(1.8)">(1.8)</span> F1 is generated from a deduction-guide (16.3.1.8) and F2 is not, or, if not that,</li>
+  <li><span class="ptag" title="16.3.3 [over.match.best]/(1.9)">(1.9)</span> F1 is the copy deduction candidate (16.3.1.8) and F2 is not, or, if not that,</li>
+  <li><span class="ptag" title="16.3.3 [over.match.best]/(1.10)">(1.10)</span> F1 is generated from a non-template constructor and F2 is generated from a constructor template. [Example:
     <pre class="agh-prog-cpp">
 template &lt;class T&gt; struct A {
   using value_type = T;
@@ -1062,7 +1062,7 @@ A b2 = a;           // uses #7 to deduce A&lt;A&lt;int&gt;&gt; and #1 to initial
     —end example ]
   </li>
   </ul>
-  <p><span class="stag" title="16.3.3 [over.match.best]/2">2</span>
+  <p><span class="ptag" title="16.3.3 [over.match.best]/2">2</span>
   If there is exactly one viable function that is a better function than all other viable functions, then it is the
   one selected by overload resolution; otherwise the call is ill-formed. <sup>132</sup> [Example:
   </p>
@@ -1085,7 +1085,7 @@ void f() {
 }
 </pre>
   <p>—end example ]</p>
-  <p><span class="stag" title="16.3.3 [over.match.best]/3">3</span>
+  <p><span class="ptag" title="16.3.3 [over.match.best]/3">3</span>
   If the best viable function resolves to a function for which multiple declarations were found, and if at least
   two of these declarations — or the declarations they refer to in the case of using-declarations — specify a
   default argument that made the function viable, the program is ill-formed. [Example:
@@ -1107,11 +1107,11 @@ void use() {
 }
 </pre>
   <p>—end example ]</p>
-  <p><span class="stag">footnote 131</span>
+  <p><span class="ptag">footnote 131</span>
   If a function is a static member function, this definition means that the first argument, the implied object argument, has no
   effect in the determination of whether the function is better or worse than any other function.
   </p>
-  <p><span class="stag">footnote 132</span>
+  <p><span class="ptag">footnote 132</span>
   The algorithm for selecting the best viable function is linear in the number of viable functions. Run a simple tournament
   to find a function W that is not worse than any opponent it faced. Although another function F that W did not face might be at
   least as good as W , F cannot be the best function because at some point in the tournament F encountered another function G
@@ -1128,7 +1128,7 @@ void use() {
 <h5>16.3.3.1.5 List-initialization sequence <span class="secname">[over.ics.list]</span></h5>
 
 <h4 id="sec16.3.3.2" title="16.3.3.2 [over.ics.rank]">16.3.3.2 Ranking implicit conversion sequences <span class="secname">[over.ics.rank]</span></h4>
-<p><span class="stag" id="sec16.3.3.2p1" title="16.3.3.2 [over.ics.rank]/1">1</span>
+<p><span class="ptag" id="sec16.3.3.2p1" title="16.3.3.2 [over.ics.rank]/1">1</span>
 この章では <dfn>より良い変換列</dfn> (better conversion sequence) と
 <dfn>より良い変換</dfn> (better conversion) に基いて暗黙変換列に半順序を定義する。
 暗黙変換列 <code>S1</code> が <code>S2</code> より良い変換列である場合、
@@ -1139,28 +1139,28 @@ void use() {
 <p class="translation-note">indistinguishable は通常「区別できない」と訳すが、
 実際の意味にそぐわないように思われるので、半順序の用語としての「比較不能」を用いることにした。
 </p>
-<p><span class="stag" id="sec16.3.3.2p2" title="16.3.3.2 [over.ics.rank]/2">2</span>
+<p><span class="ptag" id="sec16.3.3.2p2" title="16.3.3.2 [over.ics.rank]/2">2</span>
 暗黙変換列の基本形 (16.3.3.1) を比較するとき、
 </p>
 <ul>
-<li><span class="stag" id="sec16.3.3.2p2.1" title="16.3.3.2 [over.ics.rank]/(2.1)">(2.1)</span>
+<li><span class="ptag" id="sec16.3.3.2p2.1" title="16.3.3.2 [over.ics.rank]/(2.1)">(2.1)</span>
   標準変換列 (16.3.3.1.1) はユーザ定義変換列、省略記号変換列よりも良い変換列であり、</li>
-<li><span class="stag" id="sec16.3.3.2p2.2" title="16.3.3.2 [over.ics.rank]/(2.2)">(2.2)</span>
+<li><span class="ptag" id="sec16.3.3.2p2.2" title="16.3.3.2 [over.ics.rank]/(2.2)">(2.2)</span>
   ユーザ定義変換列 (16.3.3.1.2) は省略記号変換列 (16.3.3.1.3) よりも良い変換列である。</li>
 </ul>
-<p><span class="stag" id="sec16.3.3.2p3" title="16.3.3.2 [over.ics.rank]/3">3</span>
+<p><span class="ptag" id="sec16.3.3.2p3" title="16.3.3.2 [over.ics.rank]/3">3</span>
 同じ形の2つの暗黙変換列は、以下の規則が適用されなければ比較不能変換列である。
 </p>
 <ul>
-<li><span class="stag" id="sec16.3.3.2p3.1" title="16.3.3.2 [over.ics.rank]/(3.1)">(3.1)</span>
+<li><span class="ptag" id="sec16.3.3.2p3.1" title="16.3.3.2 [over.ics.rank]/(3.1)">(3.1)</span>
   以下のとき (この段落の他の規則が仮に適用可能だったとしても)、
   リスト初期化列 <code>L1</code> はリスト初期化列 <code>L2</code> より良い変換列である:
   <ul>
-  <li><span class="stag" id="sec16.3.3.2p3.1.1" title="16.3.3.2 [over.ics.rank]/(3.1.1)">(3.1.1)</span>
+  <li><span class="ptag" id="sec16.3.3.2p3.1.1" title="16.3.3.2 [over.ics.rank]/(3.1.1)">(3.1.1)</span>
     <code>L1</code> について或る <code class="agh-prog-cpp">X</code> が存在して
     <code class="agh-prog-cpp">std::initializer_list&lt;X&gt;</code> への変換列であって、
     <code>L2</code> がそうでないときか、そうでなければ</li>
-  <li><span class="stag" id="sec16.3.3.2p3.1.2" title="16.3.3.2 [over.ics.rank]/(3.1.2)">(3.1.2)</span>
+  <li><span class="ptag" id="sec16.3.3.2p3.1.2" title="16.3.3.2 [over.ics.rank]/(3.1.2)">(3.1.2)</span>
     <code>L1</code> が <code class="agh-prog-cpp">N1</code> 個の <code class="agh-prog-cpp">T</code> の配列への変換列で、
     <code>L2</code> が <code class="agh-prog-cpp">N2</code> 個の <code class="agh-prog-cpp">T</code> の配列への変換列であって、
     <code class="agh-prog-cpp">N1</code> が <code class="agh-prog-cpp">N2</code> よりも小さいとき。
@@ -1181,18 +1181,18 @@ void g2() { f2({"foo","bar"}); }              // #4 が選ばれる
     「この段落の他の規則が仮に適用可能だったとしても (原文 even if one of the other rules in this paragraph would otherwise apply)」
     が何を言いたいのか良くわからない。</p>
 </li>
-<li><span class="stag" id="sec16.3.3.2p3.2" title="16.3.3.2 [over.ics.rank]/(3.2)">(3.2)</span>
+<li><span class="ptag" id="sec16.3.3.2p3.2" title="16.3.3.2 [over.ics.rank]/(3.2)">(3.2)</span>
   以下のとき、標準変換列 <code>S1</code> は標準変換列 <code>S2</code> より良い変換列である。
   <ul>
-  <li><span class="stag" id="sec16.3.3.2p3.2.1" title="16.3.3.2 [over.ics.rank]/(3.2.1)">(3.2.1)</span>
+  <li><span class="ptag" id="sec16.3.3.2p3.2.1" title="16.3.3.2 [over.ics.rank]/(3.2.1)">(3.2.1)</span>
     <code>S1</code> は <code>S2</code> の真部分列である
     (16.3.3.1.1 で定義される正準形で比較する。但し Lvalue Transformation はしない。
     恒等変換列は任意の非恒等な変換列の部分列と考える) か、そうでなければ、</li>
-  <li><span class="stag" id="sec16.3.3.2p3.2.2" title="16.3.3.2 [over.ics.rank]/(3.2.2)">(3.2.2)</span>
+  <li><span class="ptag" id="sec16.3.3.2p3.2.2" title="16.3.3.2 [over.ics.rank]/(3.2.2)">(3.2.2)</span>
     <code>S1</code> のランクが <code>S2</code> のランクより良いか、
     <code>S1</code> と <code>S2</code> のランクが同じで次の段落の規則によって比較可能の場合か、
     そうでなければ、</li>
-  <li><span class="stag" id="sec16.3.3.2p3.2.3" title="16.3.3.2 [over.ics.rank]/(3.2.3)">(3.2.3)</span>
+  <li><span class="ptag" id="sec16.3.3.2p3.2.3" title="16.3.3.2 [over.ics.rank]/(3.2.3)">(3.2.3)</span>
     <code>S1</code> と <code>S2</code> が参照束縛 (11.6.3) であり、
     どちらも ref-qualifier のない非静的メンバ関数の暗黙オブジェクト仮引数ではなく、
     <code>S1</code> が右辺値参照を rvalue に束縛し、
@@ -1222,7 +1222,7 @@ A().p();          // A::p()&amp;&amp; が呼び出される
 a.p();            // A::p()&amp; が呼び出される
 </pre>
     - 例終わり ] か、そうでなければ、</li>
-  <li><span class="stag" id="sec16.3.3.2p3.2.4" title="16.3.3.2 [over.ics.rank]/(3.2.4)">(3.2.4)</span>
+  <li><span class="ptag" id="sec16.3.3.2p3.2.4" title="16.3.3.2 [over.ics.rank]/(3.2.4)">(3.2.4)</span>
     <code>S1</code> and <code>S2</code> が参照束縛 (11.6.3) であり、
     <code>S1</code> が左辺値参照を関数の lvalue に束縛し
     <code>S2</code> が右辺値参照を関数の lvalue に束縛する [例:
@@ -1235,7 +1235,7 @@ int i1 = f(g);      // #1 が呼び出される。
     - 例終わり ] か、そうでなければ、
     <p class="translation-note">右辺値参照は関数の lvalue に束縛できる (11.6.3/(5.2.1.1), 16.3.3.1.4/3)。</p>
   </li>
-  <li><span class="stag" id="sec16.3.3.2p3.2.5" title="16.3.3.2 [over.ics.rank]/(3.2.5)">(3.2.5)</span>
+  <li><span class="ptag" id="sec16.3.3.2p3.2.5" title="16.3.3.2 [over.ics.rank]/(3.2.5)">(3.2.5)</span>
     <code>S1</code> と <code>S2</code> が修飾変換のみにおいて異なり、
     それぞれ類似の型 <code class="agh-prog-cpp">T1</code> と <code class="agh-prog-cpp">T2</code> (7.5) を生成し、
     <code class="agh-prog-cpp">T1</code> の cv 修飾が <code class="agh-prog-cpp">T2</code> の cv 修飾の真部分集合を為す [例:
@@ -1247,7 +1247,7 @@ int j = f(&amp;i);  // f(const int*) が呼び出される
 </pre>
     - 例終わり ] か、そうでなければ、
   </li>
-  <li><span class="stag" id="sec16.3.3.2p3.2.6" title="16.3.3.2 [over.ics.rank]/(3.2.6)">(3.2.6)</span>
+  <li><span class="ptag" id="sec16.3.3.2p3.2.6" title="16.3.3.2 [over.ics.rank]/(3.2.6)">(3.2.6)</span>
     <code>S1</code> と <code>S2</code> が参照束縛 (11.6.3) で、
     参照の示す先が一番外側の cv 修飾を除いて同じ型であり、
     <code>S2</code> で初期化される参照の指し示す型が、
@@ -1275,7 +1275,7 @@ void g(const X&amp; a, X b) {
   </li>
   </ul>
 </li>
-<li><span class="stag" id="sec16.3.3.2p3.3" title="16.3.3.2 [over.ics.rank]/(3.3)">(3.3)</span>
+<li><span class="ptag" id="sec16.3.3.2p3.3" title="16.3.3.2 [over.ics.rank]/(3.3)">(3.3)</span>
   以下のとき、ユーザ定義変換列 <code>U1</code> はもう一つのユーザ定義変換列 <code>U2</code> に比べてより良い変換列である。
   <code>U1</code> と <code>U2</code> が同じユーザ定義変換関数・コンストラクタを含むか同じクラスを集成体初期化するとき、
   <code>U1</code> に2つ目の標準変換列が <code>U2</code> の2つ目の標準変換列よりも良い。[例:
@@ -1290,30 +1290,30 @@ int i = f(a);       // f(int) が呼び出される。short → int の方が
 </pre> - 例終わり ]
 </li>
 </ul>
-<p><span class="stag" id="sec16.3.3.2p4" title="16.3.3.2 [over.ics.rank]/4">4</span>
+<p><span class="ptag" id="sec16.3.3.2p4" title="16.3.3.2 [over.ics.rank]/4">4</span>
 標準変換列はそのランクで順序付けられる。
 Exact Match は Promotion より良い変換であり、
 Promotion は Conversion より良い変換である。
 同じランクの2つの変換列は、以下の規則が適用されない場合は比較不能である:
 </p>
 <ul>
-<li><span class="stag" id="sec16.3.3.2p4.1" title="16.3.3.2 [over.ics.rank]/(4.1)">(4.1)</span>
+<li><span class="ptag" id="sec16.3.3.2p4.1" title="16.3.3.2 [over.ics.rank]/(4.1)">(4.1)</span>
   ポインタかメンバへのポインタか <code class="agh-prog-cpp">std::nullptr_t</code> から <code class="agh-prog-cpp">bool</code> への変換に比べて、
   それ以外の変換はより良い変換である。</li>
-<li><span class="stag" id="sec16.3.3.2p4.2" title="16.3.3.2 [over.ics.rank]/(4.2)">(4.2)</span>
+<li><span class="ptag" id="sec16.3.3.2p4.2" title="16.3.3.2 [over.ics.rank]/(4.2)">(4.2)</span>
   基礎型の固定された列挙型について基礎型と基礎型を昇格した型が異なるとき、
   その列挙型を基礎型に昇格する変換は、
   その列挙型を基礎型の昇格後の型に昇格する変換よりも良い変換である。</li>
-<li><span class="stag" id="sec16.3.3.2p4.3" title="16.3.3.2 [over.ics.rank]/(4.3)">(4.3)</span>
+<li><span class="ptag" id="sec16.3.3.2p4.3" title="16.3.3.2 [over.ics.rank]/(4.3)">(4.3)</span>
   クラス <code class="agh-prog-cpp">B</code> がクラス <code class="agh-prog-cpp">A</code> から直接もしくは間接に派生するとき、
   <code class="agh-prog-cpp">B*</code> から <code class="agh-prog-cpp">A*</code> への変換と
   <code class="agh-prog-cpp">A*</code> から <code class="agh-prog-cpp">void*</code> への変換は、
   共に <code class="agh-prog-cpp">B*</code> から <code class="agh-prog-cpp">void*</code> への変換より良い。</li>
-<li><span class="stag" id="sec16.3.3.2p4.4" title="16.3.3.2 [over.ics.rank]/(4.4)">(4.4)</span>
+<li><span class="ptag" id="sec16.3.3.2p4.4" title="16.3.3.2 [over.ics.rank]/(4.4)">(4.4)</span>
   クラス <code class="agh-prog-cpp">B</code> がクラス <code class="agh-prog-cpp">A</code> から直接もしくは間接に派生し、
   クラス <code class="agh-prog-cpp">C</code> がクラス <code class="agh-prog-cpp">B</code> から直接もしくは間接に派生するとき、
   <ul>
-  <li><span class="stag" id="sec16.3.3.2p4.4.1" title="16.3.3.2 [over.ics.rank]/(4.4.1)">(4.4.1)</span>
+  <li><span class="ptag" id="sec16.3.3.2p4.4.1" title="16.3.3.2 [over.ics.rank]/(4.4.1)">(4.4.1)</span>
     <code class="agh-prog-cpp">C*</code> から <code class="agh-prog-cpp">B*</code> への変換は
     <code class="agh-prog-cpp">C*</code> から <code class="agh-prog-cpp">A*</code> への変換より良く、[例:
 <pre class="agh-prog-cpp">
@@ -1326,27 +1326,27 @@ int f(B*);
 int i = f(pc);        // f(B*) が呼び出される。
 </pre> - 例終わり ]
   </li>
-  <li><span class="stag" id="sec16.3.3.2p4.4.2" title="16.3.3.2 [over.ics.rank]/(4.4.2)">(4.4.2)</span>
+  <li><span class="ptag" id="sec16.3.3.2p4.4.2" title="16.3.3.2 [over.ics.rank]/(4.4.2)">(4.4.2)</span>
     型 <code class="agh-prog-cpp">C</code> の式を <code class="agh-prog-cpp">B</code> への参照に束縛するのは、
     型 <code class="agh-prog-cpp">C</code> の式を <code class="agh-prog-cpp">A</code> への参照に束縛するのより良く、
     <p class="translation-note">束縛の対象と束縛先が反転している気がする。16.3.3.2/(4.4.6) も同様。</p>
     </li>
-  <li><span class="stag" id="sec16.3.3.2p4.4.3" title="16.3.3.2 [over.ics.rank]/(4.4.3)">(4.4.3)</span>
+  <li><span class="ptag" id="sec16.3.3.2p4.4.3" title="16.3.3.2 [over.ics.rank]/(4.4.3)">(4.4.3)</span>
     <code class="agh-prog-cpp">A::*</code> から <code class="agh-prog-cpp">B::*</code> の変換は、
     <code class="agh-prog-cpp">A::*</code> から <code class="agh-prog-cpp">C::*</code> の変換より良く、</li>
-  <li><span class="stag" id="sec16.3.3.2p4.4.4" title="16.3.3.2 [over.ics.rank]/(4.4.4)">(4.4.4)</span>
+  <li><span class="ptag" id="sec16.3.3.2p4.4.4" title="16.3.3.2 [over.ics.rank]/(4.4.4)">(4.4.4)</span>
     <code class="agh-prog-cpp">C</code> から <code class="agh-prog-cpp">B</code> の変換は、
     <code class="agh-prog-cpp">C</code> から <code class="agh-prog-cpp">A</code> の変換より良く、</li>
-  <li><span class="stag" id="sec16.3.3.2p4.4.5" title="16.3.3.2 [over.ics.rank]/(4.4.5)">(4.4.5)</span>
+  <li><span class="ptag" id="sec16.3.3.2p4.4.5" title="16.3.3.2 [over.ics.rank]/(4.4.5)">(4.4.5)</span>
     <code class="agh-prog-cpp">B*</code> から <code class="agh-prog-cpp">A*</code> への変換は
     <code class="agh-prog-cpp">C*</code> から <code class="agh-prog-cpp">A*</code> への変換より良く、</li>
-  <li><span class="stag" id="sec16.3.3.2p4.4.6" title="16.3.3.2 [over.ics.rank]/(4.4.6)">(4.4.6)</span>
+  <li><span class="ptag" id="sec16.3.3.2p4.4.6" title="16.3.3.2 [over.ics.rank]/(4.4.6)">(4.4.6)</span>
     型 <code class="agh-prog-cpp">C</code> の式を <code class="agh-prog-cpp">B</code> への参照に束縛するのは、
     型 <code class="agh-prog-cpp">C</code> の式を <code class="agh-prog-cpp">A</code> への参照に束縛するのより良く、</li>
-  <li><span class="stag" id="sec16.3.3.2p4.4.7" title="16.3.3.2 [over.ics.rank]/(4.4.7)">(4.4.7)</span>
+  <li><span class="ptag" id="sec16.3.3.2p4.4.7" title="16.3.3.2 [over.ics.rank]/(4.4.7)">(4.4.7)</span>
     <code class="agh-prog-cpp">B::*</code> から <code class="agh-prog-cpp">C::*</code> への変換は
     <code class="agh-prog-cpp">A::*</code> から <code class="agh-prog-cpp">C::*</code> への変換より良く、</li>
-  <li><span class="stag" id="sec16.3.3.2p4.4.8" title="16.3.3.2 [over.ics.rank]/(4.4.8)">(4.4.8)</span>
+  <li><span class="ptag" id="sec16.3.3.2p4.4.8" title="16.3.3.2 [over.ics.rank]/(4.4.8)">(4.4.8)</span>
     <code class="agh-prog-cpp">B</code> から <code class="agh-prog-cpp">A</code> の変換は、
     <code class="agh-prog-cpp">C</code> から <code class="agh-prog-cpp">A</code> の変換より良い。</li>
   </ul>
@@ -1356,35 +1356,35 @@ int i = f(pc);        // f(B*) が呼び出される。
 </ul>
 
 <div class="en">
-  <p><span class="stag" title="16.3.3.2 [over.ics.rank]/1">1</span>
+  <p><span class="ptag" title="16.3.3.2 [over.ics.rank]/1">1</span>
   This subclause defines a partial ordering of implicit conversion sequences based on the relationships better
   conversion sequence and better conversion. If an implicit conversion sequence S1 is defined by these rules to
   be a better conversion sequence than S2, then it is also the case that S2 is a worse conversion sequence than
   S1. If conversion sequence S1 is neither better than nor worse than conversion sequence S2, S1 and S2 are
   said to be indistinguishable conversion sequences.
   </p>
-  <p><span class="stag" title="16.3.3.2 [over.ics.rank]/2">2</span>
+  <p><span class="ptag" title="16.3.3.2 [over.ics.rank]/2">2</span>
   When comparing the basic forms of implicit conversion sequences (as defined in 16.3.3.1)
   </p>
   <ul>
-  <li><span class="stag" title="16.3.3.2 [over.ics.rank]/(2.1)">(2.1)</span>
+  <li><span class="ptag" title="16.3.3.2 [over.ics.rank]/(2.1)">(2.1)</span>
     a standard conversion sequence (16.3.3.1.1) is a better conversion sequence than a user-defined conversion
     sequence or an ellipsis conversion sequence, and</li>
-  <li><span class="stag" title="16.3.3.2 [over.ics.rank]/(2.2)">(2.2)</span>
+  <li><span class="ptag" title="16.3.3.2 [over.ics.rank]/(2.2)">(2.2)</span>
     a user-defined conversion sequence (16.3.3.1.2) is a better conversion sequence than an ellipsis conversion
     sequence (16.3.3.1.3).</li>
   </ul>
-  <p><span class="stag" title="16.3.3.2 [over.ics.rank]/3">3</span>
+  <p><span class="ptag" title="16.3.3.2 [over.ics.rank]/3">3</span>
   Two implicit conversion sequences of the same form are indistinguishable conversion sequences unless one of
   the following rules applies:
   </p>
   <ul>
-  <li><span class="stag" title="16.3.3.2 [over.ics.rank]/(3.1)">(3.1)</span>
+  <li><span class="ptag" title="16.3.3.2 [over.ics.rank]/(3.1)">(3.1)</span>
     List-initialization sequence L1 is a better conversion sequence than list-initialization sequence L2 if
     <ul>
-    <li><span class="stag" title="16.3.3.2 [over.ics.rank]/(3.1.1)">(3.1.1)</span>
+    <li><span class="ptag" title="16.3.3.2 [over.ics.rank]/(3.1.1)">(3.1.1)</span>
       L1 converts to std::initializer_list&lt;X&gt; for some X and L2 does not, or, if not that,</li>
-    <li><span class="stag" title="16.3.3.2 [over.ics.rank]/(3.1.2)">(3.1.2)</span>
+    <li><span class="ptag" title="16.3.3.2 [over.ics.rank]/(3.1.2)">(3.1.2)</span>
       L1 converts to type “array of N1 T ”, L2 converts to type “array of N2 T ”, and N1 is smaller than N2,</li>
     </ul>
     even if one of the other rules in this paragraph would otherwise apply. [Example:
@@ -1399,17 +1399,17 @@ void g2() { f2({"foo","bar"}); }              // chooses #4
 </pre>
   —end example ]
   </li>
-  <li><span class="stag" title="16.3.3.2 [over.ics.rank]/(3.2)">(3.2)</span>
+  <li><span class="ptag" title="16.3.3.2 [over.ics.rank]/(3.2)">(3.2)</span>
     Standard conversion sequence S1 is a better conversion sequence than standard conversion sequence S2 if
     <ul>
-    <li><span class="stag" title="16.3.3.2 [over.ics.rank]/(3.2.1)">(3.2.1)</span>
+    <li><span class="ptag" title="16.3.3.2 [over.ics.rank]/(3.2.1)">(3.2.1)</span>
       S1 is a proper subsequence of S2 (comparing the conversion sequences in the canonical form
       defined by 16.3.3.1.1, excluding any Lvalue Transformation; the identity conversion sequence is
       considered to be a subsequence of any non-identity conversion sequence) or, if not that,</li>
-    <li><span class="stag" title="16.3.3.2 [over.ics.rank]/(3.2.2)">(3.2.2)</span>
+    <li><span class="ptag" title="16.3.3.2 [over.ics.rank]/(3.2.2)">(3.2.2)</span>
       the rank of S1 is better than the rank of S2 , or S1 and S2 have the same rank and are distinguishable
       by the rules in the paragraph below, or, if not that,</li>
-    <li><span class="stag" title="16.3.3.2 [over.ics.rank]/(3.2.3)">(3.2.3)</span>
+    <li><span class="ptag" title="16.3.3.2 [over.ics.rank]/(3.2.3)">(3.2.3)</span>
       S1 and S2 are reference bindings (11.6.3) and neither refers to an implicit object parameter of a
       non-static member function declared without a ref-qualifier, and S1 binds an rvalue reference to
       an rvalue and S2 binds an lvalue reference [Example:
@@ -1438,7 +1438,7 @@ A().p();      // calls A::p()&amp;&amp;
 a.p();        // calls A::p()&amp;
 </pre>
       —end example ] or, if not that,</li>
-    <li><span class="stag" title="16.3.3.2 [over.ics.rank]/(3.2.4)">(3.2.4)</span>
+    <li><span class="ptag" title="16.3.3.2 [over.ics.rank]/(3.2.4)">(3.2.4)</span>
       S1 and S2 are reference bindings (11.6.3) and S1 binds an lvalue reference to a function lvalue and
       S2 binds an rvalue reference to a function lvalue [Example:
 <pre class="agh-prog-cpp">
@@ -1449,7 +1449,7 @@ int i1 = f(g);      // calls #1
 </pre>
       —end example ] or, if not that,
     </li>
-    <li><span class="stag" title="16.3.3.2 [over.ics.rank]/(3.2.5)">(3.2.5)</span>
+    <li><span class="ptag" title="16.3.3.2 [over.ics.rank]/(3.2.5)">(3.2.5)</span>
       S1 and S2 differ only in their qualification conversion and yield similar types T1 and T2 (7.5),
       respectively, and the cv-qualification signature of type T1 is a proper subset of the cv-qualification
       signature of type T2 [Example:
@@ -1461,7 +1461,7 @@ int j = f(&amp;i);  // calls f(const int*)
 </pre>
       —end example ] or, if not that,
     </li>
-    <li><span class="stag" title="16.3.3.2 [over.ics.rank]/(3.2.6)">(3.2.6)</span>
+    <li><span class="ptag" title="16.3.3.2 [over.ics.rank]/(3.2.6)">(3.2.6)</span>
       S1 and S2 are reference bindings (11.6.3), and the types to which the references refer are the same
       type except for top-level cv-qualifiers, and the type to which the reference initialized by S2 refers
       is more cv-qualified than the type to which the reference initialized by S1 refers. [Example:
@@ -1488,7 +1488,7 @@ void g(const X&amp; a, X b) {
     </li>
     </ul>
   </li>
-  <li><span class="stag" title="16.3.3.2 [over.ics.rank]/(3.3)">(3.3)</span>
+  <li><span class="ptag" title="16.3.3.2 [over.ics.rank]/(3.3)">(3.3)</span>
     User-defined conversion sequence U1 is a better conversion sequence than another user-defined conversion
     sequence U2 if they contain the same user-defined conversion function or constructor or they initialize
     the same class in an aggregate initialization and in either case the second standard conversion sequence
@@ -1504,25 +1504,25 @@ int i = f(a);       // calls f(int), because short → int is
 </pre> —end example ]
   </li>
   </ul>
-  <p><span class="stag" title="16.3.3.2 [over.ics.rank]/4">4</span>
+  <p><span class="ptag" title="16.3.3.2 [over.ics.rank]/4">4</span>
   Standard conversion sequences are ordered by their ranks: an Exact Match is a better conversion than a
   Promotion, which is a better conversion than a Conversion. Two conversion sequences with the same rank
   are indistinguishable unless one of the following rules applies:
   </p>
   <ul>
-  <li><span class="stag" title="16.3.3.2 [over.ics.rank]/(4.1)">(4.1)</span>
+  <li><span class="ptag" title="16.3.3.2 [over.ics.rank]/(4.1)">(4.1)</span>
     A conversion that does not convert a pointer, a pointer to member, or std::nullptr_t to bool is
     better than one that does.</li>
-  <li><span class="stag" title="16.3.3.2 [over.ics.rank]/(4.2)">(4.2)</span>
+  <li><span class="ptag" title="16.3.3.2 [over.ics.rank]/(4.2)">(4.2)</span>
     A conversion that promotes an enumeration whose underlying type is fixed to its underlying type is
     better than one that promotes to the promoted underlying type, if the two are different.</li>
-  <li><span class="stag" title="16.3.3.2 [over.ics.rank]/(4.3)">(4.3)</span>
+  <li><span class="ptag" title="16.3.3.2 [over.ics.rank]/(4.3)">(4.3)</span>
     If class B is derived directly or indirectly from class A , conversion of B* to A* is better than conversion
     of B* to void*, and conversion of A* to void* is better than conversion of B* to void*.</li>
-  <li><span class="stag" title="16.3.3.2 [over.ics.rank]/(4.4)">(4.4)</span>
+  <li><span class="ptag" title="16.3.3.2 [over.ics.rank]/(4.4)">(4.4)</span>
     If class B is derived directly or indirectly from class A and class C is derived directly or indirectly from B 
     <ul>
-    <li><span class="stag" title="16.3.3.2 [over.ics.rank]/(4.4.1)">(4.4.1)</span>
+    <li><span class="ptag" title="16.3.3.2 [over.ics.rank]/(4.4.1)">(4.4.1)</span>
       conversion of C* to B* is better than conversion of C* to A*, [Example:
 <pre class="agh-prog-cpp">
 struct A {};
@@ -1534,21 +1534,21 @@ int f(B*);
 int i = f(pc);        // calls f(B*)
 </pre> —end example ]
     </li>
-    <li><span class="stag" title="16.3.3.2 [over.ics.rank]/(4.4.2)">(4.4.2)</span>
+    <li><span class="ptag" title="16.3.3.2 [over.ics.rank]/(4.4.2)">(4.4.2)</span>
       binding of an expression of type C to a reference to type B is better than binding an expression of
       type C to a reference to type A,</li>
-    <li><span class="stag" title="16.3.3.2 [over.ics.rank]/(4.4.3)">(4.4.3)</span>
+    <li><span class="ptag" title="16.3.3.2 [over.ics.rank]/(4.4.3)">(4.4.3)</span>
       conversion of A::* to B::* is better than conversion of A::* to C::*,</li>
-    <li><span class="stag" title="16.3.3.2 [over.ics.rank]/(4.4.4)">(4.4.4)</span>
+    <li><span class="ptag" title="16.3.3.2 [over.ics.rank]/(4.4.4)">(4.4.4)</span>
       conversion of C to B is better than conversion of C to A,</li>
-    <li><span class="stag" title="16.3.3.2 [over.ics.rank]/(4.4.5)">(4.4.5)</span>
+    <li><span class="ptag" title="16.3.3.2 [over.ics.rank]/(4.4.5)">(4.4.5)</span>
       conversion of B* to A* is better than conversion of C* to A*,</li>
-    <li><span class="stag" title="16.3.3.2 [over.ics.rank]/(4.4.6)">(4.4.6)</span>
+    <li><span class="ptag" title="16.3.3.2 [over.ics.rank]/(4.4.6)">(4.4.6)</span>
       binding of an expression of type B to a reference to type A is better than binding an expression of
       type C to a reference to type A,</li>
-    <li><span class="stag" title="16.3.3.2 [over.ics.rank]/(4.4.7)">(4.4.7)</span>
+    <li><span class="ptag" title="16.3.3.2 [over.ics.rank]/(4.4.7)">(4.4.7)</span>
       conversion of B::* to C::* is better than conversion of A::* to C::*, and</li>
-    <li><span class="stag" title="16.3.3.2 [over.ics.rank]/(4.4.8)">(4.4.8)</span>
+    <li><span class="ptag" title="16.3.3.2 [over.ics.rank]/(4.4.8)">(4.4.8)</span>
       conversion of B to A is better than conversion of C to A.</li>
     </ul>
     [Note: Compared conversion sequences will have different source types only in the context of comparing
