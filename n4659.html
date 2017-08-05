@@ -56,6 +56,7 @@
   <li>alignment → アライメント (JIS C++ では境界調整としている)</li>
   <li>defaulted functions → 既定化された関数</li>
   <li>deleted functions → 削除された関数</li>
+  <li>ref-qualifier → ref 修飾子 (当初、参照修飾子としたが、"ref" 自体が省略なのでこれをそのまま採用する)</li>
   </ul>
 </div>
 
@@ -104,8 +105,41 @@ C++11 以降で追加されたメジャーな機能――例えばラムダ式�
 版が指定されていない場合は、その文書の最新版 (訂正 (amendments) を含む) が有効である。
 </p>
 <ul>
-<li><span class="ptag" id="sec2p1.1" title="2 [intro.refs]/(1.*)">(1.*)</span> 略</li>
+<li><span class="ptag" id="sec2p1.1" title="2 [intro.refs]/(1.1)">(1.1)</span>
+  Ecma International, ECMAScript Language Specification, Standard Ecma-262, third edition, 1999.</li>
+<li><span class="ptag" id="sec2p1.2" title="2 [intro.refs]/(1.2)">(1.2)</span>
+  ISO/IEC 2382 (all parts), Information technology - Vocabulary</li>
+<li><span class="ptag" id="sec2p1.3" title="2 [intro.refs]/(1.3)">(1.3)</span>
+  ISO/IEC 9899:2011, Programming languages - C</li>
+<li><span class="ptag" id="sec2p1.4" title="2 [intro.refs]/(1.4)">(1.4)</span>
+  ISO/IEC 9899:2011/Cor.1:2012(E), Programming languages - C, Technical Corrigendum 1</li>
+<li><span class="ptag" id="sec2p1.5" title="2 [intro.refs]/(1.5)">(1.5)</span>
+  ISO/IEC 9945:2003, Information Technology - Portable Operating System Interface (POSIX)</li>
+<li><span class="ptag" id="sec2p1.6" title="2 [intro.refs]/(1.6)">(1.6)</span>
+  ISO/IEC 10646-1:1993, Information technology - Universal Multiple-Octet Coded Character Set (UCS) - Part 1: Architecture and Basic Multilingual Plane</li>
+<li><span class="ptag" id="sec2p1.7" title="2 [intro.refs]/(1.7)">(1.7)</span>
+  ISO/IEC 10967-1:2012, Information technology - Language independent arithmetic - Part 1: Integer and floating point arithmetic</li>
+<li><span class="ptag" id="sec2p1.8" title="2 [intro.refs]/(1.8)">(1.8)</span>
+  ISO/IEC/IEEE 60559:2011, Information technology - Microprocessor Systems - Floating-Point arithmetic</li>
+<li><span class="ptag" id="sec2p1.9" title="2 [intro.refs]/(1.9)">(1.9)</span>
+  ISO 80000-2:2009, Quantities and units - Part 2: Mathematical signs and symbols to be used in the natural sciences and technology</li>
 </ul>
+<p><span class="ptag" id="sec2p2" title="2 [intro.refs]/2">2</span>
+ISO/IEC 9899:2011 の Clause 7 で記述されるライブラリは、以降 C 標準ライブラリと呼ぶ<sup>1</sup>。
+</p>
+<p><span class="ptag" id="sec2p3" title="2 [intro.refs]/3">3</span>
+ISO/IEC 9945:2003 で記述される OS のインターフェイスは、以降 POSIX と呼ぶ。
+</p>
+<p><span class="ptag" id="sec2p4" title="2 [intro.refs]/4">4</span>
+Ecma-262 標準で記述される ECMAScript 言語仕様は、以降 ECMA-262 と呼ぶ。
+</p>
+<p><span class="ptag" id="sec2p5" title="2 [intro.refs]/5">5</span>
+ISO/IEC 10967-1:2012 で記述される算術仕様は、今後 LIA-1 と呼ぶ。
+</p>
+<p><span class="ptag" id="footnote1">footnote 1</span>
+C.5 の Clause 21 から 33 までの但し書き付きで、
+C 標準ライブラリは C++ 標準ライブラリの部分集合である。
+</p>
 <div class="en">
   <p><span class="ptag" title="2 [intro.refs]/1">1</span>
   The following documents are referred to in the text in such a way that some or all of their content constitutes
@@ -113,13 +147,42 @@ C++11 以降で追加されたメジャーな機能――例えばラムダ式�
   the latest edition of the referenced document (including any amendments) applies.
   </p>
   <ul>
-  <li><span class="ptag" title="2 [intro.refs]/(1.*)">(1.*)</span> 略</li>
+  <li><span class="ptag" title="2 [intro.refs]/(1.1)">(1.1)</span>
+    Ecma International, ECMAScript Language Specification, Standard Ecma-262, third edition, 1999.</li>
+  <li><span class="ptag" title="2 [intro.refs]/(1.2)">(1.2)</span>
+    ISO/IEC 2382 (all parts), Information technology — Vocabulary</li>
+  <li><span class="ptag" title="2 [intro.refs]/(1.3)">(1.3)</span>
+    ISO/IEC 9899:2011, Programming languages — C</li>
+  <li><span class="ptag" title="2 [intro.refs]/(1.4)">(1.4)</span>
+    ISO/IEC 9899:2011/Cor.1:2012(E), Programming languages — C, Technical Corrigendum 1</li>
+  <li><span class="ptag" title="2 [intro.refs]/(1.5)">(1.5)</span>
+    ISO/IEC 9945:2003, Information Technology — Portable Operating System Interface (POSIX)</li>
+  <li><span class="ptag" title="2 [intro.refs]/(1.6)">(1.6)</span>
+    ISO/IEC 10646-1:1993, Information technology — Universal Multiple-Octet Coded Character Set (UCS) — Part 1: Architecture and Basic Multilingual Plane</li>
+  <li><span class="ptag" title="2 [intro.refs]/(1.7)">(1.7)</span>
+    ISO/IEC 10967-1:2012, Information technology — Language independent arithmetic — Part 1: Integer and floating point arithmetic</li>
+  <li><span class="ptag" title="2 [intro.refs]/(1.8)">(1.8)</span>
+    ISO/IEC/IEEE 60559:2011, Information technology — Microprocessor Systems — Floating-Point arithmetic</li>
+  <li><span class="ptag" title="2 [intro.refs]/(1.9)">(1.9)</span>
+    ISO 80000-2:2009, Quantities and units — Part 2: Mathematical signs and symbols to be used in the natural sciences and technology</li>
   </ul>
+  <p><span class="ptag" title="2 [intro.refs]/2">2</span>
+  The library described in Clause 7 of ISO/IEC 9899:2011 is hereinafter called the C standard library<sup>1</sup>.
+  </p>
+  <p><span class="ptag" title="2 [intro.refs]/3">3</span>
+  The operating system interface described in ISO/IEC 9945:2003 is hereinafter called POSIX.
+  </p>
+  <p><span class="ptag" title="2 [intro.refs]/4">4</span>
+  The ECMAScript Language Specification described in Standard Ecma-262 is hereinafter called ECMA-262.
+  </p>
+  <p><span class="ptag" title="2 [intro.refs]/5">5</span>
+  The arithmetic specification described in ISO/IEC 10967-1:2012 is hereinafter called LIA-1.
+  </p>
+  <p><span class="ptag">footnote 1</span>
+  With the qualifications noted in Clauses 21 through 33 and in C.5, the C standard library is a subset of the C ++ standard
+  library.
+  </p>
 </div>
-<p><span class="ptag" title="2 [intro.refs]/2">2</span> 略</p>
-<p><span class="ptag" title="2 [intro.refs]/3">3</span> 略</p>
-<p><span class="ptag" title="2 [intro.refs]/4">4</span> 略</p>
-<p><span class="ptag" title="2 [intro.refs]/5">5</span> 略</p>
 
 <h1 id="sec3">3 Terms and definitions <span class="secname">[intro.defs]</span></h1>
 <p><span class="ptag" title="3 [intro.defs]/1">1</span> 略</p>
@@ -212,7 +275,7 @@ abs(1.0); // calls abs(double);
 
 <h2 id="sec16.1">16.1 Overloadable declarations <span class="secname">[over.load]</span></h2>
 <p><span class="ptag" id="sec16.1p1" title="16.1 [over.load]/1">1</span>
-全ての関数宣言が多重定義出来るわけではない。
+全ての関数宣言が多重定義できるわけではない。
 多重定義できないものをここで指定する。
 同じスコープに多重定義できない宣言の組を含むプログラムは不適格である。
 [註: この制限は、そのスコープにおける明示的宣言同士、または明示宣言と using 宣言により導入される宣言の間に適用される。
@@ -750,10 +813,10 @@ public:
 </p>
 <ul>
 <li><span class="ptag" id="sec16.3.1p4.1" title="16.3.1 [over.match.funcs]/(4.1)">(4.1)</span>
-  参照修飾子のないまたは <code class="agh-prog-cpp">&amp;</code> 参照修飾子のついた関数については
+  ref 修飾子のないまたは <code class="agh-prog-cpp">&amp;</code> ref 修飾子のついた関数については
   <i>cv</i> <code class="agh-prog-cpp">X</code> の左辺値参照であり、</li>
 <li><span class="ptag" id="sec16.3.1p4.2" title="16.3.1 [over.match.funcs]/(4.2)">(4.2)</span>
-  <code class="agh-prog-cpp">&amp;&amp;</code> 参照修飾子のついた関数については
+  <code class="agh-prog-cpp">&amp;&amp;</code> ref 修飾子のついた関数については
   <i>cv</i> <code class="agh-prog-cpp">X</code> の右辺値参照である。</li>
 </ul>
 <p>但し、<code class="agh-prog-cpp">X</code> は関数がメンバとして属するクラスであり、
@@ -777,7 +840,7 @@ using 宣言を用いて派生クラスに導入された変換関数以外の�
 一方で暗黙オブジェクト仮引数については、
 実引数の型を一致させるためにユーザ定義変換を使えない規則 <span class="tcomment">16.3.3.1/7</span> のために、
 自身が暗黙オブジェクト仮引数であることを覚えておく必要がある。
-参照修飾子のない非静的メンバ関数については以下の追加の規則が適用される:
+ref 修飾子のない非静的メンバ関数については以下の追加の規則が適用される:
 </p>
 <ul>
 <li><span class="ptag" id="sec16.3.1p5.1" title="16.3.1 [over.match.funcs]/(5.1)">(5.1)</span>
