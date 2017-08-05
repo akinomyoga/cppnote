@@ -5,13 +5,21 @@
   <meta charset="utf-8" />
   <style>
   body{max-width: 60em; margin-left: auto; margin-right: auto; text-align: justify}
+  @media print { body {font-family: "Times New Roman", serif;} }
+
+  @media print { pre, code {font-family: "Courier New", monospace;} }
+
   span.ptag{color: green; font-weight: bold; vertical-align: super; font-size: 80%; margin-right: 0.1em;}
+
+  p.en, div.en{background-color: #eec; padding: 0.8em;}
+  p.en:before, div.en:before{content: "原文 "; font-weight: bold;}
+
   /*p.translation-note{border:1px solid gray;padding:0.5em;}*/
   .translation-note{background-color: #ddd; padding: 0.8em; margin-bottom: 0.8em;}
   .translation-note:before{content: "訳註: "; font-weight: bold;}
 
-  p.en, div.en{background-color: #eec; padding: 0.8em;}
-  p.en:before, div.en:before{content: "原文 "; font-weight: bold;}
+  dfn {font-style: normal; font-weight: bold;}
+  @media print{ dfn {font-family: sans-serif; font-weight: normal;} }
 
   span.syntax {color: blue; font-style: italic;}
 
@@ -25,7 +33,7 @@
   <script src="https://akinomyoga.github.io/agh/agh.fly.js" charset="utf-8"></script>
 </head>
 <body>
-<h1>Working Draft, Standard for Programming Language C ++</h1>
+<h1>Working Draft, Standard for Programming Language C++</h1>
 <p>略</p>
 
 <p class="translation-note">
@@ -113,35 +121,35 @@ C++11 以降で追加されたメジャーな機能――例えばラムダ式�
 </p>
 <ul>
 <li><span class="ptag" id="sec2p1.1" title="2 [intro.refs]/(1.1)">(1.1)</span>
-  Ecma International, ECMAScript Language Specification, Standard Ecma-262, third edition, 1999.</li>
+  Ecma International, <i>ECMAScript Language Specification</i>, Standard Ecma-262, third edition, 1999.</li>
 <li><span class="ptag" id="sec2p1.2" title="2 [intro.refs]/(1.2)">(1.2)</span>
-  ISO/IEC 2382 (all parts), Information technology - Vocabulary</li>
+  ISO/IEC 2382 (all parts), <i>Information technology - Vocabulary</i></li>
 <li><span class="ptag" id="sec2p1.3" title="2 [intro.refs]/(1.3)">(1.3)</span>
-  ISO/IEC 9899:2011, Programming languages - C</li>
+  ISO/IEC 9899:2011, <i>Programming languages - C</i></li>
 <li><span class="ptag" id="sec2p1.4" title="2 [intro.refs]/(1.4)">(1.4)</span>
-  ISO/IEC 9899:2011/Cor.1:2012(E), Programming languages - C, Technical Corrigendum 1</li>
+  ISO/IEC 9899:2011/Cor.1:2012(E), <i>Programming languages - C, Technical Corrigendum 1</i></li>
 <li><span class="ptag" id="sec2p1.5" title="2 [intro.refs]/(1.5)">(1.5)</span>
-  ISO/IEC 9945:2003, Information Technology - Portable Operating System Interface (POSIX)</li>
+  ISO/IEC 9945:2003, <i>Information Technology - Portable Operating System Interface (POSIX)</i></li>
 <li><span class="ptag" id="sec2p1.6" title="2 [intro.refs]/(1.6)">(1.6)</span>
-  ISO/IEC 10646-1:1993, Information technology - Universal Multiple-Octet Coded Character Set (UCS) - Part 1: Architecture and Basic Multilingual Plane</li>
+  ISO/IEC 10646-1:1993, <i>Information technology - Universal Multiple-Octet Coded Character Set (UCS) - Part 1: Architecture and Basic Multilingual Plane</i></li>
 <li><span class="ptag" id="sec2p1.7" title="2 [intro.refs]/(1.7)">(1.7)</span>
-  ISO/IEC 10967-1:2012, Information technology - Language independent arithmetic - Part 1: Integer and floating point arithmetic</li>
+  ISO/IEC 10967-1:2012, <i>Information technology - Language independent arithmetic - Part 1: Integer and floating point arithmetic</i></li>
 <li><span class="ptag" id="sec2p1.8" title="2 [intro.refs]/(1.8)">(1.8)</span>
-  ISO/IEC/IEEE 60559:2011, Information technology - Microprocessor Systems - Floating-Point arithmetic</li>
+  ISO/IEC/IEEE 60559:2011, <i>Information technology - Microprocessor Systems - Floating-Point arithmetic</i></li>
 <li><span class="ptag" id="sec2p1.9" title="2 [intro.refs]/(1.9)">(1.9)</span>
-  ISO 80000-2:2009, Quantities and units - Part 2: Mathematical signs and symbols to be used in the natural sciences and technology</li>
+  ISO 80000-2:2009, <i>Quantities and units - Part 2: Mathematical signs and symbols to be used in the natural sciences and technology</i></li>
 </ul>
 <p><span class="ptag" id="sec2p2" title="2 [intro.refs]/2">2</span>
-ISO/IEC 9899:2011 の Clause 7 で記述されるライブラリは、以降 C 標準ライブラリと呼ぶ<sup>1</sup>。
+ISO/IEC 9899:2011 の Clause 7 で記述されるライブラリは、以降 <dfn>C 標準ライブラリ</dfn> (C standard library) と呼ぶ<sup>1</sup>。
 </p>
 <p><span class="ptag" id="sec2p3" title="2 [intro.refs]/3">3</span>
-ISO/IEC 9945:2003 で記述される OS のインターフェイスは、以降 POSIX と呼ぶ。
+ISO/IEC 9945:2003 で記述される OS のインターフェイスは、以降 <dfn>POSIX</dfn> と呼ぶ。
 </p>
 <p><span class="ptag" id="sec2p4" title="2 [intro.refs]/4">4</span>
-Ecma-262 標準で記述される ECMAScript 言語仕様は、以降 ECMA-262 と呼ぶ。
+Ecma-262 標準で記述される ECMAScript 言語仕様は、以降 <dfn>ECMA-262</dfn> と呼ぶ。
 </p>
 <p><span class="ptag" id="sec2p5" title="2 [intro.refs]/5">5</span>
-ISO/IEC 10967-1:2012 で記述される算術仕様は、今後 LIA-1 と呼ぶ。
+ISO/IEC 10967-1:2012 で記述される算術仕様は、以降 <dfn>LIA-1</dfn> と呼ぶ。
 </p>
 <p><span class="ptag" id="footnote1">footnote 1</span>
 C.5 の Clause 21 から 33 までの但し書き付きで、
@@ -256,7 +264,7 @@ Clause 20 から 33 と補遺 D で使用される追加の用語が、20.3 で�
 <h2 id="sec3.5">3.5 argument <span class="secname">[defns.argument.templ]</span></h2>
 <p>《テンプレート実体化》 角括弧で囲まれたカンマ区切りのリストに含まれる
 <span class="syntax">constant-expression</span>、<span class="syntax">type-id</span>、または <span class="syntax">id-expression</span> (17.3)</p>
-<p class="en">〈template instantiation〉 <i>constant-expression</i>, <i>type-id</i>, or <i>id-expression</i> in the comma-separated list bounded by the angle brackets (17.3)</p>
+<p class="en">〈template instantiation〉 constant-expression, type-id, or id-expression in the comma-separated list bounded by the angle brackets (17.3)</p>
 
 <h2>3.* 略</h2>
 
@@ -280,15 +288,15 @@ Clause 20 から 33 と補遺 D で使用される追加の用語が、20.3 で�
 <h1>14 略</h1>
 <h1>15 略</h1>
 <h1 id="sec16">16 Overloading <span class="secname">[over]</span></h1>
-<p><span class="ptag" id="sec16p1" title="16 [over]/1">1</span> 同じスコープで一つの名前について2つ以上の宣言が指定された時、その名前は多重定義 (overload) されているという。
-更に、同じスコープで同じ名前だが異なる型の二つの宣言を多重定義 (overloaded declaration) と呼ぶ。
+<p><span class="ptag" id="sec16p1" title="16 [over]/1">1</span> 同じスコープで一つの名前について2つ以上の宣言が指定された時、その名前は<dfn>多重定義</dfn> (overload) されているという。
+更に、同じスコープで同じ名前だが異なる型の二つの宣言を<dfn>多重定義</dfn> (overloaded declaration) と呼ぶ。
 関数および関数テンプレートの宣言のみが多重定義されうる。
 つまり、変数と型の宣言は多重定義できない。
 </p>
 <p><span class="ptag" id="sec16p2" title="16 [over]/2">2</span> 多重定義された関数名が呼び出しで使われた時、
 関数の多重定義の内どれが用いられるかは、
 実引数の型とその時点で可視の多重定義の仮引数の型を比較することによって決定される。
-関数を選択する手続きは多重定義解決と呼び 16.3 で定義される。[例:
+関数を選択する手続きは<dfn>多重定義解決</dfn> (overload resolution) と呼び 16.3 で定義される。[例:
 </p>
 <pre class="agh-prog-cpp">
 double abs(double);
@@ -747,7 +755,7 @@ public:
 <h2 id="sec16.3">16.3 Overload resolution <span class="secname">[over.match]</span></h2>
 <p><span class="ptag" id="sec16.3p1" title="16.3 [over.match]/1">1</span>
 多重定義解決は、関数の呼び出しにおいて最適の関数を選択する仕組みである。
-実引数の式のリストと、呼び出しの文脈における <i>候補関数</i> の集合が考慮される。
+実引数の式のリストと、呼び出しの文脈における<dfn>候補関数</dfn> (candidate functions) の集合が考慮される。
 選択の判断材料として、実引数の数、
 実引数の仮引数型のリストへの合致度合い、
 オブジェクトの暗黙オブジェクト仮引数への合致度合い、
@@ -841,7 +849,7 @@ public:
 <p><span class="ptag" id="sec16.3.1p2" title="16.3.1 [over.match.funcs]/2">2</span>
 候補関数の集合は、同じ実引数リストに対してメンバ関数と非メンバ関数の両方を含むこともある。
 この異質の候補関数を含む集合について実引数と仮引数のリストを比較するために、
-メンバ関数は暗黙オブジェクト仮引数という追加の仮引数を持つものとみなし、
+メンバ関数は<dfn>暗黙オブジェクト仮引数</dfn> (implicit object parameter) という追加の仮引数を持つものとみなし、
 この仮引数はメンバ関数を呼び出す対象のオブジェクトを表す。
 多重定義解決において、静的・非静的メンバ関数は共に暗黙オブジェクト仮引数を持つとする。
 一方でコンストラクタは暗黙オブジェクト仮引数を持たない。
@@ -850,7 +858,7 @@ public:
 だとすると、非メンバ関数も暗黙引数を入れなければ比較できないのでは? 要確認■
 </p>
 <p><span class="ptag" id="sec16.3.1p3" title="16.3.1 [over.match.funcs]/3">3</span>
-同様に、文脈に応じて、暗黙オブジェクト実引数を含む実引数リストが構築される。
+同様に、文脈に応じて、<dfn>暗黙オブジェクト実引数</dfn> (implied object argument) を含む実引数リストが構築される。
 暗黙オブジェクト実引数はメンバ関数を呼び出す対象のオブジェクトを表す。
 実引数と仮引数はそれぞれの属するリスト中の位置で指定されるので、
 ここでは暗黙オブジェクト仮引数・実引数があるときは、
@@ -1259,7 +1267,7 @@ void f() {
   Fcn(&amp;i, 1L);    // Fcn(int*, int) が呼び出される。何故なら &amp;i → int* は &amp;i → const int* より良く、
                   // 1L → short と 1L → int はどちらが良いわけでもない。
 
-  Fcn(&amp;i, ’c’); // Fcn(int*, int) が呼び出される。何故なら &amp;i → int* は &amp;i → const int* より良く、
+  Fcn(&amp;i, 'c');   // Fcn(int*, int) が呼び出される。何故なら &amp;i → int* は &amp;i → const int* より良く、
                   // c → int は c → short より良い。
 }
 </pre>
@@ -1416,7 +1424,7 @@ void f() {
   Fcn(&amp;i, 1L);    // calls Fcn(int*, int), because &amp;i → int* is better than &amp;i → const int*
                   // and 1L → short and 1L → int are indistinguishable
 
-  Fcn(&amp;i, ’c’); // calls Fcn(int*, int), because &amp;i → int* is better than &amp;i → const int*
+  Fcn(&amp;i, 'c');   // calls Fcn(int*, int), because &amp;i → int* is better than &amp;i → const int*
                   // and c → int is better than c → short
 }
 </pre>
@@ -1458,7 +1466,8 @@ void use() {
 
 <h4 id="sec16.3.3.1">16.3.3.1 Implicit conversion sequences <span class="secname">[over.best.ics]</span></h4>
 <p><span class="ptag" id="sec16.3.3.1p1" title="16.3.3.1 [over.best.ics]/1">1</span>
-暗黙変換列は、実引数を対応する仮引数の型に変換するための型変換の列である。
+<dfn>暗黙変換列</dfn> (implicit conversion sequence) は、
+実引数を対応する仮引数の型に変換するための型変換の列である。
 変換列は Clause 7 で定義される暗黙変換になる。
 つまり、単一の式によるオブジェクトまたは参照の初期化 (11.6, 11.6.3) である。
 </p>
@@ -1475,9 +1484,9 @@ void use() {
 適格な暗黙変換列は以下の内の何れかである:
 </p>
 <ul>
-<li><span class="ptag" id="sec16.3.3.1p3.1" title="16.3.3.1 [over.best.ics]/(3.1)">(3.1)</span> 標準変換列 (16.3.3.1.1) か、</li>
-<li><span class="ptag" id="sec16.3.3.1p3.2" title="16.3.3.1 [over.best.ics]/(3.2)">(3.2)</span> ユーザ定義変換列 (16.3.3.1.2) か、</li>
-<li><span class="ptag" id="sec16.3.3.1p3.3" title="16.3.3.1 [over.best.ics]/(3.3)">(3.3)</span> 省略記号変換列 (16.3.3.1.3)。</li>
+<li><span class="ptag" id="sec16.3.3.1p3.1" title="16.3.3.1 [over.best.ics]/(3.1)">(3.1)</span> <dfn>標準変換列</dfn> (standard conversion sequence) (16.3.3.1.1) か、</li>
+<li><span class="ptag" id="sec16.3.3.1p3.2" title="16.3.3.1 [over.best.ics]/(3.2)">(3.2)</span> <dfn>ユーザ定義変換列</dfn> (user-defined conversion sequence) (16.3.3.1.2) か、</li>
+<li><span class="ptag" id="sec16.3.3.1p3.3" title="16.3.3.1 [over.best.ics]/(3.3)">(3.3)</span> <dfn>省略記号変換列</dfn> (ellipsis conversion sequence) (16.3.3.1.3)。</li>
 </ul>
 <p><span class="ptag" id="sec16.3.3.1p4" title="16.3.3.1 [over.best.ics]/4">4</span>
 但し、変換先が</p>
@@ -1546,7 +1555,8 @@ derived-to-base Conversion は Conversion ランクを持つ (16.3.3.1.1)。
 </p>
 <p><span class="ptag" id="sec16.3.3.1p10" title="16.3.3.1 [over.best.ics]/10">10</span>
 実引数を仮引数の型に変換する変換の列として異なる複数のものが考えられるとき、
-その仮引数の暗黙変換列は<span class="tcomment">それらの列を総称する</span>単一の変換列として定義し、曖昧な変換列と呼ぶ。
+その仮引数の暗黙変換列は<span class="tcomment">それらの列を総称する</span>単一の変換列として定義し、
+<dfn>曖昧な変換列</dfn> (ambiguous conversion sequence) と呼ぶ。
 16.3.3.2 での暗黙変換列のランク付けにおいて、
 曖昧な変換列はユーザ定義の変換列として扱われ、
 他のユーザ定義変換列と比較不能とする。
@@ -1777,10 +1787,10 @@ struct A {
 };
 A&amp; operator&lt;&lt;(A&amp;&amp;, char);
 A() &lt;&lt; 1;         // A::operator&lt;&lt;(int) が呼び出される
-A() &lt;&lt; ’c’;     // operator&lt;&lt;(A&amp;&amp;, char) が呼び出される
+A() &lt;&lt; 'c';       // operator&lt;&lt;(A&amp;&amp;, char) が呼び出される
 A a;
 a &lt;&lt; 1;           // A::operator&lt;&lt;(int) が呼び出される
-a &lt;&lt; ’c’;       // A::operator&lt;&lt;(int) が呼び出される
+a &lt;&lt; 'c';         // A::operator&lt;&lt;(int) が呼び出される
 A().p();          // A::p()&amp;&amp; が呼び出される
 a.p();            // A::p()&amp; が呼び出される
 </pre>
@@ -1993,10 +2003,10 @@ struct A {
 };
 A&amp; operator&lt;&lt;(A&amp;&amp;, char);
 A() &lt;&lt; 1;     // calls A::operator&lt;&lt;(int)
-A() &lt;&lt; ’c’; // calls operator&lt;&lt;(A&amp;&amp;, char)
+A() &lt;&lt; 'c';   // calls operator&lt;&lt;(A&amp;&amp;, char)
 A a;
 a &lt;&lt; 1;       // calls A::operator&lt;&lt;(int)
-a &lt;&lt; ’c’;   // calls A::operator&lt;&lt;(int)
+a &lt;&lt; 'c';     // calls A::operator&lt;&lt;(int)
 A().p();      // calls A::p()&amp;&amp;
 a.p();        // calls A::p()&amp;
 </pre>
