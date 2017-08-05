@@ -13,6 +13,8 @@
   p.en, div.en{background-color: #eec; padding: 0.8em;}
   p.en:before, div.en:before{content: "原文 "; font-weight: bold;}
 
+  span.syntax {color: blue; font-style: italic;}
+
   span.tcomment {color: green;}
   span.tcomment:before {content: "[訳者: ";}
   span.tcomment:after {content: "]";}
@@ -35,8 +37,6 @@
   訳語について
   <ul>
   <li>access rule → アクセス規則</li>
-  <li>overload → 多重定義する</li>
-  <li>overloaded declarations → 多重定義 (実は多重宣言の方が適切な気がするが多重定義とするのが一般的である)</li>
   <li>type-specifier → 型指定子</li>
   <li>visible → 可視の</li>
   <li>invocation, call → 呼び出し (両者は今のところ日本語では区別しない)</li>
@@ -47,16 +47,23 @@
   <li>default-initialization → 既定初期化</li>
   <li>direct-initialization → 直接初期化</li>
   <li>copy-initialization → コピー初期化</li>
-  <li>viable functions → 呼び出し可能関数 (JIS C++ では二次候補関数としている)</li>
-  <li>implicit conversion sequence → 暗黙変換列</li>
-  <li>implicit object paramter → 暗黙オブジェクト仮引数</li>
-  <li>implied object argument → 暗黙オブジェクト実引数</li>
   <li>underlying type → 基礎型 (JIS C++ では基礎となる型としている。中国語では基礎型のようだ)</li>
   <li>storage class → 記憶域クラス (JIS C++ では記憶域種別としている)</li>
   <li>alignment → アライメント (JIS C++ では境界調整としている)</li>
   <li>defaulted functions → 既定化された関数</li>
   <li>deleted functions → 削除された関数</li>
   <li>ref-qualifier → ref 修飾子 (当初、参照修飾子としたが、"ref" 自体が省略なのでこれをそのまま採用する)</li>
+  <li>《多重定義関連》
+    <ul>
+    <li>overload → 多重定義する</li>
+    <li>overloaded declarations → 多重定義 (実は多重宣言の方が適切な気がするが多重定義とするのが一般的である)</li>
+    <li>viable functions → 呼び出し可能関数 (JIS C++ では二次候補関数としている)</li>
+    <li>implicit conversion sequence → 暗黙変換列 (JIS C++ では暗黙変換手順としている)</li>
+    <li>implicit object paramter → 暗黙オブジェクト仮引数</li>
+    <li>implied object argument → 暗黙オブジェクト実引数</li>
+    <li>named function/class → 指名された関数・クラス (JIS C++ では名前のある関数としている)</li>
+    </ul>
+  </li>
   </ul>
 </div>
 
@@ -247,7 +254,8 @@ Clause 20 から 33 と補遺 D で使用される追加の用語が、20.3 で�
 <p class="en">〈throw expression〉 the operand of <code class="agh-prog-cpp">throw</code> (8.17)</p>
 
 <h2 id="sec3.5">3.5 argument <span class="secname">[defns.argument.templ]</span></h2>
-<p>《テンプレート実体化》 角括弧で囲まれたカンマ区切りのリストに含まれる <i>定数式</i>、<i>type-id</i>、または <i>id-expression</i> (17.3)</p>
+<p>《テンプレート実体化》 角括弧で囲まれたカンマ区切りのリストに含まれる
+<span class="syntax">constant-expression</span>、<span class="syntax">type-id</span>、または <span class="syntax">id-expression</span> (17.3)</p>
 <p class="en">〈template instantiation〉 <i>constant-expression</i>, <i>type-id</i>, or <i>id-expression</i> in the comma-separated list bounded by the angle brackets (17.3)</p>
 
 <h2>3.* 略</h2>
@@ -751,8 +759,8 @@ public:
   7つの異なる文脈で多重定義解決が実行される:
 </p>
 <ul>
-<li><span class="ptag" id="sec16.3p2.1" title="16.3 [over.match]/(2.1)">(2.1)</span> 関数呼び出し構文の名前で指定された関数の呼び出し (16.3.1.1.1);</li>
-<li><span class="ptag" id="sec16.3p2.2" title="16.3 [over.match]/(2.2)">(2.2)</span> 関数呼び出し構文の名前で指定されたクラスオブジェクトに対する、
+<li><span class="ptag" id="sec16.3p2.1" title="16.3 [over.match]/(2.1)">(2.1)</span> 関数呼び出し構文の指名された関数の呼び出し (16.3.1.1.1);</li>
+<li><span class="ptag" id="sec16.3p2.2" title="16.3 [over.match]/(2.2)">(2.2)</span> 関数呼び出し構文の指名されたクラスオブジェクトに対する、
   関数呼び出し演算子、関数ポインタへの変換関数、関数ポインタの参照への変換関数、関数の参照への変換関数の呼び出し (16.3.1.1.2);</li>
 <li><span class="ptag" id="sec16.3p2.3" title="16.3 [over.match]/(2.3)">(2.3)</span> 式中で参照された演算子の呼び出し (16.3.1.2);</li>
 <li><span class="ptag" id="sec16.3p2.4" title="16.3 [over.match]/(2.4)">(2.4)</span> クラスオブジェクトの既定初期化または直接初期化 (11.6) に際してのコンストラクタの呼び出し (16.3.1.3);</li>
@@ -1018,7 +1026,30 @@ T a = 1;      // ill-formed: T(C(1)) not tried
 <h5>16.3.1.1.1 Call to named function <span class="secname">[over.call.func]</span></h5>
 <h5>16.3.1.1.2 Call to object of class type <span class="secname">[over.call.object]</span></h5>
 <h4>16.3.1.2 Operators in expressions <span class="secname">[over.match.oper]</span></h4>
-<h4>16.3.1.3 Initialization by constructor <span class="secname">[over.match.ctor]</span></h4>
+<h4 id="sec16.3.1.3">16.3.1.3 Initialization by constructor <span class="secname">[over.match.ctor]</span></h4>
+<p><span class="ptag" id="sec16.3.1.3p1" title="16.3.1.3 [over.match.ctor]/1">1</span>
+クラス型のオブジェクトを、
+直接初期化 (11.6) または同じ型または派生クラス型からコピー初期化 (11.6) または既定初期化 (11.6) するとき、
+多重定義解決でそのコンストラクを選ぶ。
+コピー初期化の文脈にない直接初期化・既定初期化について、
+候補関数は初期化されるオブジェクトのクラスの全てのコンストラクタである。
+コピー初期化について、
+候補関数はそのクラスの全ての変換コンストラクタ (15.3.1) である。
+実引数リストは <span class="syntax">initializer</span> 中の、
+<span class="syntax">expression-list</span> または <span class="syntax">assignment-expression</span> である。
+</p>
+
+<div class="en">
+  <p><span class="ptag" title="16.3.1.3 [over.match.ctor]/1">1</span>
+  When objects of class type are direct-initialized (11.6), copy-initialized from an expression of the same or
+  a derived class type (11.6), or default-initialized (11.6), overload resolution selects the constructor. For
+  direct-initialization or default-initialization that is not in the context of copy-initialization, the candidate
+  functions are all the constructors of the class of the object being initialized. For copy-initialization, the
+  candidate functions are all the converting constructors (15.3.1) of that class. The argument list is the
+  expression-list or assignment-expression of the initializer.
+  </p>
+</div>
+
 <h4>16.3.1.4 Copy-initialization of class by user-defined conversion <span class="secname">[over.match.copy]</span></h4>
 <h4>16.3.1.5 Initialization by conversion function <span class="secname">[over.match.conv]</span></h4>
 <h4>16.3.1.6 Initialization by conversion function for direct reference binding <span class="secname">[over.match.ref]</span></h4>
@@ -1201,7 +1232,7 @@ A b2 = a;           // #7 で A&lt;A&lt;int&gt;&gt; と推論され #1 で初期
   - 例終わり ]
 </li>
 </ul>
-<p class="translation-note">#7 の振る舞いについて確認する必要がある</p>
+<p class="translation-note">#7 の振る舞いについて確認する必要がある。何故 #5 に打ち勝つのか?</p>
 <p class="translation-note">上記の二項関係は「より良い」という字面に反していいかげんな関係である。
 つまり <code>better(F, G) := P1(F, G) || ... || Pn(F, G)</code>
 (但し <code>P1, ..., Pn</code> は前順序を与える?) の形式をしているが、
