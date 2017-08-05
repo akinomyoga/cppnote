@@ -9,8 +9,9 @@
   /*p.translation-note{border:1px solid gray;padding:0.5em;}*/
   .translation-note{background-color: #ddd; padding: 0.8em; margin-bottom: 0.8em;}
   .translation-note:before{content: "訳註: "; font-weight: bold;}
-  div.en{background-color: #eec; padding: 0.8em;}
-  div.en:before{content: "原文 "; font-weight: bold;}
+
+  p.en, div.en{background-color: #eec; padding: 0.8em;}
+  p.en:before, div.en:before{content: "原文 "; font-weight: bold;}
 
   span.tcomment {color: green;}
   span.tcomment:before {content: "[訳者: ";}
@@ -53,6 +54,8 @@
   <li>underlying type → 基礎型 (JIS C++ では基礎となる型としている。中国語では基礎型のようだ)</li>
   <li>storage class → 記憶域クラス (JIS C++ では記憶域種別としている)</li>
   <li>alignment → アライメント (JIS C++ では境界調整としている)</li>
+  <li>defaulted functions → 既定化された関数</li>
+  <li>deleted functions → 削除された関数</li>
   </ul>
 </div>
 
@@ -95,7 +98,7 @@ C++11 以降で追加されたメジャーな機能――例えばラムダ式�
 </p>
 
 <h1 id="sec2">2 Normative references <span class="secname">[intro.refs]</span></h1>
-<p><span class="ptag" id="sec2p1" title="2 [intro.refs]/2">2</span>
+<p><span class="ptag" id="sec2p1" title="2 [intro.refs]/1">1</span>
 以下の文書は、その内容の一部または全ての内容がこの文書の要求を構成するものとして、この文書の本文から適宜参照される。
 以下の文書で版が指定されている場合は、ここで参照した版のみが有効である。
 版が指定されていない場合は、その文書の最新版 (訂正 (amendments) を含む) が有効である。
@@ -125,24 +128,24 @@ C++11 以降で追加されたメジャーな機能――例えばラムダ式�
 <p><span class="ptag" title="3 [intro.defs]/4">4</span> 略</p>
 
 <h2 id="sec3.1">3.1 access <span class="secname">[defns.access]</span></h2>
-<p>〈execution-time action〉 to read or modify the value of an object</p>
-<p class="en">《実行時の動作》 オブジェクトの値を読み取るか修正すること</p>
+<p>《実行時の動作》 オブジェクトの値を読み取るか修正すること</p>
+<p class="en">〈execution-time action〉 to read or modify the value of an object</p>
 
 <h2 id="sec3.2">3.2 argument <span class="secname">[defns.argument]</span></h2>
-<p>〈function call expression〉 expression in the comma-separated list bounded by the parentheses (8.2.2)</p>
-<p class="en">《関数呼び出し式》 丸括弧で囲まれたカンマ区切りのリストに含まれる式 (8.2.2)</p>
+<p>《関数呼び出し式》 丸括弧で囲まれたカンマ区切りのリストに含まれる式 (8.2.2)</p>
+<p class="en">〈function call expression〉 expression in the comma-separated list bounded by the parentheses (8.2.2)</p>
 
 <h2 id="sec3.3">3.3 argument <span class="secname">[defns.argument.macro]</span></h2>
 <p>《関数マクロ》 丸括弧で囲まれたカンマ区切りのリストに含まれるプリプロセッサトークンの列 (19.3)</p>
 <p class="en">〈function-like macro〉 sequence of preprocessing tokens in the comma-separated list bounded by the parentheses (19.3)</p>
 
 <h2 id="sec3.4">3.4 argument <span class="secname">[defns.argument.throw]</span></h2>
-<p>〈throw expression〉 the operand of <code class="agh-prog-cpp">throw</code> (8.17)</p>
-<p class="en">《例外スロー式》 <code class="agh-prog-cpp">throw</code> の対象 (8.17)</p>
+<p>《例外スロー式》 <code class="agh-prog-cpp">throw</code> の対象 (8.17)</p>
+<p class="en">〈throw expression〉 the operand of <code class="agh-prog-cpp">throw</code> (8.17)</p>
 
 <h2 id="sec3.5">3.5 argument <span class="secname">[defns.argument.templ]</span></h2>
-<p>〈template instantiation〉 <i>constant-expression</i>, <i>type-id</i>, or <i>id-expression</i> in the comma-separated list bounded by the angle brackets (17.3)</p>
-<p class="en">《テンプレート実体化》 角括弧で囲まれたカンマ区切りのリストに含まれる <i>定数式</i>、<i>type-id</i>、または <i>id-expression</i> (17.3)</p>
+<p>《テンプレート実体化》 角括弧で囲まれたカンマ区切りのリストに含まれる <i>定数式</i>、<i>type-id</i>、または <i>id-expression</i> (17.3)</p>
+<p class="en">〈template instantiation〉 <i>constant-expression</i>, <i>type-id</i>, or <i>id-expression</i> in the comma-separated list bounded by the angle brackets (17.3)</p>
 
 <h2>3.* 略</h2>
 
@@ -153,7 +156,14 @@ C++11 以降で追加されたメジャーな機能――例えばラムダ式�
 <h1>8 略</h1>
 <h1>9 略</h1>
 <h1>10 略</h1>
-<h1>11 略</h1>
+<h1 id="sec11">11 Declarators <span class="secname">[dcl.decl]</span></h1>
+<h2 id="sec11.1">11.1 Type names <span class="secname">[dcl.name]</span></h2>
+<h2 id="sec11.2">11.2 Ambiguity resolution <span class="secname">[dcl.ambig.res]</span></h2>
+<h2 id="sec11.3">11.3 Meaning of declarators <span class="secname">[dcl.meaning]</span></h2>
+<h2 id="sec11.4">11.4 Function definitions <span class="secname">[dcl.fct.def]</span></h2>
+<h2 id="sec11.5">11.5 Structured binding declarations <span class="secname">[dcl.struct.bind]</span></h2>
+<h2 id="sec11.6">11.6 Initializers <span class="secname">[dcl.init]</span></h2>
+<p>■16.3, 17.6, 17.8 のあと</p>
 <h1>12 略</h1>
 <h1>13 略</h1>
 <h1>14 略</h1>
@@ -362,7 +372,7 @@ void h(int (*x)()) { }  // 不適格: h(int()) の再定義
   - 例終わり ]
   </li>
 <li><span class="ptag" id="sec16.1p3.4" title="16.1 [over.load]/(3.4)">(3.4)</span>
-cosnt または volatile が存在するかどうかのみが異なる仮引数宣言は等価である。
+const または volatile が存在するかどうかのみが異なる仮引数宣言は等価である。
 即ち、どの関数型が宣言されるか・定義されるか・呼び出されるかを決定する際に、
 仮引数型の const/volatile 型指定子は無視される。[例:
   <pre class="agh-prog-cpp">
@@ -523,7 +533,7 @@ void h(D* pd) {
 }
 </pre>
 <p>- 例終わり ]</p>
-<p class="translation-note">異なる型の変換演算子は「名前」が違うという解釈なのだと思われる。</p>
+<p class="translation-note">異なる型の変換関数は「名前」が違うという解釈なのだと思われる。</p>
 <p class="translation-note">等価な仮引数宣言を持つが戻り値が異なる関数宣言は、関数型として異なるので多重定義になる (16/1)。
   しかし等価な仮引数宣言を持ち戻り値が異なる関数宣言は、多重定義できない (16.1/(2.1)。
   これにより等価な仮引数宣言を持つだけで、それが同一の関数であることが保証される。</p>
@@ -710,7 +720,197 @@ public:
   </p>
 </div>
 
-<h3>16.3.1 Candidate functions and argument lists <span class="secname">[over.match.funcs]</span></h3>
+<h3 id="sec16.3.1">16.3.1 Candidate functions and argument lists <span class="secname">[over.match.funcs]</span></h3>
+<p><span class="ptag" id="sec16.3.1p1" title="16.3.1 [over.match.funcs]/1">1</span>
+この節 16.3.1 では多重定義の行われる7つの文脈のそれぞれについて、
+多重定義解決に使われる候補関数の集合と実引数リストを記述する。
+ここで定義されるソースコードの変換や構造は多重定義解決を定義するために導入するもので、
+処理系は必ずしもこれらの変換や構造を実際に使用しなくても良い。
+</p>
+<p><span class="ptag" id="sec16.3.1p2" title="16.3.1 [over.match.funcs]/2">2</span>
+候補関数の集合は、同じ実引数リストに対してメンバ関数と非メンバ関数の両方を含むこともある。
+この異質の候補関数を含む集合について実引数と仮引数のリストを比較するために、
+メンバ関数は暗黙オブジェクト仮引数という追加の仮引数を持つものとみなし、
+この仮引数はメンバ関数を呼び出す対象のオブジェクトを表す。
+多重定義解決において、静的・非静的メンバ関数は共に暗黙オブジェクト仮引数を持つとする。
+一方でコンストラクタは暗黙オブジェクト仮引数を持たない。
+</p>
+<p class="translation-note">本当に同時にメンバ関数と非メンバ関数を両方含むことがあるのか?
+だとすると、非メンバ関数も暗黙引数を入れなければ比較できないのでは? 要確認■
+</p>
+<p><span class="ptag" id="sec16.3.1p3" title="16.3.1 [over.match.funcs]/3">3</span>
+同様に、文脈に応じて、暗黙オブジェクト実引数を含む実引数リストが構築される。
+暗黙オブジェクト実引数はメンバ関数を呼び出す対象のオブジェクトを表す。
+実引数と仮引数はそれぞれの属するリスト中の位置で指定されるので、
+ここでは暗黙オブジェクト仮引数・実引数があるときは、
+それはリスト中の一番初めの実引数・仮引数であるとして取り扱うことにする。
+</p>
+<p><span class="ptag" id="sec16.3.1p4" title="16.3.1 [over.match.funcs]/4">4</span>
+非静的メンバ関数の暗黙オブジェクト仮引数の型は、
+</p>
+<ul>
+<li><span class="ptag" id="sec16.3.1p4.1" title="16.3.1 [over.match.funcs]/(4.1)">(4.1)</span>
+  参照修飾子のないまたは <code class="agh-prog-cpp">&amp;</code> 参照修飾子のついた関数については
+  <i>cv</i> <code class="agh-prog-cpp">X</code> の左辺値参照であり、</li>
+<li><span class="ptag" id="sec16.3.1p4.2" title="16.3.1 [over.match.funcs]/(4.2)">(4.2)</span>
+  <code class="agh-prog-cpp">&amp;&amp;</code> 参照修飾子のついた関数については
+  <i>cv</i> <code class="agh-prog-cpp">X</code> の右辺値参照である。</li>
+</ul>
+<p>但し、<code class="agh-prog-cpp">X</code> は関数がメンバとして属するクラスであり、
+<i>cv</i> はそのメンバ関数の宣言の cv 修飾である。[例:
+クラス <code class="agh-prog-cpp">X</code> の <code class="agh-prog-cpp">const</code> メンバ関数について、
+追加の仮引数は <code class="agh-prog-cpp">const X</code> の参照を持つと考える。- 例終わり ]
+変換関数は、
+暗黙オブジェクト仮引数の型を決めるために、
+暗黙オブジェクト実引数のクラスのメンバであると考える。
+using 宣言を用いて派生クラスに導入された変換関数以外の関数は、
+暗黙オブジェクト仮引数の型を決めるために、
+派生クラスのメンバであると考える。
+静的メンバ関数については、
+(もし採用された場合、暗黙オブジェクト実引数は使われないので)、
+暗黙オブジェクト仮引数はいかなるオブジェクトにも一致すると考える。
+[註: 静的メンバ関数の暗黙オブジェクト仮引数には実際の型は決めず、
+また、その仮引数に対する変換列が決定されることもない (16.3.3) - 註終わり ]
+</p>
+<p><span class="ptag" id="sec16.3.1p5" title="16.3.1 [over.match.funcs]/5">5</span>
+多重定義解決において、暗黙オブジェクト実引数は他の実引数と同様に取り扱う。
+一方で暗黙オブジェクト仮引数については、
+実引数の型を一致させるためにユーザ定義変換を使えない規則 <span class="tcomment">16.3.3.1/7</span> のために、
+自身が暗黙オブジェクト仮引数であることを覚えておく必要がある。
+参照修飾子のない非静的メンバ関数については以下の追加の規則が適用される:
+</p>
+<ul>
+<li><span class="ptag" id="sec16.3.1p5.1" title="16.3.1 [over.match.funcs]/(5.1)">(5.1)</span>
+  暗黙オブジェクト仮引数が const 修飾されていなくても、
+  その点を除いてその暗黙オブジェクト仮引数の型に変換可能な rvalue の実引数は、
+  その暗黙オブジェクト仮引数に束縛されうる。
+  [註: その実引数が rvalue であることは、暗黙変換列のランク (16.3.3.2) に影響しない。- 註終わり ]</li>
+</ul>
+<p><span class="ptag" id="sec16.3.1p6" title="16.3.1 [over.match.funcs]/6">6</span>
+リスト初期化以外ではユーザ定義変換は高々1回までなので、
+最適なユーザ定義変換を選ぶときに特別な規則が適用される(16.3.3, 16.3.3.1)。[例:
+</p>
+<pre class="agh-prog-cpp">
+class T {
+public:
+  T();
+};
+class C : T {
+public:
+  C(int);
+};
+T a = 1;      // 不適格: T(C(1)) は考慮されない
+</pre>
+<p>- 例終わり ]</p>
+<p><span class="ptag" id="sec16.3.1p7" title="16.3.1 [over.match.funcs]/7">7</span>
+候補が関数テンプレートの場合、
+テンプレート実引数推論 (17.8.3, 17.8.2) を経て、
+候補の関数テンプレート特殊化が生成され、
+以降は通常の候補関数と同様に取り扱われる<sup>124</sup>。
+与えられた関数名は、1つ以上の関数テンプレートと
+多重定義された非テンプレート関数の集合を同時に指すこともある。
+その場合は、それぞれの関数テンプレートから生成された候補関数は、
+非テンプレート候補関数の集合に合流させて取り扱われる。
+</p>
+<p><span class="ptag" id="sec16.3.1p8" title="16.3.1 [over.match.funcs]/8">8</span>
+どの文脈でも、既定化されたムーブコンストラクタ (15.8) と削除された代入演算子は候補関数の集合に含まれない。
+</p>
+<p><span class="ptag" id="footnote124">footnote 124</span>
+実引数推論の過程で関数テンプレート特殊化の仮引数の型は完全に定まる。
+つまり、関数テンプレート特殊化の仮引数にはテンプレート仮引数は残らない。
+従って、特に指定がない限りは、関数テンプレート特殊化と非テンプレート関数 (11.3.5) は、
+多重定義解決の残りの部分で同等に取り扱われる。
+</p>
+
+<div class="en">
+  <p><span class="ptag" title="16.3.1 [over.match.funcs]/1">1</span>
+  The subclauses of 16.3.1 describe the set of candidate functions and the argument list submitted to overload
+  resolution in each of the seven contexts in which overload resolution is used. The source transformations
+  and constructions defined in these subclauses are only for the purpose of describing the overload resolution
+  process. An implementation is not required to use such transformations and constructions.
+  </p>
+  <p><span class="ptag" title="16.3.1 [over.match.funcs]/2">2</span>
+  The set of candidate functions can contain both member and non-member functions to be resolved against
+  the same argument list. So that argument and parameter lists are comparable within this heterogeneous set,
+  a member function is considered to have an extra parameter, called the implicit object parameter, which
+  represents the object for which the member function has been called. For the purposes of overload resolution,
+  both static and non-static member functions have an implicit object parameter, but constructors do not.
+  </p>
+  <p><span class="ptag" title="16.3.1 [over.match.funcs]/3">3</span>
+  Similarly, when appropriate, the context can construct an argument list that contains an implied object
+  argument to denote the object to be operated on. Since arguments and parameters are associated by position
+  within their respective lists, the convention is that the implicit object parameter, if present, is always the
+  first parameter and the implied object argument, if present, is always the first argument.
+  </p>
+  <p><span class="ptag" title="16.3.1 [over.match.funcs]/4">4</span>
+  For non-static member functions, the type of the implicit object parameter is
+  </p>
+  <ul>
+  <li><span class="ptag" title="16.3.1 [over.match.funcs]/(4.1)">(4.1)</span>
+    “lvalue reference to cv X” for functions declared without a ref-qualifier or with the &amp; ref-qualifier</li>
+  <li><span class="ptag" title="16.3.1 [over.match.funcs]/(4.2)">(4.2)</span>
+    “rvalue reference to cv X” for functions declared with the &amp;&amp; ref-qualifier</li>
+  </ul>
+  <p>where X is the class of which the function is a member and cv is the cv-qualification on the member function
+  declaration. [Example: For a const member function of class X , the extra parameter is assumed to have
+  type “reference to const X ”. —end example ] For conversion functions, the function is considered to be
+  a member of the class of the implied object argument for the purpose of defining the type of the implicit
+  object parameter. For non-conversion functions introduced by a using-declaration into a derived class, the
+  function is considered to be a member of the derived class for the purpose of defining the type of the implicit
+  object parameter. For static member functions, the implicit object parameter is considered to match any
+  object (since if the function is selected, the object is discarded). [Note: No actual type is established for
+  the implicit object parameter of a static member function, and no attempt will be made to determine a
+  conversion sequence for that parameter (16.3.3). —end note ]
+  </p>
+  <p><span class="ptag" title="16.3.1 [over.match.funcs]/5">5</span>
+  During overload resolution, the implied object argument is indistinguishable from other arguments. The
+  implicit object parameter, however, retains its identity since no user-defined conversions can be applied to
+  achieve a type match with it. For non-static member functions declared without a ref-qualifier, an additional
+  rule applies:
+  </p>
+  <ul>
+  <li><span class="ptag" title="16.3.1 [over.match.funcs]/(5.1)">(5.1)</span>
+    even if the implicit object parameter is not const-qualified, an rvalue can be bound to the parameter as
+    long as in all other respects the argument can be converted to the type of the implicit object parameter.
+    [Note: The fact that such an argument is an rvalue does not affect the ranking of implicit conversion
+    sequences (16.3.3.2). —end note ]
+  </li>
+  </ul>
+  <p><span class="ptag" title="16.3.1 [over.match.funcs]/6">6</span>
+  Because other than in list-initialization only one user-defined conversion is allowed in an implicit conversion
+  sequence, special rules apply when selecting the best user-defined conversion (16.3.3, 16.3.3.1). [Example:
+  </p>
+<pre class="agh-prog-cpp">
+class T {
+public:
+  T();
+};
+class C : T {
+public:
+  C(int);
+};
+T a = 1;      // ill-formed: T(C(1)) not tried
+</pre>
+  <p>—end example ]</p>
+  <p><span class="ptag" title="16.3.1 [over.match.funcs]/7">7</span>
+  In each case where a candidate is a function template, candidate function template specializations are
+  generated using template argument deduction (17.8.3, 17.8.2). Those candidates are then handled as
+  candidate functions in the usual way. 124 A given name can refer to one or more function templates and also
+  to a set of overloaded non-template functions. In such a case, the candidate functions generated from each
+  function template are combined with the set of non-template candidate functions.
+  </p>
+  <p><span class="ptag" title="16.3.1 [over.match.funcs]/8">8</span>
+  A defaulted move constructor or assignment operator (15.8) that is defined as deleted is excluded from the
+  set of candidate functions in all contexts.
+  </p>
+  <p><span class="ptag">footnote 124</span>
+  The process of argument deduction fully determines the parameter types of the function template specializations, i.e.,
+  the parameters of function template specializations contain no template parameter types. Therefore, except where specified
+  otherwise, function template specializations and non-template functions (11.3.5) are treated equivalently for the remainder of
+  overload resolution.
+  </p>
+</div>
+
 <h4>16.3.1.1 Function call syntax <span class="secname">[over.match.call]</span></h4>
 <h5>16.3.1.1.1 Call to named function <span class="secname">[over.call.func]</span></h5>
 <h5>16.3.1.1.2 Call to object of class type <span class="secname">[over.call.object]</span></h5>
