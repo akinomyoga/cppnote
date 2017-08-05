@@ -9,6 +9,19 @@
 
   @media print { pre, code {font-family: "Courier New", monospace;} }
 
+  /* section headings */
+  h1, h2, h3, h4, h5, h6 {position: relative;}
+  h1:has(>span.stag),
+  h2:has(>span.stag),
+  h3:has(>span.stag),
+  h4:has(>span.stag),
+  h5:has(>span.stag),
+  h6:has(>span.stag) {padding-right: 10em;} /* Note: :has() pseudo-class comes with CSS Level 4 */
+  span.stag {position: absolute; right: 0;}
+  h1 {font-size: 2.0em;}
+  h2, h3 {font-size: 1.5em;}
+  h4, h5, h6 {font-size: 1.15em;}
+
   span.ptag{color: green; font-weight: bold; vertical-align: super; font-size: 80%; margin-right: 0.1em;}
 
   p.en, div.en{background-color: #eec; padding: 0.8em;}
@@ -84,7 +97,7 @@
 <h1>List of Figures</h1>
 <p>略</p>
 
-<h1 id="sec1">1 Scope <span class="secname">[intro.scope]</span></h1>
+<h1 id="sec1">1 Scope <span class="stag">[intro.scope]</span></h1>
 <p><span class="ptag" id="sec1p1" title="1 [intro.scope]/1">1</span>
 この文書は C++ プログラミング言語の処理系に対する要求を指定する。
 第一の要求は処理系が言語を実装することであり、これはこの文書が C++ を定義するということを意味する。
@@ -113,7 +126,7 @@ C によって提供される機能の他に、C++ は追加のデータ型、�
 C++11 以降で追加されたメジャーな機能――例えばラムダ式などは追加しなくても良いのだろうか?
 </p>
 
-<h1 id="sec2">2 Normative references <span class="secname">[intro.refs]</span></h1>
+<h1 id="sec2">2 Normative references <span class="stag">[intro.refs]</span></h1>
 <p><span class="ptag" id="sec2p1" title="2 [intro.refs]/1">1</span>
 以下の文書は、その内容の一部または全ての内容がこの文書の要求を構成するものとして、この文書の本文から適宜参照される。
 以下の文書で版が指定されている場合は、ここで参照した版のみが有効である。
@@ -199,7 +212,7 @@ C 標準ライブラリは C++ 標準ライブラリの部分集合である。
   </p>
 </div>
 
-<h1 id="sec3">3 Terms and definitions <span class="secname">[intro.defs]</span></h1>
+<h1 id="sec3">3 Terms and definitions <span class="stag">[intro.defs]</span></h1>
 <p><span class="ptag" id="sec3p1" title="3 [intro.defs]/1">1</span>
 この文書の説明のため、
 ISO/IEC 2382-1:1993 で与えられる用語と定義、
@@ -245,23 +258,23 @@ Clause 20 から 33 と補遺 D で使用される追加の用語が、20.3 で�
   </p>
 </div>
 
-<h2 id="sec3.1">3.1 access <span class="secname">[defns.access]</span></h2>
+<h2 id="sec3.1">3.1 access <span class="stag">[defns.access]</span></h2>
 <p>《実行時の動作》 オブジェクトの値を読み取るか修正すること</p>
 <p class="en">〈execution-time action〉 to read or modify the value of an object</p>
 
-<h2 id="sec3.2">3.2 argument <span class="secname">[defns.argument]</span></h2>
+<h2 id="sec3.2">3.2 argument <span class="stag">[defns.argument]</span></h2>
 <p>《関数呼び出し式》 丸括弧で囲まれたカンマ区切りのリストに含まれる式 (8.2.2)</p>
 <p class="en">〈function call expression〉 expression in the comma-separated list bounded by the parentheses (8.2.2)</p>
 
-<h2 id="sec3.3">3.3 argument <span class="secname">[defns.argument.macro]</span></h2>
+<h2 id="sec3.3">3.3 argument <span class="stag">[defns.argument.macro]</span></h2>
 <p>《関数マクロ》 丸括弧で囲まれたカンマ区切りのリストに含まれるプリプロセッサトークンの列 (19.3)</p>
 <p class="en">〈function-like macro〉 sequence of preprocessing tokens in the comma-separated list bounded by the parentheses (19.3)</p>
 
-<h2 id="sec3.4">3.4 argument <span class="secname">[defns.argument.throw]</span></h2>
+<h2 id="sec3.4">3.4 argument <span class="stag">[defns.argument.throw]</span></h2>
 <p>《例外スロー式》 <code class="agh-prog-cpp">throw</code> の対象 (8.17)</p>
 <p class="en">〈throw expression〉 the operand of <code class="agh-prog-cpp">throw</code> (8.17)</p>
 
-<h2 id="sec3.5">3.5 argument <span class="secname">[defns.argument.templ]</span></h2>
+<h2 id="sec3.5">3.5 argument <span class="stag">[defns.argument.templ]</span></h2>
 <p>《テンプレート実体化》 角括弧で囲まれたカンマ区切りのリストに含まれる
 <span class="syntax">constant-expression</span>、<span class="syntax">type-id</span>、または <span class="syntax">id-expression</span> (17.3)</p>
 <p class="en">〈template instantiation〉 constant-expression, type-id, or id-expression in the comma-separated list bounded by the angle brackets (17.3)</p>
@@ -275,19 +288,19 @@ Clause 20 から 33 と補遺 D で使用される追加の用語が、20.3 で�
 <h1>8 略</h1>
 <h1>9 略</h1>
 <h1>10 略</h1>
-<h1 id="sec11">11 Declarators <span class="secname">[dcl.decl]</span></h1>
-<h2 id="sec11.1">11.1 Type names <span class="secname">[dcl.name]</span></h2>
-<h2 id="sec11.2">11.2 Ambiguity resolution <span class="secname">[dcl.ambig.res]</span></h2>
-<h2 id="sec11.3">11.3 Meaning of declarators <span class="secname">[dcl.meaning]</span></h2>
-<h2 id="sec11.4">11.4 Function definitions <span class="secname">[dcl.fct.def]</span></h2>
-<h2 id="sec11.5">11.5 Structured binding declarations <span class="secname">[dcl.struct.bind]</span></h2>
-<h2 id="sec11.6">11.6 Initializers <span class="secname">[dcl.init]</span></h2>
+<h1 id="sec11">11 Declarators <span class="stag">[dcl.decl]</span></h1>
+<h2 id="sec11.1">11.1 Type names <span class="stag">[dcl.name]</span></h2>
+<h2 id="sec11.2">11.2 Ambiguity resolution <span class="stag">[dcl.ambig.res]</span></h2>
+<h2 id="sec11.3">11.3 Meaning of declarators <span class="stag">[dcl.meaning]</span></h2>
+<h2 id="sec11.4">11.4 Function definitions <span class="stag">[dcl.fct.def]</span></h2>
+<h2 id="sec11.5">11.5 Structured binding declarations <span class="stag">[dcl.struct.bind]</span></h2>
+<h2 id="sec11.6">11.6 Initializers <span class="stag">[dcl.init]</span></h2>
 <p>■16.3, 17.6, 17.8 のあと</p>
 <h1>12 略</h1>
 <h1>13 略</h1>
 <h1>14 略</h1>
 <h1>15 略</h1>
-<h1 id="sec16">16 Overloading <span class="secname">[over]</span></h1>
+<h1 id="sec16">16 Overloading <span class="stag">[over]</span></h1>
 <p><span class="ptag" id="sec16p1" title="16 [over]/1">1</span> 同じスコープで一つの名前について2つ以上の宣言が指定された時、その名前は<dfn>多重定義</dfn> (overload) されているという。
 更に、同じスコープで同じ名前だが異なる型の二つの宣言を<dfn>多重定義</dfn> (overloaded declaration) と呼ぶ。
 関数および関数テンプレートの宣言のみが多重定義されうる。
@@ -329,7 +342,7 @@ abs(1.0); // calls abs(double);
   <p>-- end example]</p>
 </div>
 
-<h2 id="sec16.1">16.1 Overloadable declarations <span class="secname">[over.load]</span></h2>
+<h2 id="sec16.1">16.1 Overloadable declarations <span class="stag">[over.load]</span></h2>
 <p><span class="ptag" id="sec16.1p1" title="16.1 [over.load]/1">1</span>
 全ての関数宣言が多重定義できるわけではない。
 多重定義できないものをここで指定する。
@@ -629,7 +642,7 @@ void prog () {
   also ignored.</p>
 </div>
 
-<h2 id="sec16.2">16.2 Declaration matching <span class="secname">[over.dcl]</span></h2>
+<h2 id="sec16.2">16.2 Declaration matching <span class="stag">[over.dcl]</span></h2>
 <p><span class="ptag" id="sec16.2p1" title="16.2 [over.dcl]/1">1</span>
 同名の関数宣言は、同じスコープにあり等価な仮引数宣言を持つ時、同一の関数を指す (16.1)。
 派生クラスのメンバ関数は、基底クラスの同名のメンバ関数とは別のスコープにある。[例:
@@ -752,7 +765,7 @@ public:
   <p>—end example ]</p>
 </div>
 
-<h2 id="sec16.3">16.3 Overload resolution <span class="secname">[over.match]</span></h2>
+<h2 id="sec16.3">16.3 Overload resolution <span class="stag">[over.match]</span></h2>
 <p><span class="ptag" id="sec16.3p1" title="16.3 [over.match]/1">1</span>
 多重定義解決は、関数の呼び出しにおいて最適の関数を選択する仕組みである。
 実引数の式のリストと、呼び出しの文脈における<dfn>候補関数</dfn> (candidate functions) の集合が考慮される。
@@ -839,7 +852,7 @@ public:
   </p>
 </div>
 
-<h3 id="sec16.3.1">16.3.1 Candidate functions and argument lists <span class="secname">[over.match.funcs]</span></h3>
+<h3 id="sec16.3.1">16.3.1 Candidate functions and argument lists <span class="stag">[over.match.funcs]</span></h3>
 <p><span class="ptag" id="sec16.3.1p1" title="16.3.1 [over.match.funcs]/1">1</span>
 この節 16.3.1 では多重定義の行われる7つの文脈のそれぞれについて、
 多重定義解決に使われる候補関数の集合と実引数リストを記述する。
@@ -1030,11 +1043,11 @@ T a = 1;      // ill-formed: T(C(1)) not tried
   </p>
 </div>
 
-<h4>16.3.1.1 Function call syntax <span class="secname">[over.match.call]</span></h4>
-<h5>16.3.1.1.1 Call to named function <span class="secname">[over.call.func]</span></h5>
-<h5>16.3.1.1.2 Call to object of class type <span class="secname">[over.call.object]</span></h5>
-<h4>16.3.1.2 Operators in expressions <span class="secname">[over.match.oper]</span></h4>
-<h4 id="sec16.3.1.3">16.3.1.3 Initialization by constructor <span class="secname">[over.match.ctor]</span></h4>
+<h4>16.3.1.1 Function call syntax <span class="stag">[over.match.call]</span></h4>
+<h5>16.3.1.1.1 Call to named function <span class="stag">[over.call.func]</span></h5>
+<h5>16.3.1.1.2 Call to object of class type <span class="stag">[over.call.object]</span></h5>
+<h4>16.3.1.2 Operators in expressions <span class="stag">[over.match.oper]</span></h4>
+<h4 id="sec16.3.1.3">16.3.1.3 Initialization by constructor <span class="stag">[over.match.ctor]</span></h4>
 <p><span class="ptag" id="sec16.3.1.3p1" title="16.3.1.3 [over.match.ctor]/1">1</span>
 クラス型のオブジェクトを、
 直接初期化 (11.6) または同じ型または派生クラス型からコピー初期化 (11.6) または既定初期化 (11.6) するとき、
@@ -1058,12 +1071,12 @@ T a = 1;      // ill-formed: T(C(1)) not tried
   </p>
 </div>
 
-<h4>16.3.1.4 Copy-initialization of class by user-defined conversion <span class="secname">[over.match.copy]</span></h4>
-<h4>16.3.1.5 Initialization by conversion function <span class="secname">[over.match.conv]</span></h4>
-<h4>16.3.1.6 Initialization by conversion function for direct reference binding <span class="secname">[over.match.ref]</span></h4>
-<h4>16.3.1.7 Initialization by list-initialization <span class="secname">[over.match.list]</span></h4>
-<h4>16.3.1.8 Class template argument deduction <span class="secname">[over.match.class.deduct]</span></h4>
-<h3 id="sec16.3.2">16.3.2 Viable functions <span class="secname">[over.match.viable]</span></h3>
+<h4>16.3.1.4 Copy-initialization of class by user-defined conversion <span class="stag">[over.match.copy]</span></h4>
+<h4>16.3.1.5 Initialization by conversion function <span class="stag">[over.match.conv]</span></h4>
+<h4>16.3.1.6 Initialization by conversion function for direct reference binding <span class="stag">[over.match.ref]</span></h4>
+<h4>16.3.1.7 Initialization by list-initialization <span class="stag">[over.match.list]</span></h4>
+<h4>16.3.1.8 Class template argument deduction <span class="stag">[over.match.class.deduct]</span></h4>
+<h3 id="sec16.3.2">16.3.2 Viable functions <span class="stag">[over.match.viable]</span></h3>
 <p><span class="ptag" id="sec16.3.2p1" title="16.3.2 [over.match.viable]/1">1</span>
 現在の文脈に対して候補関数の集合を求めた後 (16.3.1)、その中から呼び出し可能関数の集合が選ばれる。
 後で、実引数の変換列 (16.3) を比べることによって、この集合の中からできるだけ実引数が合致する最適な関数が選択される。
@@ -1129,7 +1142,7 @@ JIS C++ では<i>二次候補関数</i>と訳していることに注意する�
   </p>
 </div>
 
-<h3 id="sec16.3.3">16.3.3 Best viable function <span class="secname">[over.match.best]</span></h3>
+<h3 id="sec16.3.3">16.3.3 Best viable function <span class="stag">[over.match.best]</span></h3>
 <p><span class="ptag" id="sec16.3.3p1" title="16.3.3 [over.match.best]/1">1</span>
 <span class="tcomment">呼び出し可能関数 <code class="agh-prog-cpp">F</code> に対して</span>
 <span class="ICS">ICS<i>i</i>(<code class="agh-prog-cpp">F</code>)</span> を次のように定義する:</p>
@@ -1464,7 +1477,7 @@ void use() {
   </p>
 </div>
 
-<h4 id="sec16.3.3.1">16.3.3.1 Implicit conversion sequences <span class="secname">[over.best.ics]</span></h4>
+<h4 id="sec16.3.3.1">16.3.3.1 Implicit conversion sequences <span class="stag">[over.best.ics]</span></h4>
 <p><span class="ptag" id="sec16.3.3.1p1" title="16.3.3.1 [over.best.ics]/1">1</span>
 <dfn>暗黙変換列</dfn> (implicit conversion sequence) は、
 実引数を対応する仮引数の型に変換するための型変換の列である。
@@ -1694,13 +1707,13 @@ f(b);         // OK, unambiguous
 </div>
 
 
-<h5>16.3.3.1.1 Standard conversion sequences <span class="secname">[over.ics.scs]</span></h5>
-<h5>16.3.3.1.2 User-defined conversion sequences <span class="secname">[over.ics.user]</span></h5>
-<h5>16.3.3.1.3 Ellipsis conversion sequences <span class="secname">[over.ics.ellipsis]</span></h5>
-<h5>16.3.3.1.4 Reference binding <span class="secname">[over.ics.ref]</span></h5>
-<h5>16.3.3.1.5 List-initialization sequence <span class="secname">[over.ics.list]</span></h5>
+<h5>16.3.3.1.1 Standard conversion sequences <span class="stag">[over.ics.scs]</span></h5>
+<h5>16.3.3.1.2 User-defined conversion sequences <span class="stag">[over.ics.user]</span></h5>
+<h5>16.3.3.1.3 Ellipsis conversion sequences <span class="stag">[over.ics.ellipsis]</span></h5>
+<h5>16.3.3.1.4 Reference binding <span class="stag">[over.ics.ref]</span></h5>
+<h5>16.3.3.1.5 List-initialization sequence <span class="stag">[over.ics.list]</span></h5>
 
-<h4 id="sec16.3.3.2" title="16.3.3.2 [over.ics.rank]">16.3.3.2 Ranking implicit conversion sequences <span class="secname">[over.ics.rank]</span></h4>
+<h4 id="sec16.3.3.2" title="16.3.3.2 [over.ics.rank]">16.3.3.2 Ranking implicit conversion sequences <span class="stag">[over.ics.rank]</span></h4>
 <p><span class="ptag" id="sec16.3.3.2p1" title="16.3.3.2 [over.ics.rank]/1">1</span>
 この章では <dfn>より良い変換列</dfn> (better conversion sequence) と
 <dfn>より良い変換</dfn> (better conversion) に基いて暗黙変換列に半順序を定義する。
@@ -2135,11 +2148,11 @@ int i = f(pc);        // calls f(B*)
 <h2>16.5 Overloaded operators [over.oper]</h2>
 <h2>16.6 Built-in operators [over.built]</h2>
 
-<h1>17 Templates <span class="secname">[temp]</span></h1>
+<h1>17 Templates <span class="stag">[temp]</span></h1>
 <p>略</p>
-<h1>18 Exception handling <span class="secname">[except]</span></h1>
+<h1>18 Exception handling <span class="stag">[except]</span></h1>
 <p>略</p>
-<h1>19 Preprocessing Directives <span class="secname">[cpp]</span></h1>
+<h1>19 Preprocessing Directives <span class="stag">[cpp]</span></h1>
 <p>略</p>
 </body>
 </html>
