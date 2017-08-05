@@ -51,6 +51,8 @@
   <li>implicit object paramter → 暗黙オブジェクト仮引数</li>
   <li>implied object argument → 暗黙オブジェクト実引数</li>
   <li>underlying type → 基礎型 (JIS C++ では基礎となる型としている。中国語では基礎型のようだ)</li>
+  <li>storage class → 記憶域クラス (JIS C++ では記憶域種別としている)</li>
+  <li>alignment → アライメント (JIS C++ では境界調整としている)</li>
   </ul>
 </div>
 
@@ -722,7 +724,7 @@ public:
 <h3 id="sec16.3.2">16.3.2 Viable functions <span class="secname">[over.match.viable]</span></h3>
 <p><span class="ptag" id="sec16.3.2p1" title="16.3.2 [over.match.viable]/1">1</span>
 現在の文脈に対して候補関数の集合を求めた後 (16.3.1)、その中から呼び出し可能関数の集合が選ばれる。
-実引数の変換列 (16.3) を比べることによって、呼び出し可能関数の中からできるだけ実引数が合致する最適な関数が選択される。
+後で、実引数の変換列 (16.3) を比べることによって、この集合の中からできるだけ実引数が合致する最適な関数が選択される。
 呼び出し可能関数の選択では、(変換列の優先度を除く) 実引数と関数の仮引数の関係が考慮される。
 </p>
 <p><span class="ptag" id="sec16.3.2p2" title="16.3.2 [over.match.viable]/2">2</span>
@@ -1120,7 +1122,234 @@ void use() {
   </p>
 </div>
 
-<h4>16.3.3.1 Implicit conversion sequences <span class="secname">[over.best.ics]</span></h4>
+<h4 id="sec16.3.3.1">16.3.3.1 Implicit conversion sequences <span class="secname">[over.best.ics]</span></h4>
+<p><span class="ptag" id="sec16.3.3.1p1" title="16.3.3.1 [over.best.ics]/1">1</span>
+暗黙変換列は、実引数を対応する仮引数の型に変換するための型変換の列である。
+変換列は Clause 7 で定義される暗黙変換になる。
+つまり、単一の式によるオブジェクトまたは参照の初期化 (11.6, 11.6.3) である。
+</p>
+<p><span class="ptag" id="sec16.3.3.1p2" title="16.3.3.1 [over.best.ics]/2">2</span>
+暗黙変換列では、実引数の型・cv修飾・値分類と、
+それらが仮引数の対応する性質に一致するように変換する方法のみを考慮する。
+実引数の寿命・記憶域クラス・アライメント・アクセス可能性、
+実引数がビットフィールドかどうか、
+関数が削除されている (11.4.3) かどうかといった性質は考慮されない。
+従って、或る実引数と仮引数の組に対して暗黙変換列が定義されたとしても、
+その実引数から仮引数への変換が最終的な解析で不適格となる可能性は残る。
+</p>
+<p><span class="ptag" id="sec16.3.3.1p3" title="16.3.3.1 [over.best.ics]/3">3</span>
+適格な暗黙変換列は以下の内の何れかである:
+</p>
+<ul>
+<li><span class="ptag" id="sec16.3.3.1p3.1" title="16.3.3.1 [over.best.ics]/(3.1)">(3.1)</span> 標準変換列 (16.3.3.1.1) か、</li>
+<li><span class="ptag" id="sec16.3.3.1p3.2" title="16.3.3.1 [over.best.ics]/(3.2)">(3.2)</span> ユーザ定義変換列 (16.3.3.1.2) か、</li>
+<li><span class="ptag" id="sec16.3.3.1p3.3" title="16.3.3.1 [over.best.ics]/(3.3)">(3.3)</span> 省略記号変換列 (16.3.3.1.3)。</li>
+</ul>
+<p><span class="ptag" id="sec16.3.3.1p4" title="16.3.3.1 [over.best.ics]/4">4</span>
+但し、変換先が</p>
+<ul>
+<li><span class="ptag" id="sec16.3.3.1p4.1" title="16.3.3.1 [over.best.ics]/(4.1)">(4.1)</span> コンストラクタの最初の仮引数か、</li>
+<li><span class="ptag" id="sec16.3.3.1p4.2" title="16.3.3.1 [over.best.ics]/(4.2)">(4.2)</span> ユーザ定義の変換関数の暗黙オブジェクト仮引数</li>
+</ul>
+<p>であり、そのコンストラクタまたはユーザ定義の変換関数が</p>
+<ul>
+<li><span class="ptag" id="sec16.3.3.1p4.3" title="16.3.3.1 [over.best.ics]/(4.3)">(4.3)</span>
+  16.3.1.3 による候補でありかつ実引数がクラスのコピー初期化の第2ステップ(■check)による一時オブジェクトであるか、</li>
+<li><span class="ptag" id="sec16.3.3.1p4.4" title="16.3.3.1 [over.best.ics]/(4.4)">(4.4)</span>
+  16.3.1.4, 16.3.1.5, 16.3.1.6 による候補か、</li>
+<li><span class="ptag" id="sec16.3.3.1p4.5" title="16.3.3.1 [over.best.ics]/(4.5)">(4.5)</span>
+  16.3.1.7 の第2フェーズ(■check)による候補であり、
+  初期化リストがただ一つのそれ自体が初期化リストである要素を持ち、
+  変換先がクラス <code class="agh-prog-cpp">X</code> のコンストラクタの第一仮引数であり、
+  その型が <code class="agh-prog-cpp">X</code> または "<i>cv</i> <code class="agh-prog-cpp">X</code> の参照"
+  </li>
+</ul>
+<p>であるとき、ユーザ定義の変換列は考慮されない。
+[註: ここにある規則は多重定義解決において複数のユーザ定義変換が起こること、
+乃至は無限再帰を防ぐためにある。 - 註終わり ]
+[例:
+</p>
+<pre class="agh-prog-cpp">
+struct Y { Y(int); };
+struct A { operator int(); };
+Y y1 = A();   // error: A::operator int() は候補ではない。
+
+struct X { };
+struct B { operator X(); };
+B b;
+X x({b});     // error: B::operator X() は候補ではない。
+</pre>
+<p class="translation-note">2つ目の例は 16.3.3.1/(4.5) の例なのだと思われるが、
+X x({b}) は {{b}} という初期化リストと解釈されるということなのか。■</p>
+<p>- 例終わり ]</p>
+<p><span class="ptag" id="sec16.3.3.1p5" title="16.3.3.1 [over.best.ics]/5">5</span>
+仮引数の型が参照のときは 16.3.3.1.4 を見よ。
+</p>
+<p><span class="ptag" id="sec16.3.3.1p6" title="16.3.3.1 [over.best.ics]/6">6</span>
+仮引数の型が参照でないとき、暗黙変換列は実引数の式による仮引数のコピー初期化をモデル化する。
+暗黙変換列は、特に、実引数の式を仮引数の型の prvalue に変換するのに必要なコピー初期化である。
+[註: 仮引数がクラス型の場合、これはこの章 Clause 16 のために定義される概念上の変換である。
+実際の初期化はコンストラクタによって定義され、これは変換ではない。- 註終わり ]
+一番外側の cv 修飾の違いは最終的な初期化で考慮されるので変換列には寄与しない。
+[例: 型 <code class="agh-prog-cpp">A</code> の仮引数は <code class="agh-prog-cpp">const A</code> の実引数で初期化できる。
+このとき暗黙変換列は恒等変換であり、<code class="agh-prog-cpp">const A</code> から
+<code class="agh-prog-cpp">A</code> への変換は含まない。 - 例終わり ]
+仮引数がクラス型を持ち実引数の式が同じ型を持つとき、暗黙変換列は恒等変換である。
+仮引数がクラス型を持ち実引数の式が派生クラスの型を持つとき、
+暗黙変換列は、派生クラスから基底クラスへの derived-to-base Conversion である。
+[註: そのような標準返還はない。derived-to-base Conversion は暗黙変換列を記述するためだけに存在する。 - 註終わり ]
+derived-to-base Conversion は Conversion ランクを持つ (16.3.3.1.1)。
+</p>
+<p><span class="ptag" id="sec16.3.3.1p7" title="16.3.3.1 [over.best.ics]/7">7</span>
+全ての文脈で、暗黙オブジェクト仮引数または代入操作の左辺に変換するとき、標準変換のみが許される。
+</p>
+<p><span class="ptag" id="sec16.3.3.1p8" title="16.3.3.1 [over.best.ics]/8">8</span>
+実引数を仮引数の型に一致させるのに変換が必要ない場合、
+暗黙変換列は恒等変換 (16.3.3.1.1) からなる標準変換列である。
+</p>
+<p><span class="ptag" id="sec16.3.3.1p9" title="16.3.3.1 [over.best.ics]/9">9</span>
+実引数を仮引数の型に一致させる変換の列が存在しないとき、暗黙変換列は構築できない。
+</p>
+<p><span class="ptag" id="sec16.3.3.1p10" title="16.3.3.1 [over.best.ics]/10">10</span>
+実引数を仮引数の型に変換する変換の列として異なる複数のものが考えられるとき、
+その仮引数の暗黙変換列は<span class="tcomment">それらの列を総称する</span>単一の変換列として定義し、曖昧な変換列と呼ぶ。
+16.3.3.2 での暗黙変換列のランク付けにおいて、
+曖昧な変換列はユーザ定義の変換列として扱われ、
+他のユーザ定義変換列と比較不能とする。
+[註: この規則は、仮引数の曖昧な変換列により、
+関数が呼び出し可能でなくなるのを防ぐためにある。[例:
+</p>
+<pre class="agh-prog-cpp">
+class B;
+class A { A (B&amp;);};
+class B { operator A (); };
+class C { C (B&amp;); };
+void f(A) { }
+void f(C) { }
+B b;
+f(b);         // 不適格: コンストラクタを通した変換 b → C と、
+              // コンストラクタまたは変換関数を通した曖昧な変換 b → A があるので曖昧
+void f(B) { }
+f(b);         // OK, 曖昧さはない
+</pre>
+<p>- 例終わり ]  - 註終わり ] 曖昧な変換列を持つ関数が最適な呼び出し可能関数に選ばれた場合、
+対応する実引数の変換が曖昧になるのでその関数呼び出しは不適格となる。
+</p>
+<p><span class="ptag" id="sec16.3.3.1p11" title="16.3.3.1 [over.best.ics]/11">11</span>
+既に述べた暗黙変換列の3つの形式は続く節で定義される。
+</p>
+
+<div class="en">
+  <p><span class="ptag" title="16.3.3.1 [over.best.ics]/1">1</span>
+  An implicit conversion sequence is a sequence of conversions used to convert an argument in a function call
+  to the type of the corresponding parameter of the function being called. The sequence of conversions is an
+  implicit conversion as defined in Clause 7, which means it is governed by the rules for initialization of an
+  object or reference by a single expression (11.6, 11.6.3).
+  </p>
+  <p><span class="ptag" title="16.3.3.2 [over.best.ics]/2">2</span>
+  Implicit conversion sequences are concerned only with the type, cv-qualification, and value category of the
+  argument and how these are converted to match the corresponding properties of the parameter. Other
+  properties, such as the lifetime, storage class, alignment, accessibility of the argument, whether the argument
+  is a bit-field, and whether a function is deleted (11.4.3), are ignored. So, although an implicit conversion
+  sequence can be defined for a given argument-parameter pair, the conversion from the argument to the
+  parameter might still be ill-formed in the final analysis.
+  </p>
+  <p><span class="ptag" title="16.3.3.1 [over.best.ics]/3">3</span>
+  A well-formed implicit conversion sequence is one of the following forms:
+  </p>
+  <ul>
+  <li><span class="ptag" title="16.3.3.1 [over.best.ics]/(3.1)">(3.1)</span> a standard conversion sequence (16.3.3.1.1),</li>
+  <li><span class="ptag" title="16.3.3.1 [over.best.ics]/(3.2)">(3.2)</span> a user-defined conversion sequence (16.3.3.1.2), or</li>
+  <li><span class="ptag" title="16.3.3.1 [over.best.ics]/(3.3)">(3.3)</span> an ellipsis conversion sequence (16.3.3.1.3).</li>
+  </ul>
+  <p><span class="ptag" title="16.3.3.1 [over.best.ics]/4">4</span> However, if the target is</p>
+  <ul>
+  <li><span class="ptag" title="16.3.3.1 [over.best.ics]/(4.1)">(4.1)</span> the first parameter of a constructor or</li>
+  <li><span class="ptag" title="16.3.3.1 [over.best.ics]/(4.2)">(4.2)</span> the implicit object parameter of a user-defined conversion function</li>
+  </ul>
+  <p>and the constructor or user-defined conversion function is a candidate by</p>
+  <ul>
+  <li><span class="ptag" title="16.3.3.1 [over.best.ics]/(4.3)">(4.3)</span> 16.3.1.3, when the argument is the temporary in the second step of a class copy-initialization,</li>
+  <li><span class="ptag" title="16.3.3.1 [over.best.ics]/(4.4)">(4.4)</span>16.3.1.4, 16.3.1.5, or 16.3.1.6 (in all cases), or</li>
+  <li><span class="ptag" title="16.3.3.1 [over.best.ics]/(4.5)">(4.5)</span>the second phase of 16.3.1.7 when the initializer list has exactly one element that is itself an initializer
+  list, and the target is the first parameter of a constructor of class X , and the conversion is to X or
+  reference to cv X,</li>
+  </ul>
+  <p>user-defined conversion sequences are not considered. [Note: These rules prevent more than one user-defined
+  conversion from being applied during overload resolution, thereby avoiding infinite recursion. —end note ]
+  [Example:
+  </p>
+<pre class="agh-prog-cpp">struct Y { Y(int); };
+struct A { operator int(); };
+Y y1 = A();   // error: A::operator int() is not a candidate
+
+struct X { };
+struct B { operator X(); };
+B b;
+X x({b});     // error: B::operator X() is not a candidate
+</pre>
+  <p>—end example ]</p>
+  <p><span class="ptag" title="16.3.3.1 [over.best.ics]/5">5</span> For the case where the parameter type is a reference, see 16.3.3.1.4.</p>
+  <p><span class="ptag" title="16.3.3.1 [over.best.ics]/6">6</span>
+  When the parameter type is not a reference, the implicit conversion sequence models a copy-initialization of
+  the parameter from the argument expression. The implicit conversion sequence is the one required to convert
+  the argument expression to a prvalue of the type of the parameter. [Note: When the parameter has a class
+  type, this is a conceptual conversion defined for the purposes of Clause 16; the actual initialization is defined
+  in terms of constructors and is not a conversion. —end note ] Any difference in top-level cv-qualification is
+  subsumed by the initialization itself and does not constitute a conversion. [Example: A parameter of type A
+  can be initialized from an argument of type const A . The implicit conversion sequence for that case is the
+  identity sequence; it contains no “conversion” from const A to A . —end example ] When the parameter has
+  a class type and the argument expression has the same type, the implicit conversion sequence is an identity
+  conversion. When the parameter has a class type and the argument expression has a derived class type,
+  the implicit conversion sequence is a derived-to-base Conversion from the derived class to the base class.
+  [Note: There is no such standard conversion; this derived-to-base Conversion exists only in the description of
+  implicit conversion sequences. —end note ] A derived-to-base Conversion has Conversion rank (16.3.3.1.1).
+  </p>
+  <p><span class="ptag" title="16.3.3.1 [over.best.ics]/7">7</span>
+  In all contexts, when converting to the implicit object parameter or when converting to the left operand of
+  an assignment operation only standard conversion sequences are allowed.
+  </p>
+  <p><span class="ptag" title="16.3.3.1 [over.best.ics]/8">8</span>
+  If no conversions are required to match an argument to a parameter type, the implicit conversion sequence is
+  the standard conversion sequence consisting of the identity conversion (16.3.3.1.1).
+  </p>
+  <p><span class="ptag" title="16.3.3.1 [over.best.ics]/9">9</span>
+  If no sequence of conversions can be found to convert an argument to a parameter type, an implicit conversion
+  sequence cannot be formed.
+  </p>
+  <p><span class="ptag" title="16.3.3.1 [over.best.ics]/10">10</span>
+  If several different sequences of conversions exist that each convert the argument to the parameter type, the
+  implicit conversion sequence associated with the parameter is defined to be the unique conversion sequence
+  designated the ambiguous conversion sequence. For the purpose of ranking implicit conversion sequences as
+  described in 16.3.3.2, the ambiguous conversion sequence is treated as a user-defined conversion sequence
+  that is indistinguishable from any other user-defined conversion sequence. [Note: This rule prevents a
+  function from becoming non-viable because of an ambiguous conversion sequence for one of its parameters.
+  [Example:
+  </p>
+<pre class="agh-prog-cpp">
+[Example:
+class B;
+class A { A (B&amp;);};
+class B { operator A (); };
+class C { C (B&amp;); };
+void f(A) { }
+void f(C) { }
+B b;
+f(b);         // ill-formed: ambiguous because there is a conversion b → C (via constructor)
+              // and an (ambiguous) conversion b → A (via constructor or conversion function)
+void f(B) { }
+f(b);         // OK, unambiguous
+</pre>
+  <p>—end example ] —end note ] If a function that uses the ambiguous conversion sequence is selected as the
+  best viable function, the call will be ill-formed because the conversion of one of the arguments in the call is
+  ambiguous.
+  </p>
+  <p><span class="ptag" title="16.3.3.1 [over.best.ics]/11">11</span>
+  The three forms of implicit conversion sequences mentioned above are defined in the following subclauses.
+  </p>
+</div>
+
+
 <h5>16.3.3.1.1 Standard conversion sequences <span class="secname">[over.ics.scs]</span></h5>
 <h5>16.3.3.1.2 User-defined conversion sequences <span class="secname">[over.ics.user]</span></h5>
 <h5>16.3.3.1.3 Ellipsis conversion sequences <span class="secname">[over.ics.ellipsis]</span></h5>
