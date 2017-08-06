@@ -34,7 +34,9 @@
   dfn {font-style: normal; font-weight: bold;}
   @media print{ dfn {font-family: sans-serif; font-weight: normal;} }
 
-  span.syntax {color: blue; font-style: italic;}
+  div.syntax {margin-left: 2em;}
+  span.syntax,
+  div.class sub {color: blue; font-style: italic;}
 
   span.tcomment {color: green;}
   span.tcomment:before {content: "[訳者: ";}
@@ -1044,6 +1046,41 @@ T a = 1;      // ill-formed: T(C(1)) not tried
 </div>
 
 <h4>16.3.1.1 Function call syntax <span class="stag">[over.match.call]</span></h4>
+<p><span class="ptag" id="sec16.3.1.1p1" title="16.3.1.1 [over.match.call]/1">1</span>
+関数呼び出し構文 (8.2.2)</p>
+<div class="syntax">
+  <span class="syntax">postfix-expression</span> <code>(</code> <span class="syntax">expression-list</span><sub>opt</sub> <code>)</code>
+</div>
+<p>において、<span class="syntax">postfix-expression</span> が多重定義された関数・関数テンプレートの集合を表すとき、
+多重定義解決は 16.3.1.1.1 で指定される方法で適用される。
+<span class="syntax">postfix-expression</span> がクラス型のオブジェクトを表すとき、
+多重定義解決は 16.3.1.1.2 で指定される方法で適用される。
+</p>
+<p><span class="ptag" id="sec16.3.1.1p2" title="16.3.1.1 [over.match.call]/2">2</span>
+<span class="syntax">postfix-expression</span> が多重定義された関数・関数テンプレートの集合のアドレスを表すとき、
+多重定義解決はその集合に対して上記の方法を適用する。
+多重定義解決で選ばれた関数が非静的メンバ関数であるとき、プログラムは不適格である。
+[註: 他の文脈における多重定義された集合のアドレスの解決は 16.4 で述べる。 - 註終わり ]
+</p>
+
+<div class="en">
+  <p><span class="ptag" title="16.3.1.1 [over.match.call]/1">1</span>
+  In a function call (8.2.2)</p>
+  <div class="syntax">
+    <span class="syntax">postfix-expression</span> <code>(</code> <span class="syntax">expression-list</span><sub>opt</sub> <code>)</code>
+  </div>
+  <p>if the postfix-expression denotes a set of overloaded functions and/or function templates, overload resolution is
+  applied as specified in 16.3.1.1.1. If the postfix-expression denotes an object of class type, overload resolution
+  is applied as specified in 16.3.1.1.2.
+  </p>
+  <p><span class="ptag" title="16.3.1.1 [over.match.call]/2">2</span>
+  If the postfix-expression denotes the address of a set of overloaded functions and/or function templates,
+  overload resolution is applied using that set as described above. If the function selected by overload resolution
+  is a non-static member function, the program is ill-formed. [Note: The resolution of the address of an
+  overload set in other contexts is described in 16.4. —end note ]
+  </p>
+</div>
+
 <h5>16.3.1.1.1 Call to named function <span class="stag">[over.call.func]</span></h5>
 <h5>16.3.1.1.2 Call to object of class type <span class="stag">[over.call.object]</span></h5>
 <h4>16.3.1.2 Operators in expressions <span class="stag">[over.match.oper]</span></h4>
