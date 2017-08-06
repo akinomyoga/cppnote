@@ -283,13 +283,13 @@ Clause 20 から 33 と補遺 D で使用される追加の用語が、20.3 で�
 
 <h2>3.* 略</h2>
 
-<h1>4 略</h1>
-<h1>5 略</h1>
-<h1>6 略</h1>
-<h1>7 略</h1>
-<h1>8 略</h1>
-<h1>9 略</h1>
-<h1>10 略</h1>
+<h1 id="sec4">4 略</h1>
+<h1 id="sec5">5 略</h1>
+<h1 id="sec6">6 略</h1>
+<h1 id="sec7">7 略</h1>
+<h1 id="sec8">8 略</h1>
+<h1 id="sec9">9 略</h1>
+<h1 id="sec10">10 略</h1>
 <h1 id="sec11">11 Declarators <span class="stag">[dcl.decl]</span></h1>
 <h2 id="sec11.1">11.1 Type names <span class="stag">[dcl.name]</span></h2>
 <h2 id="sec11.2">11.2 Ambiguity resolution <span class="stag">[dcl.ambig.res]</span></h2>
@@ -298,10 +298,10 @@ Clause 20 から 33 と補遺 D で使用される追加の用語が、20.3 で�
 <h2 id="sec11.5">11.5 Structured binding declarations <span class="stag">[dcl.struct.bind]</span></h2>
 <h2 id="sec11.6">11.6 Initializers <span class="stag">[dcl.init]</span></h2>
 <p>■16.3, 17.6, 17.8 のあと</p>
-<h1>12 略</h1>
-<h1>13 略</h1>
-<h1>14 略</h1>
-<h1>15 略</h1>
+<h1 id="sec12">12 略</h1>
+<h1 id="sec13">13 略</h1>
+<h1 id="sec14">14 略</h1>
+<h1 id="sec15">15 略</h1>
 <h1 id="sec16">16 Overloading <span class="stag">[over]</span></h1>
 <p><span class="ptag" id="sec16p1" title="16 [over]/1">1</span> 同じスコープで一つの名前について2つ以上の宣言が指定された時、その名前は<dfn>多重定義</dfn> (overload) されているという。
 更に、同じスコープで同じ名前だが異なる型の二つの宣言を<dfn>多重定義</dfn> (overloaded declaration) と呼ぶ。
@@ -1045,7 +1045,7 @@ T a = 1;      // ill-formed: T(C(1)) not tried
   </p>
 </div>
 
-<h4>16.3.1.1 Function call syntax <span class="stag">[over.match.call]</span></h4>
+<h4 id="sec16.3.3.1">16.3.1.1 Function call syntax <span class="stag">[over.match.call]</span></h4>
 <p><span class="ptag" id="sec16.3.1.1p1" title="16.3.1.1 [over.match.call]/1">1</span>
 関数呼び出し構文 (8.2.2)</p>
 <div class="syntax">
@@ -1081,9 +1081,9 @@ T a = 1;      // ill-formed: T(C(1)) not tried
   </p>
 </div>
 
-<h5>16.3.1.1.1 Call to named function <span class="stag">[over.call.func]</span></h5>
-<h5>16.3.1.1.2 Call to object of class type <span class="stag">[over.call.object]</span></h5>
-<h4>16.3.1.2 Operators in expressions <span class="stag">[over.match.oper]</span></h4>
+<h5 id="sec16.3.1.1">16.3.1.1.1 Call to named function <span class="stag">[over.call.func]</span></h5>
+<h5 id="sec16.3.1.2">16.3.1.1.2 Call to object of class type <span class="stag">[over.call.object]</span></h5>
+<h4 id="sec16.3.2">16.3.1.2 Operators in expressions <span class="stag">[over.match.oper]</span></h4>
 <h4 id="sec16.3.1.3">16.3.1.3 Initialization by constructor <span class="stag">[over.match.ctor]</span></h4>
 <p><span class="ptag" id="sec16.3.1.3p1" title="16.3.1.3 [over.match.ctor]/1">1</span>
 クラス型のオブジェクトを、
@@ -1108,11 +1108,11 @@ T a = 1;      // ill-formed: T(C(1)) not tried
   </p>
 </div>
 
-<h4>16.3.1.4 Copy-initialization of class by user-defined conversion <span class="stag">[over.match.copy]</span></h4>
-<h4>16.3.1.5 Initialization by conversion function <span class="stag">[over.match.conv]</span></h4>
-<h4>16.3.1.6 Initialization by conversion function for direct reference binding <span class="stag">[over.match.ref]</span></h4>
-<h4>16.3.1.7 Initialization by list-initialization <span class="stag">[over.match.list]</span></h4>
-<h4>16.3.1.8 Class template argument deduction <span class="stag">[over.match.class.deduct]</span></h4>
+<h4 id="sec16.3.1.4">16.3.1.4 Copy-initialization of class by user-defined conversion <span class="stag">[over.match.copy]</span></h4>
+<h4 id="sec16.3.1.5">16.3.1.5 Initialization by conversion function <span class="stag">[over.match.conv]</span></h4>
+<h4 id="sec16.3.1.6">16.3.1.6 Initialization by conversion function for direct reference binding <span class="stag">[over.match.ref]</span></h4>
+<h4 id="sec16.3.1.7">16.3.1.7 Initialization by list-initialization <span class="stag">[over.match.list]</span></h4>
+<h4 id="sec16.3.1.8">16.3.1.8 Class template argument deduction <span class="stag">[over.match.class.deduct]</span></h4>
 <h3 id="sec16.3.2">16.3.2 Viable functions <span class="stag">[over.match.viable]</span></h3>
 <p><span class="ptag" id="sec16.3.2p1" title="16.3.2 [over.match.viable]/1">1</span>
 現在の文脈に対して候補関数の集合を求めた後 (16.3.1)、その中から呼び出し可能関数の集合が選ばれる。
@@ -1744,11 +1744,11 @@ f(b);         // OK, unambiguous
 </div>
 
 
-<h5>16.3.3.1.1 Standard conversion sequences <span class="stag">[over.ics.scs]</span></h5>
-<h5>16.3.3.1.2 User-defined conversion sequences <span class="stag">[over.ics.user]</span></h5>
-<h5>16.3.3.1.3 Ellipsis conversion sequences <span class="stag">[over.ics.ellipsis]</span></h5>
-<h5>16.3.3.1.4 Reference binding <span class="stag">[over.ics.ref]</span></h5>
-<h5>16.3.3.1.5 List-initialization sequence <span class="stag">[over.ics.list]</span></h5>
+<h5 id="sec16.3.3.1.1">16.3.3.1.1 Standard conversion sequences <span class="stag">[over.ics.scs]</span></h5>
+<h5 id="sec16.3.3.1.2">16.3.3.1.2 User-defined conversion sequences <span class="stag">[over.ics.user]</span></h5>
+<h5 id="sec16.3.3.1.3">16.3.3.1.3 Ellipsis conversion sequences <span class="stag">[over.ics.ellipsis]</span></h5>
+<h5 id="sec16.3.3.1.4">16.3.3.1.4 Reference binding <span class="stag">[over.ics.ref]</span></h5>
+<h5 id="sec16.3.3.1.5">16.3.3.1.5 List-initialization sequence <span class="stag">[over.ics.list]</span></h5>
 
 <h4 id="sec16.3.3.2" title="16.3.3.2 [over.ics.rank]">16.3.3.2 Ranking implicit conversion sequences <span class="stag">[over.ics.rank]</span></h4>
 <p><span class="ptag" id="sec16.3.3.2p1" title="16.3.3.2 [over.ics.rank]/1">1</span>
@@ -2181,15 +2181,15 @@ int i = f(pc);        // calls f(B*)
   </ul>
 </div>
 
-<h2>16.4 Address of overloaded function [over.over]</h2>
-<h2>16.5 Overloaded operators [over.oper]</h2>
-<h2>16.6 Built-in operators [over.built]</h2>
+<h2 id="sec16.4">16.4 Address of overloaded function [over.over]</h2>
+<h2 id="sec16.5">16.5 Overloaded operators [over.oper]</h2>
+<h2 id="sec16.6">16.6 Built-in operators [over.built]</h2>
 
-<h1>17 Templates <span class="stag">[temp]</span></h1>
+<h1 id="sec17">17 Templates <span class="stag">[temp]</span></h1>
 <p>略</p>
-<h1>18 Exception handling <span class="stag">[except]</span></h1>
+<h1 id="sec18">18 Exception handling <span class="stag">[except]</span></h1>
 <p>略</p>
-<h1>19 Preprocessing Directives <span class="stag">[cpp]</span></h1>
+<h1 id="sec19">19 Preprocessing Directives <span class="stag">[cpp]</span></h1>
 <p>略</p>
 </body>
 </html>
