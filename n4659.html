@@ -1169,7 +1169,8 @@ T a = 1;      // ill-formed: T(C(1)) not tried
 </p>
 <p class="translation-note">
 「メンバ関数は全て同じ暗黙オブジェクト仮引数を持つので (原文: Since the member functions all have the
-same implicit object parameter)」→ 関数の ref-qualifier, cv-qualifier によって仮引数は異なるのではないか。
+same implicit object parameter)」→ 16.3.1/4 に従い、
+関数の ref-qualifier, cv-qualifier によって仮引数は異なるのではないか。
 これは「静的メンバ関数は～」の誤りである気がする。
 </p>
 
@@ -1230,12 +1231,15 @@ same implicit object parameter)」→ 関数の ref-qualifier, cv-qualifier に�
 
 <h5 id="sec16.3.1.1.2">16.3.1.1.2 Call to object of class type <span class="stag">[over.call.object]</span></h5>
 <p><span class="ptag" id="sec16.3.1.1.2p1" title="16.3.1.1.2 [over.call.object]/1">1</span>
-If the primary-expression E in the function call syntax evaluates to a class object of type “cv T ”, then the set
-of candidate functions includes at least the function call operators of T . The function call operators of T are
-obtained by ordinary lookup of the name operator() in the context of (E).operator().
+関数呼び出し構文の <span class="syntax">primary-expression</span> <code>E</code> が
+型 "<code class="agh-prog-cpp"><i>cv</i> T</code>" のクラスオブジェクトに評価されるとき、
+候補関数の集合は少なくとも <code class="agh-prog-cpp">T</code> の関数呼び出し演算子を含む。
+<code class="agh-prog-cpp">T</code> の関数呼び出し演算子は、
+<code class="agh-prog-cpp">(E).operator()</code> における名前 <code class="agh-prog-cpp">operator()</code>
+の通常の探索によって得られる。
 </p>
 <p><span class="ptag" id="sec16.3.1.1.2p2" title="16.3.1.1.2 [over.call.object]/2">2</span>
-In addition, for each non-explicit conversion function declared in T of the form
+更に、以下の形式を持つ <code class="agh-prog-cpp">T</code> の非明示的な変換関数について考える。
 </p>
 <div class="syntax">
   <code>operator</code> <span class="syntax">conversion-type-id</span> <code>()</code> <span class="syntax">cv-qualifier</span>
@@ -1243,10 +1247,13 @@ In addition, for each non-explicit conversion function declared in T of the form
   <span class="syntax">noexcept-specifier</span><sub class="opt">opt</sub>
   <span class="syntax">attribute-specifier-seq</span><sub class="opt">opt</sub> <code>;</code>
 </div>
-<p>where cv-qualifier is the same cv-qualification as, or a greater cv-qualification than, cv, and where conversion-
-type-id denotes the type “pointer to function of ( P 1 ,...,P n ) returning R ”, or the type “reference to pointer
-to function of ( P 1 ,...,P n ) returning R ”, or the type “reference to function of ( P 1 ,...,P n ) returning R ”, a
-surrogate call function with the unique name call-function and having the form
+<p>
+<span class="syntax">cv-qualifier</span> が <i>cv</i> と同じかより強い cv 修飾であり、
+<span class="syntax">conversion-type-id</span> が
+型 "(<code class="agh-prog-cpp">P</code><sub>1</sub> , ..., <code class="agh-prog-cpp">P</code><sub><i>n</i></sub>) を受け取り <code  class="agh-prog-cpp">R</code> を返す関数ポインタ"、
+または型 "(<code class="agh-prog-cpp">P</code><sub>1</sub> , ..., <code class="agh-prog-cpp">P</code><sub><i>n</i></sub>) を受け取り <code  class="agh-prog-cpp">R</code> を返す関数ポインタの参照"
+または型 "(<code class="agh-prog-cpp">P</code><sub>1</sub> , ..., <code class="agh-prog-cpp">P</code><sub><i>n</i></sub>) を受け取り <code  class="agh-prog-cpp">R</code> を返す関数の参照" ならば、
+以下の形式の<dfn>代理呼び出し関数</dfn> (surrogate call function) も候補関数に加えられる。
 </p>
 <div class="syntax">
   <code>R</code> <span class="syntax">call-function</span>
@@ -1256,25 +1263,31 @@ surrogate call function with the unique name call-function and having the form
     <code>P</code><sub><i>n</i></sub> <code>a</code><sub><i>n</i></sub><code>)</code>
   <code>{ return F (a<sub>1</sub> ,</code> ...<code>, a</code><sub><i>n</i></sub><code>); }</code>
 </div>
-<p>is also considered as a candidate function. Similarly, surrogate call functions are added to the set of candidate
-functions for each non-explicit conversion function declared in a base class of T provided the function is not
-hidden within T by another intervening declaration 127 .
+<p>但し <span class="syntax">call-function</span> は他と区別できる一意な名前とする。
+<code class="agh-prog-cpp">T</code> の基底クラスで宣言された非明示的な変換関数のそれぞれについても、
+その変換関数が <code class="agh-prog-cpp">T</code> において他の intervening 宣言によって隠蔽されない限りにおいて、
+同様にして代理呼び出し関数が候補関数の集合に追加される<sup>127</sup>。
+</p>
+<p class="translation-note">代理呼び出し関数は完全転送でなくて良いのか?
+<a href="https://wandbox.org/permlink/j2hEGP6Vj3S8TGBh">やはり駄目な気がする</a> 
 </p>
 <p><span class="ptag" id="sec16.3.1.1.2p3" title="16.3.1.1.2 [over.call.object]/3">3</span>
-If such a surrogate call function is selected by overload resolution, the corresponding conversion function will
-be called to convert E to the appropriate function pointer or reference, and the function will then be invoked
-with the arguments of the call. If the conversion function cannot be called (e.g., because of an ambiguity),
-the program is ill-formed.
+多重定義解決によってこの様な代理呼び出し関数が選ばれたとき、
+対応する変換関数を呼び出して <code>E</code> を適切な関数ポインタまたは参照に変換し、
+それからその関数が関数呼び出し構文の実引数によって呼び出される。
+もし (曖昧であるなどの理由で) 変換関数が呼び出せないとき、プログラムは不適格である。
 </p>
+<p class="translation-note">ところで「呼び出しは不適格である」と「プログラムは不適格である」に区別はあるのだろうか。</p>
 <p><span class="ptag" id="sec16.3.1.1.2p4" title="16.3.1.1.2 [over.call.object]/4">4</span>
-The argument list submitted to overload resolution consists of the argument expressions present in the
-function call syntax preceded by the implied object argument (E) . [Note: When comparing the call against
-the function call operators, the implied object argument is compared against the implicit object parameter of
-the function call operator. When comparing the call against a surrogate call function, the implied object
-argument is compared against the first parameter of the surrogate call function. The conversion function
-from which the surrogate call function was derived will be used in the conversion sequence for that parameter
-since it converts the implied object argument to the appropriate function pointer or reference required by
-that first parameter. —end note ] [Example:
+多重定義解決に渡される実引数リストは、
+暗黙オブジェクト実引数 <code class="agh-prog-cpp">(E)</code> とそれに続く関数呼び出し構文に与えられた実引数の式からなる。
+[註: 呼び出しを関数呼出し演算子と比較するとき、
+暗黙オブジェクト実引数は関数呼び出し演算子の暗黙オブジェクト仮引数と比較される。
+呼び出しを代理呼び出し関数と比較するとき、
+暗黙オブジェクト実引数は代理呼び出し関数の第1仮引数と比較される。
+代理呼び出し関数の元になった変換関数は、
+暗黙オブジェクト実引数を第1仮引数が要求する関数ポインタまたは参照に変換するために、
+第1仮引数の変換列の中で使われる。- 註終わり ] [例:
 </p>
 <pre class="agh-prog-cpp">
 int f1(int);
@@ -1285,13 +1298,13 @@ struct A {
   operator fp1() { return f1; }
   operator fp2() { return f2; }
 } a;
-int i = a(1);     // calls f1 via pointer returned from conversion function
+int i = a(1);     // 変換関数から返されるポインタを通して f1 が呼び出される
 </pre>
 <p>—end example ]</p>
 <p><span class="ptag" id="footnote127">footnote 127</span>
-Note that this construction can yield candidate call functions that cannot be differentiated one from the other by overload
-resolution because they have identical declarations or differ only in their return type. The call will be ambiguous if overload
-resolution cannot select a match to the call that is uniquely better than such undifferentiable functions.
+この手順により、同一の宣言であるまたは戻り値の型だけが異なるために、
+互いに多重定義解決において区別できない複数の候補関数が生成されることがある。
+多重定義解決において、このような区別できない候補関数よりも良い他の候補が見つからない場合は、呼び出しは曖昧になる。
 </p>
 
 <div class="en">
