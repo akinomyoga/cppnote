@@ -7,6 +7,7 @@
   body{max-width: 60em; margin-left: auto; margin-right: auto; text-align: justify}
   @media print { body {font-family: "Times New Roman", serif;} }
 
+  pre, code {font-family: monospace, serif;} /* to adjust monospace font-size */
   @media print { pre, code {font-family: "Courier New", monospace;} }
 
   /* section headings */
@@ -35,14 +36,22 @@
   @media print{ dfn {font-family: sans-serif; font-weight: normal;} }
 
   div.syntax {margin-left: 2em;}
-  span.syntax,
-  div.class sub {color: blue; font-style: italic;}
+  span.syntax {color: purple; font-style: italic;}
+  div.syntax sub.opt {color: blue; font-style: italic;}
+  @media print { div.syntax i {font-family: "Times New Roman", serif;} }
 
   span.tcomment {color: green;}
   span.tcomment:before {content: "[訳者: ";}
   span.tcomment:after {content: "]";}
 
-  span.ICS>i{margin-right: 0.1em;} /* イタリック補正 */
+  i, span.syntax, div.syntax sub.opt
+  {margin-left: 0.05em; margin-right:0.05em; position: relative; left: -0.1em;} /* イタリック補正 */
+
+
+  table.normal {border-collapse: collapse; margin: 0.8em auto;}
+  table.normal>caption {margin: 0.4em;}
+  table.normal>*>tr>td,
+  table.normal>*>tr>th {border: 1px solid black; padding: 0.4em;}
   </style>
   <meta name="agh-fly-type" content="color" />
   <script src="https://akinomyoga.github.io/agh/agh.fly.js" charset="utf-8"></script>
@@ -85,6 +94,7 @@
     <li>implicit object paramter → 暗黙オブジェクト仮引数</li>
     <li>implied object argument → 暗黙オブジェクト実引数</li>
     <li>named function/class → 指名された関数・クラス (JIS C++ では名前のある関数としている)</li>
+    <li>qualified/unqualified function calls → 修飾付き・修飾なし関数呼び出し (JIS C++ では 修飾付き・修飾なしの関数呼出しとしている)</li>
     </ul>
   </li>
   </ul>
@@ -334,7 +344,7 @@ abs(1.0); // abs(double); が呼び出される
   in the overloaded declarations that are visible at the point of use. This function selection process is called
   overload resolution and is defined in 16.3. [Example:
   </p>
-  <pre class="agh-prog-cpp">
+<pre class="agh-prog-cpp">
 double abs(double);
 int abs(int);
 
@@ -364,7 +374,7 @@ abs(1.0); // calls abs(double);
   この規則で仮引数リストを比較する際、多重定義解決のために導入される暗黙オブジェクト仮引数 (16.3.1) の型は考慮されない。
   一方で、静的メンバ関数宣言が含まれない場合は、暗黙オブジェクト仮引数が異なる関数宣言を多重定義できる。
   [例: この違いを以下のコードに示す:
-  <pre class="agh-prog-cpp">
+<pre class="agh-prog-cpp">
 class X {
   static void f();
   void f();                 // 不適格
@@ -383,7 +393,7 @@ class X {
   その内 1 つでも ref 修飾子を持っている場合、
   全てが ref 修飾子を持っていなければ多重定義できない。
   [例:
-  <pre class="agh-prog-cpp">
+<pre class="agh-prog-cpp">
 class Y {
   void h() &amp;;
   void h() const &amp;; // OK
@@ -422,7 +432,7 @@ class Y {
     function declarations with the same name and the same parameter-type-list, then these member function
     declarations can be overloaded if they differ in the type of their implicit object parameter. [Example:
     The following illustrates this distinction:
-    <pre class="agh-prog-cpp">
+<pre class="agh-prog-cpp">
 class X {
   static void f();
   void f();                 // ill-formed
@@ -439,7 +449,7 @@ class X {
     member function template declarations with the same name, the same parameter-type-list, and the same
     template parameter lists cannot be overloaded if any of them, but not all, have a ref-qualifier (11.3.5).
     [Example:
-    <pre class="agh-prog-cpp">
+<pre class="agh-prog-cpp">
 class Y {
   void h() &amp;;
   void h() const &amp;; // OK
@@ -461,7 +471,7 @@ class Y {
 <ul>
 <li><span class="ptag" id="sec16.1p3.1" title="16.1 [over.load]/(3.1)">(3.1)</span> 等価な typedef された型を使っている点だけ異なる仮引数宣言は等価である。
 typedef は独立した型ではなく、ただ他の型の別名を与えるに過ぎない (10.1.3)。[例:
-  <pre class="agh-prog-cpp">
+<pre class="agh-prog-cpp">
 typedef int Int;
 void f(int i);
 void f(Int i);              // OK: f(int) の再宣言
@@ -471,7 +481,7 @@ void f(Int i) { /* ... */ } // error: f(int) の再定義
   - 例終わり ]
   一方で列挙型は独立した型であり、関数の異なる多重定義を与える。
   [例:
-  <pre class="agh-prog-cpp">
+<pre class="agh-prog-cpp">
 enum E { a };
 void f(int i) { /* ... */ }
 void f(E i) { /* ... */ }
@@ -479,10 +489,10 @@ void f(E i) { /* ... */ }
   - 例終わり ]
   </li>
 <li><span class="ptag" id="sec16.1p3.2" title="16.1 [over.load]/(3.2)">(3.2)</span>
-一方がポインタ * であり他方が配列 [] であるという点のみ異なる仮引数宣言は等価である。
-即ち、配列宣言はポインタ宣言に調整 (11.3.5) されるためである。
-2番目以降の配列の次元のみが仮引数の型において意味を持つ (11.3.4)。[例:
-  <pre class="agh-prog-cpp">
+  一方がポインタ * であり他方が配列 [] であるという点のみ異なる仮引数宣言は等価である。
+  即ち、配列宣言はポインタ宣言に調整 (11.3.5) されるためである。
+  2番目以降の配列の次元のみが仮引数の型において意味を持つ (11.3.4)。[例:
+<pre class="agh-prog-cpp">
 int f(char*);
 int f(char[]);      // f(char*); と同じ
 int f(char[7]);     // f(char*); と同じ
@@ -495,9 +505,9 @@ int g(char(*)[20]); // g(char(*)[10]); とは異なる。
   - 例終わり ]
   </li>
 <li><span class="ptag" id="sec16.1p3.3" title="16.1 [over.load]/(3.3)">(3.3)</span>
-一方が関数型であり他方が同じ関数型へのポインタであるという点のみ異なる仮引数宣言は等価である。
-即ち、関数型は関数型へのポインタへと調整 (11.3.5) されるためである。[例:
-  <pre class="agh-prog-cpp">
+  一方が関数型であり他方が同じ関数型へのポインタであるという点のみ異なる仮引数宣言は等価である。
+  即ち、関数型は関数型へのポインタへと調整 (11.3.5) されるためである。[例:
+<pre class="agh-prog-cpp">
 void h(int());
 void h(int (*)());      // h(int()) の再宣言
 void h(int x()) { }     // h(int()) の定義
@@ -506,10 +516,10 @@ void h(int (*x)()) { }  // 不適格: h(int()) の再定義
   - 例終わり ]
   </li>
 <li><span class="ptag" id="sec16.1p3.4" title="16.1 [over.load]/(3.4)">(3.4)</span>
-const または volatile が存在するかどうかのみが異なる仮引数宣言は等価である。
-即ち、どの関数型が宣言されるか・定義されるか・呼び出されるかを決定する際に、
-仮引数型の const/volatile 型指定子は無視される。[例:
-  <pre class="agh-prog-cpp">
+  const または volatile が存在するかどうかのみが異なる仮引数宣言は等価である。
+  即ち、どの関数型が宣言されるか・定義されるか・呼び出されるかを決定する際に、
+  仮引数型の const/volatile 型指定子は無視される。[例:
+<pre class="agh-prog-cpp">
 typedef const int cInt;
 int f (int);
 int f (const int);          // f(int) の再宣言
@@ -528,7 +538,7 @@ int f (cInt) { /* ... */ }  // error: f(int) の再定義
   </li>
 <li><span class="ptag" id="sec16.1p3.5" title="16.1 [over.load]/(3.5)">(3.5)</span> 既定の実引数のみが相違する仮引数宣言は等価である。[例:
   以下の例を考慮されたい:
-  <pre class="agh-prog-cpp">
+<pre class="agh-prog-cpp">
 void f (int i, int j);
 void f (int i, int j = 99); // OK: f(int, int) の再宣言
 void f (int i = 88, int j); // OK: f(int, int) の再宣言
@@ -561,7 +571,7 @@ void prog () {
   <ul>
   <li><span class="ptag" title="16.1 [over.load]/(3.1)">(3.1)</span> Parameter declarations that differ only in the use of equivalent typedef “types” are equivalent. A
     typedef is not a separate type, but only a synonym for another type (10.1.3). [Example:
-    <pre class="agh-prog-cpp">
+<pre class="agh-prog-cpp">
 typedef int Int;
 void f(int i);
 void f(Int i);              // OK: redeclaration of f(int)
@@ -571,7 +581,7 @@ void f(Int i) { /* ... */ } // error: redefinition of f(int)
     —end example ]
     Enumerations, on the other hand, are distinct types and can be used to distinguish overloaded function
     declarations. [Example:
-    <pre class="agh-prog-cpp">
+<pre class="agh-prog-cpp">
 enum E { a };
 void f(int i) { /* ... */ }
 void f(E i) { /* ... */ }
@@ -581,7 +591,7 @@ void f(E i) { /* ... */ }
   <li><span class="ptag" title="16.1 [over.load]/(3.2)">(3.2)</span> Parameter declarations that differ only in a pointer * versus an array [] are equivalent. That is, the
     array declaration is adjusted to become a pointer declaration (11.3.5). Only the second and subsequent
     array dimensions are significant in parameter types (11.3.4). [Example:
-    <pre class="agh-prog-cpp">
+<pre class="agh-prog-cpp">
 int f(char*);
 int f(char[]);      // same as f(char*);
 int f(char[7]);     // same as f(char*);
@@ -596,7 +606,7 @@ int g(char(*)[20]); // different from g(char(*)[10]);
   <li><span class="ptag" title="16.1 [over.load]/(3.3)">(3.3)</span> Parameter declarations that differ only in that one is a function type and the other is a pointer to
     the same function type are equivalent. That is, the function type is adjusted to become a pointer to
     function type (11.3.5). [Example:
-    <pre class="agh-prog-cpp">
+<pre class="agh-prog-cpp">
 void h(int());
 void h(int (*)());      // redeclaration of h(int())
 void h(int x()) { }     // definition of h(int())
@@ -607,7 +617,7 @@ void h(int (*x)()) { }  // ill-formed: redefinition of h(int())
   <li><span class="ptag" title="16.1 [over.load]/(3.4)">(3.4)</span> Parameter declarations that differ only in the presence or absence of const and/or volatile are
     equivalent. That is, the const and volatile type-specifiers for each parameter type are ignored when
     determining which function is being declared, defined, or called. [Example:
-    <pre class="agh-prog-cpp">
+<pre class="agh-prog-cpp">
 typedef const int cInt;
 int f (int);
 int f (const int);          // redeclaration of f(int)
@@ -624,7 +634,7 @@ int f (cInt) { /* ... */ }  // error: redefinition of f(int)
     </li>
   <li><span class="ptag" title="16.1 [over.load]/(3.5)">(3.5)</span> Two parameter declarations that differ only in their default arguments are equivalent. [Example:
     Consider the following:
-    <pre class="agh-prog-cpp">
+<pre class="agh-prog-cpp">
 void f (int i, int j);
 void f (int i, int j = 99); // OK: redeclaration of f(int, int)
 void f (int i = 88, int j); // OK: redeclaration of f(int, int)
@@ -714,7 +724,7 @@ public:
   have equivalent parameter declarations (16.1). A function member of a derived class is not in the same scope
   as a function member of the same name in a base class. [Example:
   </p>
-  <pre class="agh-prog-cpp">
+<pre class="agh-prog-cpp">
 struct B {
   int f(int);
 };
@@ -723,7 +733,7 @@ struct D : B {
 };
 </pre>
   <p>Here D::f(const char*) hides B::f(int) rather than overloading it.</p>
-  <pre class="agh-prog-cpp">
+<pre class="agh-prog-cpp">
 void h(D* pd) {
   pd->f(1);     // error:
                 // D::f(const char*) hides B::f(int)
@@ -735,7 +745,7 @@ void h(D* pd) {
   <p><span class="ptag" title="16.2 [over.dcl]/2">2</span>
   A locally declared function is not in the same scope as a function in a containing scope. [Example:
   </p>
-  <pre class="agh-prog-cpp">
+<pre class="agh-prog-cpp">
 void f(const char*);
 void g() {
   extern void f(int);
@@ -753,7 +763,7 @@ void caller () {
   <p>—end example ]</p>
   <p><span class="ptag" title="16.2 [over.dcl]/3">3</span>
   Different versions of an overloaded member function can be given different access rules. [Example:</p>
-  <pre class="agh-prog-cpp">
+<pre class="agh-prog-cpp">
 class buffer {
 private:
   char* p;
@@ -871,6 +881,7 @@ public:
 </p>
 <p class="translation-note">本当に同時にメンバ関数と非メンバ関数を両方含むことがあるのか?
 だとすると、非メンバ関数も暗黙引数を入れなければ比較できないのでは? 要確認■
+(1) 16.3.1.1.1/3 によると<i>関数呼び出しでは</i>メンバ関数と非メンバ関数が両方同時に含まれることはない。
 </p>
 <p><span class="ptag" id="sec16.3.1p3" title="16.3.1 [over.match.funcs]/3">3</span>
 同様に、文脈に応じて、<dfn>暗黙オブジェクト実引数</dfn> (implied object argument) を含む実引数リストが構築される。
@@ -1047,9 +1058,9 @@ T a = 1;      // ill-formed: T(C(1)) not tried
 
 <h4 id="sec16.3.3.1">16.3.1.1 Function call syntax <span class="stag">[over.match.call]</span></h4>
 <p><span class="ptag" id="sec16.3.1.1p1" title="16.3.1.1 [over.match.call]/1">1</span>
-関数呼び出し構文 (8.2.2)</p>
+関数呼び出し (8.2.2)</p>
 <div class="syntax">
-  <span class="syntax">postfix-expression</span> <code>(</code> <span class="syntax">expression-list</span><sub>opt</sub> <code>)</code>
+  <span class="syntax">postfix-expression</span> <code>(</code> <span class="syntax">expression-list</span><sub class="opt">opt</sub> <code>)</code>
 </div>
 <p>において、<span class="syntax">postfix-expression</span> が多重定義された関数・関数テンプレートの集合を表すとき、
 多重定義解決は 16.3.1.1.1 で指定される方法で適用される。
@@ -1058,8 +1069,8 @@ T a = 1;      // ill-formed: T(C(1)) not tried
 </p>
 <p><span class="ptag" id="sec16.3.1.1p2" title="16.3.1.1 [over.match.call]/2">2</span>
 <span class="syntax">postfix-expression</span> が多重定義された関数・関数テンプレートの集合のアドレスを表すとき、
-多重定義解決はその集合に対して上記の方法を適用する。
-多重定義解決で選ばれた関数が非静的メンバ関数であるとき、プログラムは不適格である。
+その集合に対して上記の多重定義解決を適用する。
+多重定義解決で選ばれた関数が非静的メンバ関数のとき、プログラムは不適格である。
 [註: 他の文脈における多重定義された集合のアドレスの解決は 16.4 で述べる。 - 註終わり ]
 </p>
 
@@ -1067,7 +1078,7 @@ T a = 1;      // ill-formed: T(C(1)) not tried
   <p><span class="ptag" title="16.3.1.1 [over.match.call]/1">1</span>
   In a function call (8.2.2)</p>
   <div class="syntax">
-    <span class="syntax">postfix-expression</span> <code>(</code> <span class="syntax">expression-list</span><sub>opt</sub> <code>)</code>
+    <span class="syntax">postfix-expression</span> <code>(</code> <span class="syntax">expression-list</span><sub class="opt">opt</sub> <code>)</code>
   </div>
   <p>if the postfix-expression denotes a set of overloaded functions and/or function templates, overload resolution is
   applied as specified in 16.3.1.1.1. If the postfix-expression denotes an object of class type, overload resolution
@@ -1081,9 +1092,610 @@ T a = 1;      // ill-formed: T(C(1)) not tried
   </p>
 </div>
 
-<h5 id="sec16.3.1.1">16.3.1.1.1 Call to named function <span class="stag">[over.call.func]</span></h5>
-<h5 id="sec16.3.1.2">16.3.1.1.2 Call to object of class type <span class="stag">[over.call.object]</span></h5>
+<h5 id="sec16.3.1.1.1">16.3.1.1.1 Call to named function <span class="stag">[over.call.func]</span></h5>
+<p><span class="ptag" id="sec16.3.1.1.1p1" title="16.3.1.1.1 [over.call.func]/1">1</span>
+16.3.1.1.1 で取り扱う関数呼び出しは、
+<span class="syntax">postfix-expression</span> が呼び出す関数候補の名前を含むものである。
+そのような <span class="syntax">postfix-expression</span> は、
+以下の形式、またはそれを任意の深さの丸括弧で括ったものになっている:
+</p>
+<div class="syntax">
+  <span class="syntax">postfix-expression</span>:
+  <div class="syntax">
+    <span class="syntax">postfix-expression</span> <code>.</code> <span class="syntax">id-expression</span>
+  </div>
+  <div class="syntax">
+    <span class="syntax">postfix-expression</span> <code>-></code> <span class="syntax">id-expression</span>
+  </div>
+  <div class="syntax">
+    <span class="syntax">primary-expression</span>
+  </div>
+</div>
+<p>これに基づき2つの文法的分類、即ち<dfn>修飾付き関数呼び出し</dfn> (qualified function calls)
+と<dfn>修飾なし関数呼び出し</dfn> (unqualified function calls) が定められる。
+</p>
+<p><span class="ptag" id="sec16.3.1.1.1p2" title="16.3.1.1.1 [over.call.func]/2">2</span>
+修飾付き関数呼び出しでは、
+<code class="agh-prog-cpp">-></code> または <code class="agh-prog-cpp">.</code> 演算子に続く
+<span class="syntax">id-expression</span> が解決する名前になる。
+構文 <code class="agh-prog-cpp">A->B</code> は一般に <code class="agh-prog-cpp">(*A).B</code> に等価なため、
+以降 Clause 16 では、一般性を失うことなく、
+全てのメンバ関数呼び出しはオブジェクトと <code class="agh-prog-cpp">.</code> 演算子を用いた形式に正規化されているものとして扱う。
+加えて、Clause 16 では <code class="agh-prog-cpp">.</code> 演算子の左辺 <span class="syntax">postfix-expression</span> の型は
+クラス型 <code class="agh-prog-cpp">T</code> を以て "<i>cv</i> <code class="agh-prog-cpp">T</code>" とする<sup>125</sup>。
+この仮定の下、関数呼び出しの <span class="syntax">id-expression</span> は、
+<code class="agh-prog-cpp">T</code> のメンバ関数として
+クラス中の名前探索 (13.2) の規則に基いて探索される。
+この探索で見つかった関数宣言が候補関数の集合を為す。
+実引数リストは、
+正規化した呼び出しにおける <code class="agh-prog-cpp">.</code> 演算子の左辺を暗黙オブジェクト実引数として、
+関数呼び出しの <span class="syntax">expression-list</span> を拡張したものになる (16.3.1)。
+</p>
+<p><span class="ptag" id="sec16.3.1.1.1p3" title="16.3.1.1.1 [over.call.func]/3">3</span>
+修飾なしの関数呼び出しでは名前は <code class="agh-prog-cpp">-></code>
+または <code class="agh-prog-cpp">.</code> 演算子によって修飾されず、
+より一般の形 <span class="syntax">primary-expression</span> をしている。
+関数呼び出しの文脈では、関数呼び出しの通常の名前探索の規則 (6.4) によって名前が探索される。
+名前探索で見つかった関数宣言が候補関数となる。
+名前探索の規則により、候補関数の集合は (1) 全て非メンバ関数であるか
+(2) 全て或るクラス <code class="agh-prog-cpp">T</code> のメンバ関数である。
+(1) の場合、実引数リストは関数呼び出しの <span class="syntax">expression-list</span> と同じである。
+(2) の場合、修飾付き関数呼び出しのときと同様に、
+実引数リストは暗黙オブジェクト実引数によって
+関数呼び出しの <span class="syntax">expression-list</span> を拡張したものになる。
+キーワード <code class="agh-prog-cpp">this</code> (12.2.2.1) がスコープ内にあって
+クラス <code class="agh-prog-cpp">T</code> またはその派生クラスを指すとき、
+暗黙オブジェクト実引数は <code class="agh-prog-cpp">(*this)</code> である。
+キーワード <code class="agh-prog-cpp">this</code> がスコープ内にないか他のクラスを指すとき、
+型 <code class="agh-prog-cpp">T</code> の仮想的に導入されたオブジェクトが暗黙オブジェクト実引数になる<sup>126</sup>。
+実引数リストが仮想的に導入されたオブジェクトで拡張された場合、
+多重定義解決の結果が <code class="agh-prog-cpp">T</code> の非静的メンバ関数ならば、その呼び出しは不適格である。
+</p>
+<p class="translation-note">
+原文に contrived object という単語が出てくるが、これは規格の中でこの箇所でしか出てこない。
+</p>
+<p><span class="ptag" id="footnote125">footnote 125</span>
+オブジェクトが glvalue であってもクラス型の prvalue であっても、
+オブジェクトの型の cv 修飾子は多重定義解決で意味を持つことに注意する。
+</p>
+<p><span class="ptag" id="footnote126">footnote 126</span>
+多重定義解決の手続き上、
+メンバ関数の暗黙オブジェクト仮引数に対応して
+暗黙オブジェクト実引数を仮想的に導入する必要がある。
+<span class="tcomment">このとき静的関数しか許されないので</span>
+この暗黙オブジェクト実引数は最終的な関数呼び出しには用いられない。
+メンバ関数は全て同じ暗黙オブジェクト仮引数を持つので、
+この仮想的に導入されるオブジェクトは各関数の選択・棄却には影響を与えない。
+</p>
+<p class="translation-note">
+「メンバ関数は全て同じ暗黙オブジェクト仮引数を持つので (原文: Since the member functions all have the
+same implicit object parameter)」→ 関数の ref-qualifier, cv-qualifier によって仮引数は異なるのではないか。
+これは「静的メンバ関数は～」の誤りである気がする。
+</p>
+
+<div class="en">
+  <p><span class="ptag" title="16.3.1.1.1 [over.call.func]/1">1</span>
+  Of interest in 16.3.1.1.1 are only those function calls in which the postfix-expression ultimately contains a
+  name that denotes one or more functions that might be called. Such a postfix-expression, perhaps nested
+  arbitrarily deep in parentheses, has one of the following forms:
+  </p>
+  <div class="syntax">
+    <span class="syntax">postfix-expression</span>:
+    <div class="syntax">
+      <span class="syntax">postfix-expression</span> <code>.</code> <span class="syntax">id-expression</span>
+    </div>
+    <div class="syntax">
+      <span class="syntax">postfix-expression</span> <code>-></code> <span class="syntax">id-expression</span>
+    </div>
+    <div class="syntax">
+      <span class="syntax">primary-expression</span>
+    </div>
+  </div>
+  <p>These represent two syntactic subcategories of function calls: qualified function calls and unqualified function
+  calls.
+  </p>
+  <p><span class="ptag" title="16.3.1.1.1 [over.call.func]/2">2</span>
+  In qualified function calls, the name to be resolved is an id-expression and is preceded by an -> or . operator.
+  Since the construct A->B is generally equivalent to (*A).B , the rest of Clause 16 assumes, without loss of
+  generality, that all member function calls have been normalized to the form that uses an object and the
+  . operator. Furthermore, Clause 16 assumes that the postfix-expression that is the left operand of the .
+  operator has type “cv T ” where T denotes a class 125 . Under this assumption, the id-expression in the call
+  is looked up as a member function of T following the rules for looking up names in classes (13.2). The
+  function declarations found by that lookup constitute the set of candidate functions. The argument list is the
+  expression-list in the call augmented by the addition of the left operand of the . operator in the normalized
+  member function call as the implied object argument (16.3.1).
+  </p>
+  <p><span class="ptag" title="16.3.1.1.1 [over.call.func]/3">3</span>
+  In unqualified function calls, the name is not qualified by an -> or . operator and has the more general form
+  of a primary-expression. The name is looked up in the context of the function call following the normal
+  rules for name lookup in function calls (6.4). The function declarations found by that lookup constitute the
+  set of candidate functions. Because of the rules for name lookup, the set of candidate functions consists
+  (1) entirely of non-member functions or (2) entirely of member functions of some class T . In case (1), the
+  argument list is the same as the expression-list in the call. In case (2), the argument list is the expression-list
+  in the call augmented by the addition of an implied object argument as in a qualified function call. If the
+  keyword this (12.2.2.1) is in scope and refers to class T , or a derived class of T , then the implied object
+  argument is (*this) . If the keyword this is not in scope or refers to another class, then a contrived object
+  of type T becomes the implied object argument 126 . If the argument list is augmented by a contrived object
+  and overload resolution selects one of the non-static member functions of T, the call is ill-formed.
+  </p>
+  <p><span class="ptag">footnote 125</span>
+  Note that cv-qualifiers on the type of objects are significant in overload resolution for both glvalue and class prvalue objects.
+  </p>
+  <p><span class="ptag">footnote 126</span>
+  An implied object argument must be contrived to correspond to the implicit object parameter attributed to member
+  functions during overload resolution. It is not used in the call to the selected function. Since the member functions all have the
+  same implicit object parameter, the contrived object will not be the cause to select or reject a function.
+  </p>
+</div>
+
+<h5 id="sec16.3.1.1.2">16.3.1.1.2 Call to object of class type <span class="stag">[over.call.object]</span></h5>
+<p><span class="ptag" id="sec16.3.1.1.2p1" title="16.3.1.1.2 [over.call.object]/1">1</span>
+If the primary-expression E in the function call syntax evaluates to a class object of type “cv T ”, then the set
+of candidate functions includes at least the function call operators of T . The function call operators of T are
+obtained by ordinary lookup of the name operator() in the context of (E).operator().
+</p>
+<p><span class="ptag" id="sec16.3.1.1.2p2" title="16.3.1.1.2 [over.call.object]/2">2</span>
+In addition, for each non-explicit conversion function declared in T of the form
+</p>
+<div class="syntax">
+  <code>operator</code> <span class="syntax">conversion-type-id</span> <code>()</code> <span class="syntax">cv-qualifier</span>
+  <span class="syntax">ref-qualifier</span><sub class="opt">opt</sub>
+  <span class="syntax">noexcept-specifier</span><sub class="opt">opt</sub>
+  <span class="syntax">attribute-specifier-seq</span><sub class="opt">opt</sub> <code>;</code>
+</div>
+<p>where cv-qualifier is the same cv-qualification as, or a greater cv-qualification than, cv, and where conversion-
+type-id denotes the type “pointer to function of ( P 1 ,...,P n ) returning R ”, or the type “reference to pointer
+to function of ( P 1 ,...,P n ) returning R ”, or the type “reference to function of ( P 1 ,...,P n ) returning R ”, a
+surrogate call function with the unique name call-function and having the form
+</p>
+<div class="syntax">
+  <code>R</code> <span class="syntax">call-function</span>
+  <code>(</code> <span class="syntax">conversion-type-id</span> <code>F,</code>
+    <code>P<sub>1</sub></code> <code>a<sub>1</sub> ,</code>
+    ...<code>,</code>
+    <code>P</code><sub><i>n</i></sub> <code>a</code><sub><i>n</i></sub><code>)</code>
+  <code>{ return F (a<sub>1</sub> ,</code> ...<code>, a</code><sub><i>n</i></sub><code>); }</code>
+</div>
+<p>is also considered as a candidate function. Similarly, surrogate call functions are added to the set of candidate
+functions for each non-explicit conversion function declared in a base class of T provided the function is not
+hidden within T by another intervening declaration 127 .
+</p>
+<p><span class="ptag" id="sec16.3.1.1.2p3" title="16.3.1.1.2 [over.call.object]/3">3</span>
+If such a surrogate call function is selected by overload resolution, the corresponding conversion function will
+be called to convert E to the appropriate function pointer or reference, and the function will then be invoked
+with the arguments of the call. If the conversion function cannot be called (e.g., because of an ambiguity),
+the program is ill-formed.
+</p>
+<p><span class="ptag" id="sec16.3.1.1.2p4" title="16.3.1.1.2 [over.call.object]/4">4</span>
+The argument list submitted to overload resolution consists of the argument expressions present in the
+function call syntax preceded by the implied object argument (E) . [Note: When comparing the call against
+the function call operators, the implied object argument is compared against the implicit object parameter of
+the function call operator. When comparing the call against a surrogate call function, the implied object
+argument is compared against the first parameter of the surrogate call function. The conversion function
+from which the surrogate call function was derived will be used in the conversion sequence for that parameter
+since it converts the implied object argument to the appropriate function pointer or reference required by
+that first parameter. —end note ] [Example:
+</p>
+<pre class="agh-prog-cpp">
+int f1(int);
+int f2(float);
+typedef int (*fp1)(int);
+typedef int (*fp2)(float);
+struct A {
+  operator fp1() { return f1; }
+  operator fp2() { return f2; }
+} a;
+int i = a(1);     // calls f1 via pointer returned from conversion function
+</pre>
+<p>—end example ]</p>
+<p><span class="ptag" id="footnote127">footnote 127</span>
+Note that this construction can yield candidate call functions that cannot be differentiated one from the other by overload
+resolution because they have identical declarations or differ only in their return type. The call will be ambiguous if overload
+resolution cannot select a match to the call that is uniquely better than such undifferentiable functions.
+</p>
+
+<div class="en">
+  <p><span class="ptag" title="16.3.1.1.2 [over.call.object]/1">1</span>
+  If the primary-expression E in the function call syntax evaluates to a class object of type “cv T ”, then the set
+  of candidate functions includes at least the function call operators of T . The function call operators of T are
+  obtained by ordinary lookup of the name operator() in the context of (E).operator().
+  </p>
+  <p><span class="ptag" title="16.3.1.1.2 [over.call.object]/2">2</span>
+  In addition, for each non-explicit conversion function declared in T of the form
+  </p>
+  <div class="syntax">
+    <code>operator</code> <span class="syntax">conversion-type-id</span> <code>()</code> <span class="syntax">cv-qualifier</span>
+    <span class="syntax">ref-qualifier</span><sub class="opt">opt</sub>
+    <span class="syntax">noexcept-specifier</span><sub class="opt">opt</sub>
+    <span class="syntax">attribute-specifier-seq</span><sub class="opt">opt</sub> <code>;</code>
+  </div>
+  <p>where cv-qualifier is the same cv-qualification as, or a greater cv-qualification than, cv, and where conversion-
+  type-id denotes the type “pointer to function of ( P 1 ,...,P n ) returning R ”, or the type “reference to pointer
+  to function of ( P 1 ,...,P n ) returning R ”, or the type “reference to function of ( P 1 ,...,P n ) returning R ”, a
+  surrogate call function with the unique name call-function and having the form
+  </p>
+  <div class="syntax">
+    <code>R</code> <span class="syntax">call-function</span>
+    <code>(</code> <span class="syntax">conversion-type-id</span> <code>F,</code>
+      <code>P<sub>1</sub></code> <code>a<sub>1</sub> ,</code>
+      ...<code>,</code>
+      <code>P</code><sub><i>n</i></sub> <code>a</code><sub><i>n</i></sub><code>)</code>
+    <code>{ return F (a<sub>1</sub> ,</code> ...<code>, a</code><sub><i>n</i></sub><code>); }</code>
+  </div>
+  <p>is also considered as a candidate function. Similarly, surrogate call functions are added to the set of candidate
+  functions for each non-explicit conversion function declared in a base class of T provided the function is not
+  hidden within T by another intervening declaration 127 .
+  </p>
+  <p><span class="ptag" title="16.3.1.1.2 [over.call.object]/3">3</span>
+  If such a surrogate call function is selected by overload resolution, the corresponding conversion function will
+  be called to convert E to the appropriate function pointer or reference, and the function will then be invoked
+  with the arguments of the call. If the conversion function cannot be called (e.g., because of an ambiguity),
+  the program is ill-formed.
+  </p>
+  <p><span class="ptag" title="16.3.1.1.2 [over.call.object]/4">4</span>
+  The argument list submitted to overload resolution consists of the argument expressions present in the
+  function call syntax preceded by the implied object argument (E) . [Note: When comparing the call against
+  the function call operators, the implied object argument is compared against the implicit object parameter of
+  the function call operator. When comparing the call against a surrogate call function, the implied object
+  argument is compared against the first parameter of the surrogate call function. The conversion function
+  from which the surrogate call function was derived will be used in the conversion sequence for that parameter
+  since it converts the implied object argument to the appropriate function pointer or reference required by
+  that first parameter. —end note ] [Example:
+  </p>
+<pre class="agh-prog-cpp">
+int f1(int);
+int f2(float);
+typedef int (*fp1)(int);
+typedef int (*fp2)(float);
+struct A {
+  operator fp1() { return f1; }
+  operator fp2() { return f2; }
+} a;
+int i = a(1);     // calls f1 via pointer returned from conversion function
+</pre>
+  <p>—end example ]</p>
+  <p><span class="ptag">footnote 127</span>
+  Note that this construction can yield candidate call functions that cannot be differentiated one from the other by overload
+  resolution because they have identical declarations or differ only in their return type. The call will be ambiguous if overload
+  resolution cannot select a match to the call that is uniquely better than such undifferentiable functions.
+  </p>
+</div>
+
 <h4 id="sec16.3.2">16.3.1.2 Operators in expressions <span class="stag">[over.match.oper]</span></h4>
+<p><span class="ptag" id="sec16.3.1.2p1" title="16.3.1.2 [over.call.oper]/1">1</span>
+If no operand of an operator in an expression has a type that is a class or an enumeration, the operator
+is assumed to be a built-in operator and interpreted according to Clause 8. [Note: Because . , .* , and ::
+cannot be overloaded, these operators are always built-in operators interpreted according to Clause 8. ?:
+cannot be overloaded, but the rules in this subclause are used to determine the conversions to be applied to
+the second and third operands when they have class or enumeration type (8.16). —end note ] [Example:
+</p>
+<pre class="agh-prog-cpp">
+struct String {
+  String (const String&amp;);
+  String (const char*);
+  operator const char* ();
+};
+String operator + (const String&amp;, const String&amp;);
+
+void f() {
+  const char* p= "one" + "two"; // ill-formed because neither operand has class or enumeration type
+  int I = 1 + 1;                // always evaluates to 2 even if class or enumeration types exist
+                                // that would perform the operation.
+}
+</pre>
+<p>—end example ]</p>
+<p><span class="ptag" id="sec16.3.1.2p2" title="16.3.1.2 [over.call.oper]/2">2</span>
+If either operand has a type that is a class or an enumeration, a user-defined operator function might be
+declared that implements this operator or a user-defined conversion can be necessary to convert the operand to
+a type that is appropriate for a built-in operator. In this case, overload resolution is used to determine which
+operator function or built-in operator is to be invoked to implement the operator. Therefore, the operator
+notation is first transformed to the equivalent function-call notation as summarized in Table 12 (where @
+denotes one of the operators covered in the specified subclause). However, the operands are sequenced in the
+order prescribed for the built-in operator (Clause 8).
+</p>
+<table class="normal">
+<caption>Table 12 — Relationship between operator and function call notation</caption>
+<tr><th>Subclause</th><th>Expression</th><th>As member function</th><th>As non-member function</th></tr>
+<tr><td>16.5.1</td><td><code class="agh-prog-cpp">@a  </code></td><td><code class="agh-prog-cpp">(a).operator@ () </code></td><td><code class="agh-prog-cpp">operator@(a)</code></td></tr>
+<tr><td>16.5.2</td><td><code class="agh-prog-cpp">a@b </code></td><td><code class="agh-prog-cpp">(a).operator@ (b)</code></td><td><code class="agh-prog-cpp">operator@(a, b)</code></td></tr>
+<tr><td>16.5.3</td><td><code class="agh-prog-cpp">a=b </code></td><td><code class="agh-prog-cpp">(a).operator= (b)</code></td><td></td></tr>
+<tr><td>16.5.5</td><td><code class="agh-prog-cpp">a[b]</code></td><td><code class="agh-prog-cpp">(a).operator[](b)</code></td><td></td></tr>
+<tr><td>16.5.6</td><td><code class="agh-prog-cpp">a-> </code></td><td><code class="agh-prog-cpp">(a).operator->() </code></td><td></td></tr>
+<tr><td>16.5.7</td><td><code class="agh-prog-cpp">a@  </code></td><td><code class="agh-prog-cpp">(a).operator@ (0)</code></td><td><code class="agh-prog-cpp">operator@(a, 0)</code></td></tr>
+</table>
+<p><span class="ptag" id="sec16.3.1.2p3" title="16.3.1.2 [over.call.oper]/3">3</span>
+For a unary operator @ with an operand of a type whose cv-unqualified version is T1 , and for a binary operator
+@ with a left operand of a type whose cv-unqualified version is T1 and a right operand of a type whose
+cv-unqualified version is T2 , three sets of candidate functions, designated member candidates, non-member
+candidates and built-in candidates, are constructed as follows:
+</p>
+<ul>
+<li><span class="ptag" id="sec16.3.1.2p3.1" title="16.3.1.2 [over.call.oper]/(3.1)">(3.1)</span>
+  If T1 is a complete class type or a class currently being defined, the set of member candidates is the
+  result of the qualified lookup of T1::operator@ (16.3.1.1.1); otherwise, the set of member candidates
+  is empty.
+  </li>
+<li><span class="ptag" id="sec16.3.1.2p3.2" title="16.3.1.2 [over.call.oper]/(3.2)">(3.2)</span>
+  The set of non-member candidates is the result of the unqualified lookup of operator@ in the context of
+  the expression according to the usual rules for name lookup in unqualified function calls (6.4.2) except
+  that all member functions are ignored. However, if no operand has a class type, only those non-member
+  functions in the lookup set that have a first parameter of type T1 or “reference to cv T1 ”, when T1 is
+  an enumeration type, or (if there is a right operand) a second parameter of type T2 or “reference to
+  cv T2”, when T2 is an enumeration type, are candidate functions.
+  </li>
+<li><span class="ptag" id="sec16.3.1.2p3.3" title="16.3.1.2 [over.call.oper]/(3.3)">(3.3)</span>
+  For the operator , , the unary operator & , or the operator -> , the built-in candidates set is empty.
+  For all other operators, the built-in candidates include all of the candidate operator functions defined
+  in 16.6 that, compared to the given operator,
+  <ul>
+  <li><span class="ptag" id="sec16.3.1.2p3.3.1" title="16.3.1.2 [over.call.oper]/(3.3.1)">(3.3.1)</span> have the same operator name, and</li>
+  <li><span class="ptag" id="sec16.3.1.2p3.3.2" title="16.3.1.2 [over.call.oper]/(3.3.2)">(3.3.2)</span> accept the same number of operands, and</li>
+  <li><span class="ptag" id="sec16.3.1.2p3.3.3" title="16.3.1.2 [over.call.oper]/(3.3.3)">(3.3.3)</span>
+    accept operand types to which the given operand or operands can be converted according to
+    16.3.3.1, and
+    </li>
+  <li><span class="ptag" id="sec16.3.1.2p3.3.4" title="16.3.1.2 [over.call.oper]/(3.3.4)">(3.3.4)</span>
+    do not have the same parameter-type-list as any non-member candidate that is not a function
+    template specialization.
+    </li>
+  </ul>
+</li>
+</ul>
+<p><span class="ptag" id="sec16.3.1.2p4" title="16.3.1.2 [over.call.oper]/4">4</span>
+For the built-in assignment operators, conversions of the left operand are restricted as follows:
+</p>
+<ul>
+<li><span class="ptag" id="sec16.3.1.2p4.1" title="16.3.1.2 [over.call.oper]/(4.1)">(4.1)</span>
+  no temporaries are introduced to hold the left operand, and</li>
+<li><span class="ptag" id="sec16.3.1.2p4.2" title="16.3.1.2 [over.call.oper]/(4.2)">(4.2)</span>
+  no user-defined conversions are applied to the left operand to achieve a type match with the left-most
+  parameter of a built-in candidate.
+  </li>
+</ul>
+<p><span class="ptag" id="sec16.3.1.2p5" title="16.3.1.2 [over.call.oper]/5">5</span>
+For all other operators, no such restrictions apply.
+</p>
+<p><span class="ptag" id="sec16.3.1.2p6" title="16.3.1.2 [over.call.oper]/6">6</span>
+The set of candidate functions for overload resolution is the union of the member candidates, the non-member
+candidates, and the built-in candidates. The argument list contains all of the operands of the operator. The
+best function from the set of candidate functions is selected according to 16.3.2 and 16.3.3. 128 [Example:
+</p>
+<pre class="agh-prog-cpp">
+struct A {
+  operator int();
+};
+A operator+(const A&amp;, const A&amp;);
+void m() {
+  A a, b;
+  a + b;      // operator+(a, b) chosen over int(a) + int(b)
+}
+</pre>
+<p>—end example ]</p>
+<p><span class="ptag" id="sec16.3.1.2p7" title="16.3.1.2 [over.call.oper]/7">7</span>
+If a built-in candidate is selected by overload resolution, the operands of class type are converted to the
+types of the corresponding parameters of the selected operation function, except that the second standard
+conversion sequence of a user-defined conversion sequence (16.3.3.1.2) is not applied. Then the operator is
+treated as the corresponding built-in operator and interpreted according to Clause 8. [Example:
+</p>
+<pre class="agh-prog-cpp">
+struct X {
+  operator double();
+};
+
+struct Y {
+  operator int*();
+};
+
+int *a = Y() + 100.0; // error: pointer arithmetic requires integral operand
+int *b = Y() + X();   // error: pointer arithmetic requires integral operand
+</pre>
+<p>—end example ]</p>
+<p><span class="ptag" id="sec16.3.1.2p8" title="16.3.1.2 [over.call.oper]/8">8</span>
+The second operand of operator -> is ignored in selecting an operator-> function, and is not an argument
+when the operator-> function is called. When operator-> returns, the operator -> is applied to the value
+returned, with the original second operand. 129
+</p>
+<p><span class="ptag" id="sec16.3.1.2p9" title="16.3.1.2 [over.call.oper]/9">9</span>
+If the operator is the operator , , the unary operator & , or the operator -> , and there are no viable functions,
+then the operator is assumed to be the built-in operator and interpreted according to Clause 8.
+</p>
+<p><span class="ptag" id="sec16.3.1.2p10" title="16.3.1.2 [over.call.oper]/10">10</span>
+[Note: The lookup rules for operators in expressions are different than the lookup rules for operator function
+names in a function call, as shown in the following example:
+</p>
+<pre class="agh-prog-cpp">
+struct A { };
+void operator + (A, A);
+
+struct B {
+  void operator + (B);
+  void f ();
+};
+
+A a;
+
+void B::f() {
+  operator+ (a,a);  // error: global operator hidden by member
+  a + a;            // OK: calls global operator+
+}
+</pre>
+<p>—end note ]</p>
+<p><span class="ptag" id="footnote128">footnote 128</span>
+ If the set of candidate functions is empty, overload resolution is unsuccessful.
+</p>
+<p><span class="ptag" id="footnote129">footnote 129</span>
+If the value returned by the operator-> function has class type, this may result in selecting and calling another operator->
+function. The process repeats until an operator-> function returns a value of non-class type.
+</p>
+
+<div class="en">
+  <p><span class="ptag" title="16.3.1.2 [over.call.oper]/1">1</span>
+  If no operand of an operator in an expression has a type that is a class or an enumeration, the operator
+  is assumed to be a built-in operator and interpreted according to Clause 8. [Note: Because . , .* , and ::
+  cannot be overloaded, these operators are always built-in operators interpreted according to Clause 8. ?:
+  cannot be overloaded, but the rules in this subclause are used to determine the conversions to be applied to
+  the second and third operands when they have class or enumeration type (8.16). —end note ] [Example:
+  </p>
+<pre class="agh-prog-cpp">
+struct String {
+  String (const String&amp;);
+  String (const char*);
+  operator const char* ();
+};
+String operator + (const String&amp;, const String&amp;);
+
+void f() {
+  const char* p= "one" + "two"; // ill-formed because neither operand has class or enumeration type
+  int I = 1 + 1;                // always evaluates to 2 even if class or enumeration types exist
+                                // that would perform the operation.
+}
+</pre>
+  <p>—end example ]</p>
+  <p><span class="ptag" title="16.3.1.2 [over.call.oper]/2">2</span>
+  If either operand has a type that is a class or an enumeration, a user-defined operator function might be
+  declared that implements this operator or a user-defined conversion can be necessary to convert the operand to
+  a type that is appropriate for a built-in operator. In this case, overload resolution is used to determine which
+  operator function or built-in operator is to be invoked to implement the operator. Therefore, the operator
+  notation is first transformed to the equivalent function-call notation as summarized in Table 12 (where @
+  denotes one of the operators covered in the specified subclause). However, the operands are sequenced in the
+  order prescribed for the built-in operator (Clause 8).
+  </p>
+  <table class="normal">
+  <caption>Table 12 — Relationship between operator and function call notation</caption>
+  <tr><th>Subclause</th><th>Expression</th><th>As member function</th><th>As non-member function</th></tr>
+  <tr><td>16.5.1</td><td><code class="agh-prog-cpp">@a  </code></td><td><code class="agh-prog-cpp">(a).operator@ () </code></td><td><code class="agh-prog-cpp">operator@(a)</code></td></tr>
+  <tr><td>16.5.2</td><td><code class="agh-prog-cpp">a@b </code></td><td><code class="agh-prog-cpp">(a).operator@ (b)</code></td><td><code class="agh-prog-cpp">operator@(a, b)</code></td></tr>
+  <tr><td>16.5.3</td><td><code class="agh-prog-cpp">a=b </code></td><td><code class="agh-prog-cpp">(a).operator= (b)</code></td><td></td></tr>
+  <tr><td>16.5.5</td><td><code class="agh-prog-cpp">a[b]</code></td><td><code class="agh-prog-cpp">(a).operator[](b)</code></td><td></td></tr>
+  <tr><td>16.5.6</td><td><code class="agh-prog-cpp">a-> </code></td><td><code class="agh-prog-cpp">(a).operator->() </code></td><td></td></tr>
+  <tr><td>16.5.7</td><td><code class="agh-prog-cpp">a@  </code></td><td><code class="agh-prog-cpp">(a).operator@ (0)</code></td><td><code class="agh-prog-cpp">operator@(a, 0)</code></td></tr>
+  </table>
+  <p><span class="ptag" title="16.3.1.2 [over.call.oper]/3">3</span>
+  For a unary operator @ with an operand of a type whose cv-unqualified version is T1 , and for a binary operator
+  @ with a left operand of a type whose cv-unqualified version is T1 and a right operand of a type whose
+  cv-unqualified version is T2 , three sets of candidate functions, designated member candidates, non-member
+  candidates and built-in candidates, are constructed as follows:
+  </p>
+  <ul>
+  <li><span class="ptag" title="16.3.1.2 [over.call.oper]/(3.1)">(3.1)</span>
+    If T1 is a complete class type or a class currently being defined, the set of member candidates is the
+    result of the qualified lookup of T1::operator@ (16.3.1.1.1); otherwise, the set of member candidates
+    is empty.
+    </li>
+  <li><span class="ptag" title="16.3.1.2 [over.call.oper]/(3.2)">(3.2)</span>
+    The set of non-member candidates is the result of the unqualified lookup of operator@ in the context of
+    the expression according to the usual rules for name lookup in unqualified function calls (6.4.2) except
+    that all member functions are ignored. However, if no operand has a class type, only those non-member
+    functions in the lookup set that have a first parameter of type T1 or “reference to cv T1 ”, when T1 is
+    an enumeration type, or (if there is a right operand) a second parameter of type T2 or “reference to
+    cv T2”, when T2 is an enumeration type, are candidate functions.
+    </li>
+  <li><span class="ptag" title="16.3.1.2 [over.call.oper]/(3.3)">(3.3)</span>
+    For the operator , , the unary operator & , or the operator -> , the built-in candidates set is empty.
+    For all other operators, the built-in candidates include all of the candidate operator functions defined
+    in 16.6 that, compared to the given operator,
+    <ul>
+    <li><span class="ptag" title="16.3.1.2 [over.call.oper]/(3.3.1)">(3.3.1)</span> have the same operator name, and</li>
+    <li><span class="ptag" title="16.3.1.2 [over.call.oper]/(3.3.2)">(3.3.2)</span> accept the same number of operands, and</li>
+    <li><span class="ptag" title="16.3.1.2 [over.call.oper]/(3.3.3)">(3.3.3)</span>
+      accept operand types to which the given operand or operands can be converted according to
+      16.3.3.1, and
+      </li>
+    <li><span class="ptag" title="16.3.1.2 [over.call.oper]/(3.3.4)">(3.3.4)</span>
+      do not have the same parameter-type-list as any non-member candidate that is not a function
+      template specialization.
+      </li>
+    </ul>
+  </li>
+  </ul>
+  <p><span class="ptag" title="16.3.1.2 [over.call.oper]/4">4</span>
+  For the built-in assignment operators, conversions of the left operand are restricted as follows:
+  </p>
+  <ul>
+  <li><span class="ptag" title="16.3.1.2 [over.call.oper]/(4.1)">(4.1)</span>
+    no temporaries are introduced to hold the left operand, and</li>
+  <li><span class="ptag" title="16.3.1.2 [over.call.oper]/(4.2)">(4.2)</span>
+    no user-defined conversions are applied to the left operand to achieve a type match with the left-most
+    parameter of a built-in candidate.
+    </li>
+  </ul>
+  <p><span class="ptag" title="16.3.1.2 [over.call.oper]/5">5</span>
+  For all other operators, no such restrictions apply.
+  </p>
+  <p><span class="ptag" title="16.3.1.2 [over.call.oper]/6">6</span>
+  The set of candidate functions for overload resolution is the union of the member candidates, the non-member
+  candidates, and the built-in candidates. The argument list contains all of the operands of the operator. The
+  best function from the set of candidate functions is selected according to 16.3.2 and 16.3.3. 128 [Example:
+  </p>
+<pre class="agh-prog-cpp">
+struct A {
+  operator int();
+};
+A operator+(const A&amp;, const A&amp;);
+void m() {
+  A a, b;
+  a + b;      // operator+(a, b) chosen over int(a) + int(b)
+}
+</pre>
+  <p>—end example ]</p>
+  <p><span class="ptag" title="16.3.1.2 [over.call.oper]/7">7</span>
+  If a built-in candidate is selected by overload resolution, the operands of class type are converted to the
+  types of the corresponding parameters of the selected operation function, except that the second standard
+  conversion sequence of a user-defined conversion sequence (16.3.3.1.2) is not applied. Then the operator is
+  treated as the corresponding built-in operator and interpreted according to Clause 8. [Example:
+  </p>
+<pre class="agh-prog-cpp">
+struct X {
+  operator double();
+};
+
+struct Y {
+  operator int*();
+};
+
+int *a = Y() + 100.0; // error: pointer arithmetic requires integral operand
+int *b = Y() + X();   // error: pointer arithmetic requires integral operand
+</pre>
+  <p>—end example ]</p>
+  <p><span class="ptag" title="16.3.1.2 [over.call.oper]/8">8</span>
+  The second operand of operator -> is ignored in selecting an operator-> function, and is not an argument
+  when the operator-> function is called. When operator-> returns, the operator -> is applied to the value
+  returned, with the original second operand. 129
+  </p>
+  <p><span class="ptag" title="16.3.1.2 [over.call.oper]/9">9</span>
+  If the operator is the operator , , the unary operator & , or the operator -> , and there are no viable functions,
+  then the operator is assumed to be the built-in operator and interpreted according to Clause 8.
+  </p>
+  <p><span class="ptag" title="16.3.1.2 [over.call.oper]/10">10</span>
+  [Note: The lookup rules for operators in expressions are different than the lookup rules for operator function
+  names in a function call, as shown in the following example:
+  </p>
+<pre class="agh-prog-cpp">
+struct A { };
+void operator + (A, A);
+
+struct B {
+  void operator + (B);
+  void f ();
+};
+
+A a;
+
+void B::f() {
+  operator+ (a,a);  // error: global operator hidden by member
+  a + a;            // OK: calls global operator+
+}
+</pre>
+  <p>—end note ]</p>
+  <p><span class="ptag">footnote 128</span>
+   If the set of candidate functions is empty, overload resolution is unsuccessful.
+  </p>
+  <p><span class="ptag">footnote 129</span>
+  If the value returned by the operator-> function has class type, this may result in selecting and calling another operator->
+  function. The process repeats until an operator-> function returns a value of non-class type.
+  </p>
+</div>
+
 <h4 id="sec16.3.1.3">16.3.1.3 Initialization by constructor <span class="stag">[over.match.ctor]</span></h4>
 <p><span class="ptag" id="sec16.3.1.3p1" title="16.3.1.3 [over.match.ctor]/1">1</span>
 クラス型のオブジェクトを、
@@ -1263,7 +1875,7 @@ Fn&amp;&amp; rf = a;      // #2 が呼び出される
 <li><span class="ptag" id="sec16.3.3p1.10" title="16.3.3 [over.match.best]/(1.10)">(1.10)</span>
   <code class="agh-prog-cpp">F1</code> が非テンプレートコンストラクタで
   <code class="agh-prog-cpp">F2</code> がコンストラクタテンプレートによって生成される。[例:
-  <pre class="agh-prog-cpp">
+<pre class="agh-prog-cpp">
 template &lt;class T&gt; struct A {
   using value_type = T;
   A(value_type);    // #1
@@ -1340,8 +1952,8 @@ using A::f;
 using B::f;
 
 void use() {
-  f(3); // OK, default argument was not used for viability
-  f();  // Error: found default argument twice
+  f(3); // OK, 呼び出し可能であるために既定の実引数は使われなかった
+  f();  // Error: 既定の実引数が2回見つかった
 }
 </pre>
 <p>- 例終わり ]</p>
@@ -1396,7 +2008,7 @@ Viable functions の所では <i>m+1</i> 番目の既定の実引数について
     standard conversion sequence from the return type of F1 to the destination type (i.e., the type of the
     entity being initialized) is a better conversion sequence than the standard conversion sequence from the
     return type of F2 to the destination type [Example:
-  <pre class="agh-prog-cpp">
+<pre class="agh-prog-cpp">
 struct A {
   A();
   operator int();
@@ -1412,7 +2024,7 @@ float x = a;  // ambiguous: both possibilities require conversions,
     the context is an initialization by conversion function for direct reference binding (16.3.1.6) of a reference
     to function type, the return type of F1 is the same kind of reference (i.e. lvalue or rvalue) as the
     reference being initialized, and the return type of F2 is not [Example:
-  <pre class="agh-prog-cpp">
+<pre class="agh-prog-cpp">
 template &lt;class T&gt; struct A {
   operator T&amp;();  // #1
   operator T&amp;&amp;(); // #2
@@ -1429,7 +2041,7 @@ Fn&amp;&amp; rf = a;      // calls #2
   <li><span class="ptag" title="16.3.3 [over.match.best]/(1.8)">(1.8)</span> F1 is generated from a deduction-guide (16.3.1.8) and F2 is not, or, if not that,</li>
   <li><span class="ptag" title="16.3.3 [over.match.best]/(1.9)">(1.9)</span> F1 is the copy deduction candidate (16.3.1.8) and F2 is not, or, if not that,</li>
   <li><span class="ptag" title="16.3.3 [over.match.best]/(1.10)">(1.10)</span> F1 is generated from a non-template constructor and F2 is generated from a constructor template. [Example:
-    <pre class="agh-prog-cpp">
+<pre class="agh-prog-cpp">
 template &lt;class T&gt; struct A {
   using value_type = T;
   A(value_type);    // #1
@@ -1460,7 +2072,7 @@ A b2 = a;           // uses #7 to deduce A&lt;A&lt;int&gt;&gt; and #1 to initial
   If there is exactly one viable function that is a better function than all other viable functions, then it is the
   one selected by overload resolution; otherwise the call is ill-formed. <sup>132</sup> [Example:
   </p>
-  <pre class="agh-prog-cpp">
+<pre class="agh-prog-cpp">
 void Fcn(const int*, short);
 void Fcn(int*, int);
 
@@ -1484,7 +2096,7 @@ void f() {
   two of these declarations — or the declarations they refer to in the case of using-declarations — specify a
   default argument that made the function viable, the program is ill-formed. [Example:
   </p>
-  <pre class="agh-prog-cpp">
+<pre class="agh-prog-cpp">
 namespace A {
   extern "C" void f(int = 5);
 }
