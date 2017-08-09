@@ -90,13 +90,14 @@
     <li>overload → 多重定義する</li>
     <li>overloaded declarations → 多重定義 (実は多重宣言の方が適切な気がするが多重定義とするのが一般的である)</li>
     <li>viable functions → 呼び出し可能関数 (JIS C++ では二次候補関数としている)</li>
-    <li>implicit conversion sequence → 暗黙変換列 (JIS C++ では暗黙変換手順としている)</li>
+    <li>implicit conversion sequence → 暗黙変換列 (JIS C++ では暗黙の変換手順としている)</li>
     <li>implicit object paramter → 暗黙オブジェクト仮引数</li>
     <li>implied object argument → 暗黙オブジェクト実引数</li>
-    <li>named function/class → 指名された関数・クラス (JIS C++ では名前のある関数としている)</li>
+    <li>named function/class → 名前の指定された関数・クラス (JIS C++ では名前のある関数としている)</li>
     <li>qualified/unqualified function calls → 修飾付き・修飾なし関数呼び出し (JIS C++ では 修飾付き・修飾なしの関数呼出しとしている)</li>
     </ul>
   </li>
+  <li>sequenced → 副作用完了する (字義通りには「順序付けられる」だが C/C++ の sequence point の訳語に倣う)</li>
   </ul>
 </div>
 
@@ -792,8 +793,8 @@ public:
   7つの異なる文脈で多重定義解決が実行される:
 </p>
 <ul>
-<li><span class="ptag" id="sec16.3p2.1" title="16.3 [over.match]/(2.1)">(2.1)</span> 関数呼び出し構文の指名された関数の呼び出し (16.3.1.1.1);</li>
-<li><span class="ptag" id="sec16.3p2.2" title="16.3 [over.match]/(2.2)">(2.2)</span> 関数呼び出し構文の指名されたクラスオブジェクトに対する、
+<li><span class="ptag" id="sec16.3p2.1" title="16.3 [over.match]/(2.1)">(2.1)</span> 関数呼び出し構文で名前の指定された関数の呼び出し (16.3.1.1.1);</li>
+<li><span class="ptag" id="sec16.3p2.2" title="16.3 [over.match]/(2.2)">(2.2)</span> 関数呼び出し構文で名前の指定されたクラスオブジェクトに対する、
   関数呼び出し演算子、関数ポインタへの変換関数、関数ポインタの参照への変換関数、関数の参照への変換関数の呼び出し (16.3.1.1.2);</li>
 <li><span class="ptag" id="sec16.3p2.3" title="16.3 [over.match]/(2.3)">(2.3)</span> 式中で参照された演算子の呼び出し (16.3.1.2);</li>
 <li><span class="ptag" id="sec16.3p2.4" title="16.3 [over.match]/(2.4)">(2.4)</span> クラスオブジェクトの既定初期化または直接初期化 (11.6) に際してのコンストラクタの呼び出し (16.3.1.3);</li>
@@ -1376,11 +1377,12 @@ int i = a(1);     // calls f1 via pointer returned from conversion function
 
 <h4 id="sec16.3.2">16.3.1.2 Operators in expressions <span class="stag">[over.match.oper]</span></h4>
 <p><span class="ptag" id="sec16.3.1.2p1" title="16.3.1.2 [over.call.oper]/1">1</span>
-If no operand of an operator in an expression has a type that is a class or an enumeration, the operator
-is assumed to be a built-in operator and interpreted according to Clause 8. [Note: Because . , .* , and ::
-cannot be overloaded, these operators are always built-in operators interpreted according to Clause 8. ?:
-cannot be overloaded, but the rules in this subclause are used to determine the conversions to be applied to
-the second and third operands when they have class or enumeration type (8.16). —end note ] [Example:
+クラス型か列挙型の被演算子を持たない演算子は、組み込み演算子として Clause 8 に従って解釈される。
+[註: 演算子 <code class="agh-prog-cpp">.</code>, <code class="agh-prog-cpp">.*</code>, <code class="agh-prog-cpp">::</code> は、
+多重定義できないので常に Clause8 に従って解釈される組み込み演算子である。
+演算子 <code class="agh-prog-cpp">:?</code> も多重定義できないが、
+第2・第3被演算子がクラス型または列挙型のときこれらに適用される変換は、
+この節の規則によって決まる (8.16)。- 註終わり ] [例:
 </p>
 <pre class="agh-prog-cpp">
 struct String {
@@ -1390,25 +1392,26 @@ struct String {
 };
 String operator + (const String&amp;, const String&amp;);
 
+
 void f() {
-  const char* p= "one" + "two"; // ill-formed because neither operand has class or enumeration type
-  int I = 1 + 1;                // always evaluates to 2 even if class or enumeration types exist
-                                // that would perform the operation.
+  const char* p= "one" + "two"; // どちらの被演算子もクラス型または列挙型ではないので不適格。
+  int I = 1 + 1;                // この操作を実行しうるクラス型・列挙型が存在したとしても、
+                                // 常に結果は 2 になる。
 }
 </pre>
-<p>—end example ]</p>
+<p>- 例終わり ]</p>
 <p><span class="ptag" id="sec16.3.1.2p2" title="16.3.1.2 [over.call.oper]/2">2</span>
-If either operand has a type that is a class or an enumeration, a user-defined operator function might be
-declared that implements this operator or a user-defined conversion can be necessary to convert the operand to
-a type that is appropriate for a built-in operator. In this case, overload resolution is used to determine which
-operator function or built-in operator is to be invoked to implement the operator. Therefore, the operator
-notation is first transformed to the equivalent function-call notation as summarized in Table 12 (where @
-denotes one of the operators covered in the specified subclause). However, the operands are sequenced in the
-order prescribed for the built-in operator (Clause 8).
+何れかの被演算子がクラス型または列挙型のとき、
+演算子を実装するユーザ定義の演算子関数が宣言されているか、
+そうでなければ被演算子を組み込み演算子に合う型に変換するユーザ定義の変換が必要になる。
+このとき演算を実行する上でどの演算子関数・組み込み演算子が呼び出されるかが多重定義解決で決まる。
+従って、演算子記法は初めに、表 12 に示したような等価な関数呼び出し記法に変形される
+(但し <code class="agh-prog-cpp">@</code> は表中に示した各節で述べる演算子のうちの何れかである)。
+ただし、被演算子は組み込み演算子 (Clause 8) について既に述べた順序で副作用完了する。
 </p>
 <table class="normal">
-<caption>Table 12 — Relationship between operator and function call notation</caption>
-<tr><th>Subclause</th><th>Expression</th><th>As member function</th><th>As non-member function</th></tr>
+<caption>表 12 - 演算子と関数呼び出し記法の関係</caption>
+<tr><th>節</th><th>式</th><th>メンバ関数として</th><th>非メンバ関数として</th></tr>
 <tr><td>16.5.1</td><td><code class="agh-prog-cpp">@a  </code></td><td><code class="agh-prog-cpp">(a).operator@ () </code></td><td><code class="agh-prog-cpp">operator@(a)</code></td></tr>
 <tr><td>16.5.2</td><td><code class="agh-prog-cpp">a@b </code></td><td><code class="agh-prog-cpp">(a).operator@ (b)</code></td><td><code class="agh-prog-cpp">operator@(a, b)</code></td></tr>
 <tr><td>16.5.3</td><td><code class="agh-prog-cpp">a=b </code></td><td><code class="agh-prog-cpp">(a).operator= (b)</code></td><td></td></tr>
@@ -1417,61 +1420,64 @@ order prescribed for the built-in operator (Clause 8).
 <tr><td>16.5.7</td><td><code class="agh-prog-cpp">a@  </code></td><td><code class="agh-prog-cpp">(a).operator@ (0)</code></td><td><code class="agh-prog-cpp">operator@(a, 0)</code></td></tr>
 </table>
 <p><span class="ptag" id="sec16.3.1.2p3" title="16.3.1.2 [over.call.oper]/3">3</span>
-For a unary operator @ with an operand of a type whose cv-unqualified version is T1 , and for a binary operator
-@ with a left operand of a type whose cv-unqualified version is T1 and a right operand of a type whose
-cv-unqualified version is T2 , three sets of candidate functions, designated member candidates, non-member
-candidates and built-in candidates, are constructed as follows:
+単項演算子 <code class="agh-prog-cpp">@</code> の被演算子の
+cv 修飾を除いた型を <code class="agh-prog-cpp">T1</code> とする。
+二項演算子 <code class="agh-prog-cpp">@</code> の左被演算子・右被演算子の
+cv 修飾を除いた型をそれぞれ <code class="agh-prog-cpp">T1</code>・<code class="agh-prog-cpp">T2</code> とする。
+単項演算子と二項演算子について、3種類の候補関数
+――指定された<dfn>メンバー候補</dfn> (designated member candidates)、<dfn>非メンバ候補</dfn> (non-member candidates)、<dfn>組み込み候補</dfn> (built-in candidates)――
+が以下のようにして構築される。
 </p>
 <ul>
 <li><span class="ptag" id="sec16.3.1.2p3.1" title="16.3.1.2 [over.call.oper]/(3.1)">(3.1)</span>
-  If T1 is a complete class type or a class currently being defined, the set of member candidates is the
-  result of the qualified lookup of T1::operator@ (16.3.1.1.1); otherwise, the set of member candidates
-  is empty.
+  <code class="agh-prog-cpp">T1</code> が完全クラス型または現在定義しているクラス型の場合、
+  メンバ候補の集合は <code class="agh-prog-cpp">T1::operator@</code> の修飾付き探索 (16.3.1.1.1) の結果とする。
+  それ以外の場合は、メンバ候補の集合は空とする。
   </li>
 <li><span class="ptag" id="sec16.3.1.2p3.2" title="16.3.1.2 [over.call.oper]/(3.2)">(3.2)</span>
-  The set of non-member candidates is the result of the unqualified lookup of operator@ in the context of
-  the expression according to the usual rules for name lookup in unqualified function calls (6.4.2) except
-  that all member functions are ignored. However, if no operand has a class type, only those non-member
-  functions in the lookup set that have a first parameter of type T1 or “reference to cv T1 ”, when T1 is
-  an enumeration type, or (if there is a right operand) a second parameter of type T2 or “reference to
-  cv T2”, when T2 is an enumeration type, are candidate functions.
+  非メンバ候補の集合は、
+  修飾なし関数呼び出しの通常の名前探索 (6.4.2) においてメンバ関数を無視することによって、
+  その式の文脈における <code class="agh-prog-cpp">operator@</code> の修飾なし探索を行った結果とする。
+  但し、クラス型を持つ被演算子がない場合は、探索結果の非メンバ関数のうち、
+  <code class="agh-prog-cpp">T1</code> が列挙型でかつ第1仮引数の型が
+  <code class="agh-prog-cpp">T1</code> または "<code class="agh-prog-cpp"><i>cv</i> T1</code> の参照" であるか、
+  もし右被演算子が存在すれば <code class="agh-prog-cpp">T2</code> が列挙型でかつ第2仮引数の型が
+  <code class="agh-prog-cpp">T2</code> または "<code class="agh-prog-cpp"><i>cv</i> T2</code> の参照" であるような物のみが候補関数である。
   </li>
 <li><span class="ptag" id="sec16.3.1.2p3.3" title="16.3.1.2 [over.call.oper]/(3.3)">(3.3)</span>
-  For the operator , , the unary operator & , or the operator -> , the built-in candidates set is empty.
-  For all other operators, the built-in candidates include all of the candidate operator functions defined
-  in 16.6 that, compared to the given operator,
+  演算子 <code class="agh-prog-cpp">,</code>、単項演算子 <code class="agh-prog-cpp">&amp;</code>、演算子 <code class="agh-prog-cpp">-></code> については、
+  組み込み候補は空である。それ以外の全ての演算子について、
+  組み込み候補は 16.6 で定義される候補演算子関数のうち、
+  対象の演算子と比べて以下を満たすものを全て含む。
   <ul>
-  <li><span class="ptag" id="sec16.3.1.2p3.3.1" title="16.3.1.2 [over.call.oper]/(3.3.1)">(3.3.1)</span> have the same operator name, and</li>
-  <li><span class="ptag" id="sec16.3.1.2p3.3.2" title="16.3.1.2 [over.call.oper]/(3.3.2)">(3.3.2)</span> accept the same number of operands, and</li>
+  <li><span class="ptag" id="sec16.3.1.2p3.3.1" title="16.3.1.2 [over.call.oper]/(3.3.1)">(3.3.1)</span> 同じ名前を持ち、かつ</li>
+  <li><span class="ptag" id="sec16.3.1.2p3.3.2" title="16.3.1.2 [over.call.oper]/(3.3.2)">(3.3.2)</span> 同じ個数の被演算子を受け取り、</li>
   <li><span class="ptag" id="sec16.3.1.2p3.3.3" title="16.3.1.2 [over.call.oper]/(3.3.3)">(3.3.3)</span>
-    accept operand types to which the given operand or operands can be converted according to
-    16.3.3.1, and
+    与えられた被演算子から 16.3.3.1 に基づき変換できる型の被演算子を受け取り、かつ
     </li>
   <li><span class="ptag" id="sec16.3.1.2p3.3.4" title="16.3.1.2 [over.call.oper]/(3.3.4)">(3.3.4)</span>
-    do not have the same parameter-type-list as any non-member candidate that is not a function
-    template specialization.
+    関数テンプレート特殊化でない非メンバ候補と同じ <span class="syntax">parameter-type-list</span> を持たない。
+    <p class="translation-note">関数テンプレート特殊化非メンバ候補 vs 組み込み候補はどうなるのか? これは 16.6 をよく見る必要がある■</p>
     </li>
   </ul>
 </li>
 </ul>
 <p><span class="ptag" id="sec16.3.1.2p4" title="16.3.1.2 [over.call.oper]/4">4</span>
-For the built-in assignment operators, conversions of the left operand are restricted as follows:
+組み込みの代入演算子については、左被演算子の変換は以下のように制限される:
 </p>
 <ul>
 <li><span class="ptag" id="sec16.3.1.2p4.1" title="16.3.1.2 [over.call.oper]/(4.1)">(4.1)</span>
-  no temporaries are introduced to hold the left operand, and</li>
+  左被演算子を保持するために一時オブジェクトは導入されず、また</li>
 <li><span class="ptag" id="sec16.3.1.2p4.2" title="16.3.1.2 [over.call.oper]/(4.2)">(4.2)</span>
-  no user-defined conversions are applied to the left operand to achieve a type match with the left-most
-  parameter of a built-in candidate.
-  </li>
+  左被演算子に対して  組み込み候補の第1仮引数の型に合うように左被演算子にユーザ定義変換が適用されることもない。</li>
 </ul>
 <p><span class="ptag" id="sec16.3.1.2p5" title="16.3.1.2 [over.call.oper]/5">5</span>
-For all other operators, no such restrictions apply.
+その他の演算子については、上記の制限はない。
 </p>
 <p><span class="ptag" id="sec16.3.1.2p6" title="16.3.1.2 [over.call.oper]/6">6</span>
-The set of candidate functions for overload resolution is the union of the member candidates, the non-member
-candidates, and the built-in candidates. The argument list contains all of the operands of the operator. The
-best function from the set of candidate functions is selected according to 16.3.2 and 16.3.3. 128 [Example:
+多重定義解決に用いる候補関数の集合は、メンバー候補、非メンバー候補、組み込み候補の和集合である。
+実引数リストは、その演算子の全ての被演算子を含む。
+最適な候補関数が 16.3.2, 16.3.3 に基づき選択される<sup>128</sup>。[例:
 </p>
 <pre class="agh-prog-cpp">
 struct A {
@@ -1480,15 +1486,15 @@ struct A {
 A operator+(const A&amp;, const A&amp;);
 void m() {
   A a, b;
-  a + b;      // operator+(a, b) chosen over int(a) + int(b)
+  a + b;      // int(a) + int(b) ではなく operator+(a, b) が選ばれる。
 }
 </pre>
 <p>—end example ]</p>
 <p><span class="ptag" id="sec16.3.1.2p7" title="16.3.1.2 [over.call.oper]/7">7</span>
-If a built-in candidate is selected by overload resolution, the operands of class type are converted to the
-types of the corresponding parameters of the selected operation function, except that the second standard
-conversion sequence of a user-defined conversion sequence (16.3.3.1.2) is not applied. Then the operator is
-treated as the corresponding built-in operator and interpreted according to Clause 8. [Example:
+組み込み候補が多重定義解決により選ばれた場合、
+先ずクラス型の被演算子は、選ばれた演算関数の対応する仮引数の型に変換される。
+但し、ユーザ定義変換列 (16.3.3.1.2) の第2の標準変換列は適用されない。
+その後に演算子は対応する組み込み演算子として Clause 8 に従って解釈される。[例:
 </p>
 <pre class="agh-prog-cpp">
 struct X {
@@ -1502,19 +1508,125 @@ struct Y {
 int *a = Y() + 100.0; // error: pointer arithmetic requires integral operand
 int *b = Y() + X();   // error: pointer arithmetic requires integral operand
 </pre>
-<p>—end example ]</p>
+<p>- 例終わり ]</p>
+<div class="translation-note">
+  「但し、ユーザ定義変換列 (16.3.3.1.2) の第2の標準変換列は適用されない
+  (except that the second standard conversion sequence of a user-defined conversion sequence (16.3.3.1.2) is not applied)」
+  とはどういうことだろう。2つの解釈がある。
+  <ul>
+  <li>(a) 選ばれた組み込み候補が第2の標準変換列を必要とするとき、Clause 5 によってチェックされ不適格になるのか、</li>
+  <li>(b) それとも、第2の標準変換列を必要とするような組み込み候補は (呼び出し可能でないとして) そもそも多重定義解決で選ばれることがない</li>
+  </ul>
+  他の規則を探したが、(b) に対応する記述 (組み込み演算子関数に対して第2の標準変換列が恒等変換でなければならない) は未だ見つかっていない。
+  ということは、第2の標準変換列を必要とするような組み込み候補が、
+  その他の呼び出し可能な候補(メンバ候補・非メンバ候補)を差し置いて選択される可能性が依然としてあり、
+  この時 (a) になる気がするが不自然だ。実際に試してみる。
+
+  <p>試した結果そもそも gcc/clang にバグがある様だ。
+  第2標準変換列が恒等変換でなければならないという規則は C++03 にはなく C++14 で追加された様だ。
+  gcc では -std=c++?? に関係なく常に C++14 以降の動作である。
+  clang では -std=c++?? に関係なく常に C++11 以前の動作である。
+  </p>
+<pre class="agh-prog-cpp">
+// Example from N4140 13.3.1.2/7, N4569 16.3.1.2/7
+//
+// gcc emits diagnostics as expected.
+// clang compiles without diagnostics.
+
+struct X { operator double() {return 0.0;} };
+struct Y { operator int*() {return 0;} };
+int main() {
+  int* a = Y() + 100.0;
+  int* b = Y() + X();
+  (void) a;
+  (void) b;
+}
+</pre>
+  <p>取り敢えず少なくとも gcc の方が N4659 に対応しているようなのでこれで試す。</p>
+<pre class="agh-prog-cpp">
+struct A {
+  int operator-(A const&amp;) {return 2;} // #1
+  friend int operator*(A, A) {return 3;}      // #2
+};
+int operator+(A, A) {return 1;} // #3
+struct X { operator A() const {return A();} };
+struct Y { operator A() const {return A();} };
+
+void test1() {
+  X x;
+  Y y;
+  (void) (x + y); // OK: #3 operator+ は非メンバ候補
+  (void) (x - y); // Error: #1 operator- はメンバ候補には挙がらない
+  (void) (x * y); // Error: #2 operator* は ADL でないと見えない
+}
+
+struct B { B(int*) {} };
+int operator+(B, int) {return 4;} // #4
+struct N { operator double() const {return 0.0;} };
+
+// #5 は組み込み演算子 operator+(int* int) とする。
+
+void test2() {
+  int* p = nullptr;
+  N n;
+  (void) (p + n); // 実引数: (int*, N), 非メンバ候補: #4 int (B, int), 組み込み候補: int* (int*, int)
+  // → gcc では p + n は int になる。これはグレー。
+  // → clang では p + n は int* になる。どうやら p + (int) (double) n になっている。しかしこれは Clause 5 で禁止されるはずだ。
+}
+</pre>
+  <p>GCC は (b) の解釈のようだ。
+  しかし再度探しても、ユーザ定義変換列の中の第2標準変換列が組込候補に対して恒等変換でなければならなという記述は見つからない。
+  これの根拠は何処にあるのか?</p>
+  <p>そもそもこの規則が C++14 で追加された経緯も確認しておくべきだろう。
+  <del>この規則が追加された時に慎重に考えられずに適当に追加された可能性が高い気がする。</del>
+  →<a href="http://open-std.org/JTC1/SC22/WG21/docs/cwg_defects.html#1687">CWG 1687</a> で理由付きで変更されている。尤もだ。
+  うーん。これを見る限り、多重定義解決の過程では第2標準変換列として非自明なものを許すが、
+  最終的なチェックを Clause 5 で行うために取り敢えず第2標準変換列の手前まで変換を行うという事に見える。
+  ということは (a) ということのように思われる。
+  </p>
+  <div class="en">
+    <p>1687. Conversions of operands of built-in operators</p>
+    <p>Section: 13.3.1.2  [over.match.oper]     Status: C++14     Submitter: Richard Smith     Date: 2013-05-17</p>
+    <p>[Moved to DR at the February, 2014 meeting.]</p>
+    <p>Consider an example like:</p>
+<pre class="agh-prog-cpp">
+struct Y {
+  operator int*();
+};
+
+extern int *p;
+int *a = p + 100.0;   // #1
+int *b = Y() + 100.0; // #2
+</pre>
+    <p>#1 is ill-formed because it violates the requirement of 5.7 [expr.add] that the non-pointer operand have integral or enumeration type.
+    It appears that #2 is well-formed, however, because 13.3.1.2 [over.match.oper] paragraph 7 says,</p>
+    <blockquote>
+    If a built-in candidate is selected by overload resolution, the operands are converted to the types of
+    the corresponding parameters of the selected operation function. Then the operator is treated as the
+    corresponding built-in operator and interpreted according to Clause 5 [expr].
+    </blockquote>
+    <p>In this case, the selected operation function is</p>
+<pre class="agh-prog-cpp">
+int *operator+(int *, std::ptrdiff_t)
+</pre>
+    <p>100.0 is thus converted to std::ptrdiff_t before reaching 5.7 [expr.add].</p>
+    <p>This problem could be addressed by restricting the conversion to the class or enumeration operand rather than both operands.</p>
+  </div>
+  またもし (b) の様にしようとすると viable かどうかを判定する時に
+  Clause 5 を引っ張り出して来なければならず複雑になる。
+</div>
 <p><span class="ptag" id="sec16.3.1.2p8" title="16.3.1.2 [over.call.oper]/8">8</span>
-The second operand of operator -> is ignored in selecting an operator-> function, and is not an argument
-when the operator-> function is called. When operator-> returns, the operator -> is applied to the value
-returned, with the original second operand. 129
+演算子 <code class="agh-prog-cpp">-></code> の第2被演算子は、多重定義解決の際に無視され、
+関数 <code class="agh-prog-cpp">operator-></code> が呼ばれるときの実引数にはならない。
+関数 <code class="agh-prog-cpp">operator-></code> の戻り値に対して、
+再度演算子 <code class="agh-prog-cpp">-></code> が元々の第2非演算子と共に適用される<sup>129</sup>。
 </p>
 <p><span class="ptag" id="sec16.3.1.2p9" title="16.3.1.2 [over.call.oper]/9">9</span>
-If the operator is the operator , , the unary operator & , or the operator -> , and there are no viable functions,
-then the operator is assumed to be the built-in operator and interpreted according to Clause 8.
+演算子 <code class="agh-prog-cpp">,</code>、単項演算子 <code class="agh-prog-cpp">&amp;</code>、演算子 <code class="agh-prog-cpp">-></code> について、
+呼び出し可能関数がない場合には演算子は組み込み演算子と見なされ Clause 8 によって解釈される。
 </p>
 <p><span class="ptag" id="sec16.3.1.2p10" title="16.3.1.2 [over.call.oper]/10">10</span>
-[Note: The lookup rules for operators in expressions are different than the lookup rules for operator function
-names in a function call, as shown in the following example:
+[註: 以下の例に示したように、式中の演算子の名前探索の規則は、関数呼び出しにおける演算子関数の名前探索と異なる:
 </p>
 <pre class="agh-prog-cpp">
 struct A { };
@@ -1528,17 +1640,26 @@ struct B {
 A a;
 
 void B::f() {
-  operator+ (a,a);  // error: global operator hidden by member
-  a + a;            // OK: calls global operator+
+  operator+ (a,a);  // error: グローバルの演算子はメンバによって隠蔽される。
+  a + a;            // OK: グローバルの operator+ が呼び出される。
 }
 </pre>
-<p>—end note ]</p>
+<p>- 註終わり ]</p>
 <p><span class="ptag" id="footnote128">footnote 128</span>
- If the set of candidate functions is empty, overload resolution is unsuccessful.
+候補関数の集合が空のとき、多重定義解決は失敗である。
+</p>
+<p class="translation-note">
+16.3.1.2/9 については候補関数が空であったとしても、
+Clause 8 へ行くので失敗ではないのではないか。■
 </p>
 <p><span class="ptag" id="footnote129">footnote 129</span>
-If the value returned by the operator-> function has class type, this may result in selecting and calling another operator->
-function. The process repeats until an operator-> function returns a value of non-class type.
+関数 <code class="agh-prog-cpp">operator-></code> の戻り値がクラス型のとき、
+更にもう一つの <code class="agh-prog-cpp">operator-></code> を選択して呼び出すことになる。
+この処理は <code class="agh-prog-cpp">operator-></code> が非クラス型の値を返すまで続く。
+</p>
+<p class="translation-note">
+無限ループになった場合に処理系はどうすれば良いか規定されていない。
+つまり、correct execution が要求されるのでは?■
 </p>
 
 <div class="en">
