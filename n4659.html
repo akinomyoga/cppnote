@@ -47,11 +47,14 @@
   i, span.syntax, div.syntax sub.opt
   {margin-left: 0.05em; margin-right:0.05em; position: relative; left: -0.1em;} /* イタリック補正 */
 
-
   table.normal {border-collapse: collapse; margin: 0.8em auto;}
   table.normal>caption {margin: 0.4em;}
   table.normal>*>tr>td,
   table.normal>*>tr>th {border: 1px solid black; padding: 0.4em;}
+  td.cell-ng {background-color: #fee;}
+  td.cell-ok {background-color: #efe;}
+
+  div.toggle-closed {display: none;}
   </style>
   <meta name="agh-fly-type" content="color" />
   <script src="https://akinomyoga.github.io/agh/agh.fly.js" charset="utf-8"></script>
@@ -880,10 +883,16 @@ public:
 多重定義解決において、静的・非静的メンバ関数は共に暗黙オブジェクト仮引数を持つとする。
 一方でコンストラクタは暗黙オブジェクト仮引数を持たない。
 </p>
-<p class="translation-note">本当に同時にメンバ関数と非メンバ関数を両方含むことがあるのか?
-だとすると、非メンバ関数も暗黙引数を入れなければ比較できないのでは? 要確認■
-(1) 16.3.1.1.1/3 によると<i>関数呼び出しでは</i>メンバ関数と非メンバ関数が両方同時に含まれることはない。
-</p>
+<div class="translation-note">
+  同時にメンバ関数と非メンバ関数を両方含むことがあとすれば、
+  非メンバ関数も暗黙引数を入れなければ比較できないのでは? 要確認■
+  <p>非メンバ関数には暗黙オブジェクト仮引数を導入しない。何故ならば、</p>
+  <ul>
+  <li>関数呼び出しでは、メンバ関数と非メンバ関数が両方同時に含まれることはない (16.3.1.1.1/3)。</li>
+  <li>演算子の多重定義では、非メンバ候補 (16.3.1.2/(3.2)) は暗黙オブジェクト仮引数は持たないのが自然。</li>
+  <li>tocheck: 16.3.1.3, 16.3.1.4, 16.3.1.5, 16.3.1.6, 16.3.1.7, 16.3.1.8</li>
+  </ul>
+</div>
 <p><span class="ptag" id="sec16.3.1p3" title="16.3.1 [over.match.funcs]/3">3</span>
 同様に、文脈に応じて、<dfn>暗黙オブジェクト実引数</dfn> (implied object argument) を含む実引数リストが構築される。
 暗黙オブジェクト実引数はメンバ関数を呼び出す対象のオブジェクトを表す。
@@ -1510,23 +1519,94 @@ int *b = Y() + X();   // error: pointer arithmetic requires integral operand
 </pre>
 <p>- 例終わり ]</p>
 <div class="translation-note">
-  「但し、ユーザ定義変換列 (16.3.3.1.2) の第2の標準変換列は適用されない
-  (except that the second standard conversion sequence of a user-defined conversion sequence (16.3.3.1.2) is not applied)」
-  とはどういうことだろう。2つの解釈がある。
-  <ul>
-  <li>(a) 選ばれた組み込み候補が第2の標準変換列を必要とするとき、Clause 5 によってチェックされ不適格になるのか、</li>
-  <li>(b) それとも、第2の標準変換列を必要とするような組み込み候補は (呼び出し可能でないとして) そもそも多重定義解決で選ばれることがない</li>
-  </ul>
-  他の規則を探したが、(b) に対応する記述 (組み込み演算子関数に対して第2の標準変換列が恒等変換でなければならない) は未だ見つかっていない。
-  ということは、第2の標準変換列を必要とするような組み込み候補が、
-  その他の呼び出し可能な候補(メンバ候補・非メンバ候補)を差し置いて選択される可能性が依然としてあり、
-  この時 (a) になる気がするが不自然だ。実際に試してみる。
-
-  <p>試した結果そもそも gcc/clang にバグがある様だ。
-  第2標準変換列が恒等変換でなければならないという規則は C++03 にはなく C++14 で追加された様だ。
-  gcc では -std=c++?? に関係なく常に C++14 以降の動作である。
-  clang では -std=c++?? に関係なく常に C++11 以前の動作である。
+  <p>先ず第2標準変換列を考慮に入れて多重定義解決が行われ、
+  その後で組み込み演算子が選ばれた場合には第2標準変換列を適用せずに Clause 8 の規則に転送される。
+  従って、組み込み演算子が Clause 8 によって不適格になり、
+  他に不適格にならない演算子が存在したとしても、
+  組み込み演算子が選ばれることがある。[例:
   </p>
+<pre class="agh-prog-cpp">
+struct X { X(int*) {} };
+struct Y { operator double() { return 0.0; } };
+
+int operator+(X, int) { return 0; } // #1
+// #2 は組み込み演算子 T* operator+(T*, std::ptrdiff_t);
+
+(int*) 0 + Y(); // 不適格: #2 が多重定義で選ばれ (int*) 0 + (double) Y() が考慮される。
+                // しかしこれは 8.7/1 により不適格になる。
+</pre>
+  <p>- 例終わり ]</p>
+
+  <p>この点に関しては自信がなかったので複数のコンパイラで試したがそれぞれに違った結果を与えた。
+  <a href="https://stackoverflow.com/questions/45602368/correct-behavior-of-built-in-operator-candidates-of-overload-resolution-in-the-o">Stack Overflow で質問</a>
+  した所、自分の当初の解釈で正しく、各コンパイラが間違っているとのこと。
+  </p>
+<pre class="agh-prog-cpp">
+// Case1: これは N4569 16.3.1.2/7 の例をそのまま持ってきたのでエラーになるべき。
+
+struct X { operator double() {return 0.0;} };
+struct Y { operator int*() {return 0;} };
+int main() {
+  int* a = Y() + 100.0; // error
+  int* b = Y() + X();   // error
+  (void) a;
+  (void) b;
+}
+</pre>
+<pre class="agh-prog-cpp">
+// Case2: これは規格を愚直に解釈すればエラーになるべき。
+
+#include &lt;iostream>
+void print_type(int) { std::cout &lt;&lt; "int" &lt;&lt; std::endl; }
+void print_type(int*) { std::cout &lt;&lt; "int*" &lt;&lt; std::endl; }
+
+struct X { X(int*) {} };
+struct Y { operator double() { return 0.0; } };
+int operator+(X, int) { return 0; }
+int main() {
+  print_type((int*) 0 + Y()); // error
+}
+</pre>
+  <table class="normal">
+  <tr><th></th><th>Case1</th><th>Case2</th><th>バグ報告</th></tr>
+  <tr><th>C++98</th><td>適格</td><td><code class="agh-prog-cpp">int*</code></td><td>--</td></tr>
+  <tr><th>C++14</th><td>不適格</td><td>不適格</td><td>--</td></tr>
+  <tr><th>gcc 8.0.0</th><td class="cell-ok">不適格</td><td class="cell-ng"><code class="agh-prog-cpp">int</code></td>
+      <td><a href="https://gcc.gnu.org/bugzilla/show_bug.cgi?id=81789">81789</a></td></tr>
+  <tr><th>clang 6.0.0</th><td class="cell-ng">適格</td><td class="cell-ng"><code class="agh-prog-cpp">int*</code></td>
+      <td><a href="https://bugs.llvm.org/show_bug.cgi?id=34138">34138</a></td></tr>
+  <tr><th>msc 19.10</th><td class="cell-ok">不適格</td><td class="cell-ng"><code class="agh-prog-cpp">int</code></td>
+      <td><a href="https://developercommunity.visualstudio.com/content/problem/92207/bug-c-cwg-1687-is-performed-too-early-in-overload.html">92207</a></td></tr>
+  <tr><th>icc</th><td class="cell-ok">不適格</td><td class="cell-ng"><code class="agh-prog-cpp">int*</code></td>
+      <td>未だ提出していない</td></tr>
+  </table>
+  <p>注意することとしてここの文面は <a href="http://open-std.org/JTC1/SC22/WG21/docs/cwg_defects.html#1687">CWG 1687</a> によって C++14 から変更された。
+  元々、第2標準変換列も含めて変換が行われてから組み込み演算の規則が適用されていた。
+  Stack Overflow のコメントから推測するに、第2標準変換列を必要とするような組み込み演算子を呼び出し不能にしなかったのは、
+  この変更により多重定義解決で選ばれる関数が変更されて既存のコードの動作が変化することを恐れた可能性がある (単に可能性だが)。
+  </p>
+  <p>しかし調べると GCC は昔から (C++14 以前から) この動作だったようで、
+  CWG 1687 は GCC の動作を参考に提案された可能性もある。
+  だとすると、CWG 1687 で呼び出し可能性ではなく取ってつけたような文章をここに入れたことが間違いの可能性も未だ残っている。
+  </p>
+  <div class="toggle-closed">
+    「但し、ユーザ定義変換列 (16.3.3.1.2) の第2の標準変換列は適用されない
+    (except that the second standard conversion sequence of a user-defined conversion sequence (16.3.3.1.2) is not applied)」
+    とはどういうことだろう。2つの解釈がある。
+    <ul>
+    <li>(a) 選ばれた組み込み候補が第2の標準変換列を必要とするとき、Clause 5 によってチェックされ不適格になるのか、</li>
+    <li>(b) それとも、第2の標準変換列を必要とするような組み込み候補は (呼び出し可能でないとして) そもそも多重定義解決で選ばれることがない</li>
+    </ul>
+    他の規則を探したが、(b) に対応する記述 (組み込み演算子関数に対して第2の標準変換列が恒等変換でなければならない) は未だ見つかっていない。
+    ということは、第2の標準変換列を必要とするような組み込み候補が、
+    その他の呼び出し可能な候補(メンバ候補・非メンバ候補)を差し置いて選択される可能性が依然としてあり、
+    この時 (a) になる気がするが不自然だ。実際に試してみる。
+
+    <p>試した結果そもそも gcc/clang にバグがある様だ。
+    第2標準変換列が恒等変換でなければならないという規則は C++03 にはなく C++14 で追加された様だ。
+    gcc では -std=c++?? に関係なく常に C++14 以降の動作である。
+    clang では -std=c++?? に関係なく常に C++11 以前の動作である。
+    </p>
 <pre class="agh-prog-cpp">
 // Example from N4140 13.3.1.2/7, N4569 16.3.1.2/7
 //
@@ -1542,7 +1622,7 @@ int main() {
   (void) b;
 }
 </pre>
-  <p>取り敢えず少なくとも gcc の方が N4659 に対応しているようなのでこれで試す。</p>
+    <p>取り敢えず少なくとも gcc の方が N4659 に対応しているようなのでこれで試す。</p>
 <pre class="agh-prog-cpp">
 struct A {
   int operator-(A const&amp;) {return 2;} // #1
@@ -1574,21 +1654,43 @@ void test2() {
   // → clang では p + n は int* になる。どうやら p + (int) (double) n になっている。しかしこれは Clause 5 で禁止されるはずだ。
 }
 </pre>
-  <p>GCC は (b) の解釈のようだ。
-  しかし再度探しても、ユーザ定義変換列の中の第2標準変換列が組込候補に対して恒等変換でなければならなという記述は見つからない。
-  これの根拠は何処にあるのか?</p>
-  <p>そもそもこの規則が C++14 で追加された経緯も確認しておくべきだろう。
-  <del>この規則が追加された時に慎重に考えられずに適当に追加された可能性が高い気がする。</del>
-  →<a href="http://open-std.org/JTC1/SC22/WG21/docs/cwg_defects.html#1687">CWG 1687</a> で理由付きで変更されている。尤もだ。
-  うーん。これを見る限り、多重定義解決の過程では第2標準変換列として非自明なものを許すが、
-  最終的なチェックを Clause 5 で行うために取り敢えず第2標準変換列の手前まで変換を行うという事に見える。
-  ということは (a) ということのように思われる。
-  </p>
-  <div class="en">
-    <p>1687. Conversions of operands of built-in operators</p>
-    <p>Section: 13.3.1.2  [over.match.oper]     Status: C++14     Submitter: Richard Smith     Date: 2013-05-17</p>
-    <p>[Moved to DR at the February, 2014 meeting.]</p>
-    <p>Consider an example like:</p>
+    <p>GCC は (b) の解釈のようだ。
+    しかし再度探しても、ユーザ定義変換列の中の第2標準変換列が組込候補に対して恒等変換でなければならなという記述は見つからない。
+    これの根拠は何処にあるのか?</p>
+    <p>もう少し単純化した例を考える。</p>
+<pre class="agh-prog-cpp">
+#include &lt;iostream>
+
+void print_type(int) { std::cout &lt;&lt; "int" &lt;&lt; std::endl; }
+void print_type(int*) { std::cout &lt;&lt; "int*" &lt;&lt; std::endl; }
+
+struct X { X(int*) {} };
+struct Y { operator double() { return 0.0; } };
+
+int operator+(X, int) { return 0; }
+
+int main() {
+  int* p = 0;
+  Y y;
+
+  print_type(p + y);
+  // expected : diagnostics
+  // gcc      : int
+  // clang    : int*
+}
+</pre>
+    <p>そもそもこの規則が C++14 で追加された経緯も確認しておくべきだろう。
+    <del>この規則が追加された時に慎重に考えられずに適当に追加された可能性が高い気がする。</del>
+    →<a href="http://open-std.org/JTC1/SC22/WG21/docs/cwg_defects.html#1687">CWG 1687</a> で理由付きで変更されている。尤もだ。
+    うーん。これを見る限り、多重定義解決の過程では第2標準変換列として非自明なものを許すが、
+    最終的なチェックを Clause 5 で行うために取り敢えず第2標準変換列の手前まで変換を行うという事に見える。
+    ということは (a) ということのように思われる。
+    </p>
+    <div class="en">
+      <p>1687. Conversions of operands of built-in operators</p>
+      <p>Section: 13.3.1.2  [over.match.oper]     Status: C++14     Submitter: Richard Smith     Date: 2013-05-17</p>
+      <p>[Moved to DR at the February, 2014 meeting.]</p>
+      <p>Consider an example like:</p>
 <pre class="agh-prog-cpp">
 struct Y {
   operator int*();
@@ -1598,22 +1700,24 @@ extern int *p;
 int *a = p + 100.0;   // #1
 int *b = Y() + 100.0; // #2
 </pre>
-    <p>#1 is ill-formed because it violates the requirement of 5.7 [expr.add] that the non-pointer operand have integral or enumeration type.
-    It appears that #2 is well-formed, however, because 13.3.1.2 [over.match.oper] paragraph 7 says,</p>
-    <blockquote>
-    If a built-in candidate is selected by overload resolution, the operands are converted to the types of
-    the corresponding parameters of the selected operation function. Then the operator is treated as the
-    corresponding built-in operator and interpreted according to Clause 5 [expr].
-    </blockquote>
-    <p>In this case, the selected operation function is</p>
+      <p>#1 is ill-formed because it violates the requirement of 5.7 [expr.add] that the non-pointer operand have integral or enumeration type.
+      It appears that #2 is well-formed, however, because 13.3.1.2 [over.match.oper] paragraph 7 says,</p>
+      <blockquote>
+      If a built-in candidate is selected by overload resolution, the operands are converted to the types of
+      the corresponding parameters of the selected operation function. Then the operator is treated as the
+      corresponding built-in operator and interpreted according to Clause 5 [expr].
+      </blockquote>
+      <p>In this case, the selected operation function is</p>
 <pre class="agh-prog-cpp">
 int *operator+(int *, std::ptrdiff_t)
 </pre>
-    <p>100.0 is thus converted to std::ptrdiff_t before reaching 5.7 [expr.add].</p>
-    <p>This problem could be addressed by restricting the conversion to the class or enumeration operand rather than both operands.</p>
-  </div>
-  またもし (b) の様にしようとすると viable かどうかを判定する時に
-  Clause 5 を引っ張り出して来なければならず複雑になる。
+      <p>100.0 is thus converted to std::ptrdiff_t before reaching 5.7 [expr.add].</p>
+      <p>This problem could be addressed by restricting the conversion to the class or enumeration operand rather than both operands.</p>
+    </div>
+    <p>またもし (b) の様にしようとすると viable かどうかを判定する時に
+    Clause 5 を引っ張り出して来なければならず複雑になる。
+    </p>
+  </div><!-- end of toggle-closed -->
 </div>
 <p><span class="ptag" id="sec16.3.1.2p8" title="16.3.1.2 [over.call.oper]/8">8</span>
 演算子 <code class="agh-prog-cpp">-></code> の第2被演算子は、多重定義解決の際に無視され、
@@ -1648,10 +1752,19 @@ void B::f() {
 <p><span class="ptag" id="footnote128">footnote 128</span>
 候補関数の集合が空のとき、多重定義解決は失敗である。
 </p>
-<p class="translation-note">
-16.3.1.2/9 については候補関数が空であったとしても、
-Clause 8 へ行くので失敗ではないのではないか。■
-</p>
+<div class="translation-note">
+  <p>16.3.1.2/9 については候補関数が空であったとしても、
+  Clause 8 へ行くので失敗ではないのではないか。■
+  </p>
+  <ul>
+  <li><del>それとも多重定義解決が失敗しても 16.3.1.2/9 で処理されるから問題ないということなのか</del>
+    多重定義解決が失敗すると何れにしても不適格である (16.3/3)。</li>
+  <li>或いは、多重定義解決が始まる前に Clause 8 に行くので大丈夫という解釈なのか
+    (しかしどこからどこまでが多重定義解決なのかははっきりと書いていない。
+    素朴に考えれば候補列挙も多重定義解決の一部に思われる)。
+  </li>
+  </ul>
+</div>
 <p><span class="ptag" id="footnote129">footnote 129</span>
 関数 <code class="agh-prog-cpp">operator-></code> の戻り値がクラス型のとき、
 更にもう一つの <code class="agh-prog-cpp">operator-></code> を選択して呼び出すことになる。
@@ -1725,7 +1838,7 @@ void f() {
     cv T2”, when T2 is an enumeration type, are candidate functions.
     </li>
   <li><span class="ptag" title="16.3.1.2 [over.call.oper]/(3.3)">(3.3)</span>
-    For the operator , , the unary operator & , or the operator -> , the built-in candidates set is empty.
+    For the operator , , the unary operator &amp; , or the operator -> , the built-in candidates set is empty.
     For all other operators, the built-in candidates include all of the candidate operator functions defined
     in 16.6 that, compared to the given operator,
     <ul>
